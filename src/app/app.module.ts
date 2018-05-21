@@ -5,6 +5,8 @@ import {AppRoutingModule} from './app-routing.module';
 
 import {RevolsysAngularBcgovPageModule} from 'revolsys-angular-bcgov-page';
 
+import {RevolsysAngularFrameworkModule} from 'revolsys-angular-framework';
+
 import {AppComponent} from './app.component';
 import {AppSecurityService} from './app-security.service';
 import {HelloComponent} from './hello.component';
@@ -32,6 +34,10 @@ import {HelloComponent} from './hello.component';
       securityService: new AppSecurityService()
     }
     ),
+    RevolsysAngularFrameworkModule.forRoot({
+      basePath: '/',
+      title: 'DEMO'
+    }),
 
     AppRoutingModule
   ],
