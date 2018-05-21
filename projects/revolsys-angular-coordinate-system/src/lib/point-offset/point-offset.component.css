@@ -1,0 +1,23 @@
+
+.mat-card {
+  max-width: 1024px;
+  margin: 0.5em auto 0.5em auto;
+}
+
+.azimuth {
+  max-width: 150px;
+}
+.azimuth-result {
+  max-width: 150px;
+}
+.distance {
+  max-width: 140px;
+}
+
+@media (max-width: 768px) {
+  .azimuth,
+  .azimuth-result,
+	.distance {
+	  max-width: inherit;
+  }
+}

@@ -22,6 +22,12 @@
       ],
       "revolsys-angular-framework": [
         "dist/revolsys-angular-framework"
+      ],
+      "revolsys-angular-leaflet": [
+        "dist/revolsys-angular-leaflet"
+      ],
+      "revolsys-angular-coordinate-system": [
+        "dist/revolsys-angular-coordinate-system"
       ]
     }
   }

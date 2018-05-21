@@ -196,6 +196,86 @@
           }
         }
       }
+    },
+    "revolsys-angular-leaflet": {
+      "root": "projects/revolsys-angular-leaflet",
+      "sourceRoot": "projects/revolsys-angular-leaflet/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/revolsys-angular-leaflet/tsconfig.lib.json",
+            "project": "projects/revolsys-angular-leaflet/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/revolsys-angular-leaflet/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/revolsys-angular-leaflet/src/test.ts",
+            "tsConfig": "projects/revolsys-angular-leaflet/tsconfig.spec.json",
+            "karmaConfig": "projects/revolsys-angular-leaflet/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/revolsys-angular-leaflet/tsconfig.lib.json",
+              "projects/revolsys-angular-leaflet/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "revolsys-angular-coordinate-system": {
+      "root": "projects/revolsys-angular-coordinate-system",
+      "sourceRoot": "projects/revolsys-angular-coordinate-system/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/revolsys-angular-coordinate-system/tsconfig.lib.json",
+            "project": "projects/revolsys-angular-coordinate-system/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/revolsys-angular-coordinate-system/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/revolsys-angular-coordinate-system/src/test.ts",
+            "tsConfig": "projects/revolsys-angular-coordinate-system/tsconfig.spec.json",
+            "karmaConfig": "projects/revolsys-angular-coordinate-system/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/revolsys-angular-coordinate-system/tsconfig.lib.json",
+              "projects/revolsys-angular-coordinate-system/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "revolsys-angular"

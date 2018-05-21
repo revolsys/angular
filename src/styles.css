@@ -1,1 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.mat-icon-button,
+.mat-form-field {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.mat-toolbar .mat-form-field {
+  font-size: 14px;
+}
+.mat-toolbar-row {
+  height: auto !important;
+}
+.flexFields {
+  display:flex;
+  flex-direction:row !important;
+  align-items: flex-start;
+}
+.flexRowToColumn {
+  display:flex;
+  flex-direction:row !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start;
+  margin: -5px;
+}
+
+.flexDiv {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+.mat-icon-button {
+  display: flex;
+  max-width: 40px;
+}
+.flexFields .mat-form-field,
+.flexRowToColumn .mat-form-field,
+.flexRowToColumn .flexDiv {
+  margin: 5px;
+}
+
+@media (max-width: 768px) {
+  .flexFields .mat-form-field,
+  .flexRowToColumn .mat-form-field,
+  .flexRowToColumn .flexDiv {
+    margin: 2px;
+  }
+  
+  .flexFields {
+    flex-direction:column !important;
+    align-items: stretch !important;
+  }
+  
+  .flexRowToColumn {
+    margin: -2px;
+    flex-direction:column !important;
+    align-items: stretch !important;
+  }
+}

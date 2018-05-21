@@ -1,0 +1,46 @@
+<ng-container *ngIf="!readonly">
+  <div *ngIf="isGeographic" class="flexFields" [formGroup]="pointForm">
+ 
+    <rs-cs-angle-field formControlName="y" angleValueType="latitude" placeholder="{{prefix}}Latitude" [floatLabel]="floatLabel" [required]="required" [angleFormat]="angleFormat">
+    </rs-cs-angle-field>
+
+    <rs-cs-angle-field formControlName="x" angleValueType="longitude" placeholder="{{prefix}}Longitude" [floatLabel]="floatLabel" [required]="required" [angleFormat]="angleFormat">
+    </rs-cs-angle-field>
+
+  </div>
+  <div *ngIf="!isGeographic" class="flexFields" [formGroup]="pointForm">
+    <mat-form-field [floatLabel]="floatLabel">
+      <input matInput formControlName="x" placeholder="{{prefix}}X (Easting)" [required]="required">
+      <mat-hint>metres</mat-hint>
+      <mat-error *ngIf="pointForm.controls['x'].invalid">{{getErrorMessage(pointForm, 'x')}}</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field [floatLabel]="floatLabel">
+      <input matInput formControlName="y" placeholder="{{prefix}}Y (Northing)" [required]="required">
+      <mat-hint>metres</mat-hint>
+      <mat-error *ngIf="pointForm.controls['y'].invalid">{{getErrorMessage(pointForm, 'y')}}</mat-error>
+    </mat-form-field>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="readonly">
+  <div *ngIf="isGeographic" class="flexFields">
+  
+    <rs-cs-angle-field [(ngModel)]="y" angleValueType="latitude" placeholder="{{prefix}}Latitude" [floatLabel]="floatLabel" [readonly]="true" [angleFormat]="angleFormat">
+    </rs-cs-angle-field>
+
+    <rs-cs-angle-field [(ngModel)]="x" angleValueType="longitude" placeholder="{{prefix}}Longitude" [floatLabel]="floatLabel" [readonly]="true" [angleFormat]="angleFormat">
+    </rs-cs-angle-field>
+  </div>
+  <div *ngIf="!isGeographic" class="flexFields">
+    <mat-form-field [floatLabel]="floatLabel">
+      <input matInput [(ngModel)]="x" placeholder="{{prefix}}X (Easting)" readonly>
+      <mat-hint>metres</mat-hint>
+    </mat-form-field>
+    
+    <mat-form-field [floatLabel]="floatLabel">
+      <input matInput [(ngModel)]="y" placeholder="{{prefix}}Y (Northing)" readonly>
+       <mat-hint>metres</mat-hint>
+     </mat-form-field>
+  </div>
+</ng-container>
