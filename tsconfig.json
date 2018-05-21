@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "revolsys-angular-bcgov-page": [
+        "dist/revolsys-angular-bcgov-page"
+      ],
+      "revolsys-angular-framework": [
+        "dist/revolsys-angular-framework"
+      ]
+    }
   }
 }

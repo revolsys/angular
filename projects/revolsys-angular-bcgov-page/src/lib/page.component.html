@@ -1,0 +1,79 @@
+<div class="bcgov-template">
+  <header *ngIf="showHeaderAndFooter">
+    <nav>
+      <div class="titlebar">
+        <div class="container">
+          <div class="logo">
+            <a href="http://www2.gov.bc.ca/">
+              <img src="assets/images/gov3_bc_logo.png" class="logo-large" />
+              <img src="assets/images/gov3_bc_logo_mobile.png" class="logo-small" />
+            </a> 
+          </div>
+   
+          <div class="header-title">
+            <a routerLink="/">{{title}}</a>
+          </div>
+  
+          <button type="button" class="menu-button collapsed" (click)="headerMenuVisible = !headerMenuVisible">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="fa fa-bars"></span>
+          </button>
+        </div>
+      </div>
+      <div class="menu" [ngClass]="{'collapse': !headerMenuVisible}">
+        <div class="menu-sections container">
+          <div class="menuGroup">
+            <ng-content select="[headerMenu]"></ng-content>
+            <ng-container *ngFor="let menuItem of headerMenuItems">
+              <menu-link
+                *ngIf="isMenuVisible(menuItem)" 
+                routerLink="{{menuItem.routerLink}}" 
+                label="{{menuItem.title}}" 
+                icon="{{menuItem.icon}}"
+              ></menu-link>
+            </ng-container>
+          </div>
+          <div class="fill-width"></div>
+          <div class="menuGroup menu-right">
+            <ng-content select="[headerMenuRight]"></ng-content>
+            <menu-link
+              *ngIf="username" 
+              href="logout" 
+              prefix="{{username}}" 
+              icon="sign-out"
+            ></menu-link>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="bcgov-content">
+    <div style="display: flex" [ngClass]="{'container': !fullWidthContent}">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <footer *ngIf="showHeaderAndFooter">
+    <nav>
+      <div class="menu" [ngClass]="{'collapse': !footerMenuVisible}">
+        <div class="menu-sections container">
+          <div class="menuGroup">
+            <menu-link href="http://www2.gov.bc.ca/gov/content/home" label="Home"></menu-link>
+            <menu-link href="http://www2.gov.bc.ca/gov/content/home/disclaimer" label="Disclaimer"></menu-link>
+            <menu-link href="http://www2.gov.bc.ca/gov/content/home/privacy" label="Privacy"></menu-link>
+            <menu-link href="http://www2.gov.bc.ca/gov/content/home/accessibility" label="Accessibility"></menu-link>
+            <menu-link href="http://www2.gov.bc.ca/gov/content/home/copyright" label="Copyright"></menu-link>
+            <menu-link href="https://extranet.gov.bc.ca/forms/gov/contact/index.html" label="Contact Us"></menu-link>
+          </div>
+        </div>
+      </div>
+     <div class="titlebar">
+        <button type="button" class="menu-button collapsed" (click)="footerMenuVisible = !footerMenuVisible">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="fa fa-bars"></span>
+        </button>
+      </div>
+    </nav>
+  </footer>
+</div>

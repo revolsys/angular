@@ -116,6 +116,86 @@
           }
         }
       }
+    },
+    "revolsys-angular-bcgov-page": {
+      "root": "projects/revolsys-angular-bcgov-page",
+      "sourceRoot": "projects/revolsys-angular-bcgov-page/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/revolsys-angular-bcgov-page/tsconfig.lib.json",
+            "project": "projects/revolsys-angular-bcgov-page/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/revolsys-angular-bcgov-page/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/revolsys-angular-bcgov-page/src/test.ts",
+            "tsConfig": "projects/revolsys-angular-bcgov-page/tsconfig.spec.json",
+            "karmaConfig": "projects/revolsys-angular-bcgov-page/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/revolsys-angular-bcgov-page/tsconfig.lib.json",
+              "projects/revolsys-angular-bcgov-page/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "revolsys-angular-framework": {
+      "root": "projects/revolsys-angular-framework",
+      "sourceRoot": "projects/revolsys-angular-framework/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/revolsys-angular-framework/tsconfig.lib.json",
+            "project": "projects/revolsys-angular-framework/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/revolsys-angular-framework/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/revolsys-angular-framework/src/test.ts",
+            "tsConfig": "projects/revolsys-angular-framework/tsconfig.spec.json",
+            "karmaConfig": "projects/revolsys-angular-framework/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/revolsys-angular-framework/tsconfig.lib.json",
+              "projects/revolsys-angular-framework/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "revolsys-angular"

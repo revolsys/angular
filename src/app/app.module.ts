@@ -1,16 +1,41 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+
+import {RevolsysAngularBcgovPageModule} from 'revolsys-angular-bcgov-page';
+
+import {AppComponent} from './app.component';
+import {AppSecurityService} from './app-security.service';
+import {HelloComponent} from './hello.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HelloComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RevolsysAngularBcgovPageModule.forRoot({
+      basePath: '/',
+      title: 'BCGOV Page',
+      headerMenuItems: [
+        {
+          title: 'Menu Item',
+          routerLink: 'item1'
+        },
+        {
+          title: 'Menu Item2',
+          routerLink: 'item2'
+        },
+      ],
+      securityService: new AppSecurityService()
+    }
+    ),
+
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

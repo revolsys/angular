@@ -1,0 +1,14 @@
+a {
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.active-link {
+  font-weight: bold;
+  text-decoration: underline;
+}

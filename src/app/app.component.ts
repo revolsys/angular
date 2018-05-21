@@ -1,9 +1,17 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+   <bcgov-page>
+      <ng-container headerMenu>
+        <menu-link href="x" label="Extra"></menu-link>
+              <menu-link href="x" label="Extra 2" ></menu-link>
+      </ng-container>
+      <router-outlet></router-outlet>
+   </bcgov-page>
+  `,
+  styles: []
 })
 export class AppComponent {
   title = 'app';
