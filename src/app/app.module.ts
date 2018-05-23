@@ -1,6 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
+import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
+
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 
 import {AppRoutingModule} from './app-routing.module';
 
@@ -11,18 +15,27 @@ import {RevolsysAngularCoordinateSystemModule} from 'revolsys-angular-coordinate
 
 import {AppComponent} from './app.component';
 import {AppSecurityService} from './app-security.service';
-import {HelloComponent} from './hello.component';
 import {DemoMapComponent} from './demo-map/demo-map.component';
+import {GeographicNameSearchComponent} from './geographic-name-search.component';
+import {DemoListPageComponent} from './demo-list-page/demo-list-page.component';
+import {DemoService} from './demo.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HelloComponent,
-    DemoMapComponent
+    DemoMapComponent,
+    GeographicNameSearchComponent,
+    DemoListPageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+
+    MatPaginatorModule,
+    MatTableModule,
+
     RevolsysAngularLeafletModule,
     RevolsysAngularBcgovPageModule.forRoot({
       basePath: '/',
@@ -48,6 +61,10 @@ import {DemoMapComponent} from './demo-map/demo-map.component';
           title: 'Meridian Convergence & Point Scale Factor',
           routerLink: 'meridian-convergence'
         },
+        {
+          title: 'List',
+          routerLink: 'list-page'
+        },
       ],
       securityService: new AppSecurityService()
     }
@@ -60,7 +77,7 @@ import {DemoMapComponent} from './demo-map/demo-map.component';
 
     AppRoutingModule
   ],
-  providers: [],
+  providers: [DemoService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

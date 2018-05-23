@@ -1,4 +1,11 @@
 import {
+  Observable,
+  of
+} from 'rxjs';
+import {catchError, finalize, tap} from 'rxjs/operators';
+import {DataSource} from '@angular/cdk/table';
+import {
+  AfterViewInit,
   Injector,
   OnInit,
   ViewChild
@@ -7,130 +14,85 @@ import {
   MatDialog,
   MatDialogRef
 } from '@angular/material';
+import {
+  MatPaginator,
+  MatTableDataSource
+} from '@angular/material';
 
 import {BaseComponent} from './BaseComponent';
 import {DeleteDialogComponent} from './DeleteDialogComponent';
 
-import {ArrayDataSource} from '../Service/ArrayDataSource';
 import {Service} from '../Service/Service';
+import {PagingServiceDataSource} from '../Service/PagingServiceDataSource';
 
-export class BaseListComponent<T> extends BaseComponent<T> implements OnInit {
+export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, AfterViewInit {
+
+  columnNames: string[];
+
   columns: any[];
 
-  dataSource = new ArrayDataSource<T>();
+  arrayDataSource = new MatTableDataSource<T>();
+
+  pagingDataSource: PagingServiceDataSource<T>;
 
   deleteRecordTitle: string;
 
   dialog: MatDialog = this.injector.get(MatDialog);
 
-  refreshingCount = 0;
-
-  rows: Array<T> = [];
-
-  count = 0;
-
-  hasRows = false;
-
-  offset = 0;
-
-  private lastOffset = -1;
-
-  limit = 100;
-
-  filterFields: any[];
+  filter: {[fieldName: string]: string} = {};
 
   filterFieldName: string;
 
+  filterFields: any[];
+
   filterValue: string;
 
-  filter: {[fieldName: string]: string} = {};
+  pageSize = 10;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   paging = false;
 
   path: string;
 
-  cssClasses = {
-    sortAscending: 'fa fa-chevron-down',
-    sortDescending: 'fa fa-chevron-up',
-    pagerLeftArrow: 'fa fa-chevron-left',
-    pagerRightArrow: 'fa fa-chevron-right',
-    pagerPrevious: 'fa fa-step-backward',
-    pagerNext: 'fa fa-step-forward'
-  };
-
   constructor(injector: Injector, service: Service<T>, title: string) {
     super(injector, service, title);
+    this.pagingDataSource = new PagingServiceDataSource<T>(this.service);
   }
 
-  ngOnInit() {
-    this.refresh();
-  }
-
-  refresh() {
+  get dataSource(): DataSource<T> {
     if (this.paging) {
-      this.page(this.offset, this.limit);
+      return this.pagingDataSource;
     } else {
-      this.refreshingCount++;
-      const filter = this.newFilter();
-      this.service.getObjects(this.path, filter).subscribe(objects => {
-        this.setRows(objects);
-        this.refreshingCount--;
-      });
+      return this.arrayDataSource;
     }
   }
-
-  protected setRows(rows: T[]) {
-    this.rows = rows;
-    this.hasRows = rows.length > 0;
-    this.dataSource.setData(rows);
-  }
-
-  deleteObject(object: T): void {
+  deleteObject(record: T): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         typeTitle: this.deleteRecordTitle || this.service.getTypeTitle(),
-        objectLabel: this.service.getLabel(object),
+        objectLabel: this.service.getLabel(record),
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Delete') {
-        this.deleteObjectDo(object);
+        this.deleteObjectDo(record);
       }
     });
   }
 
-  protected deleteObjectDo(object: T): void {
-    this.service.deleteObject(object, this.path)
+  protected deleteObjectDo(record: T): void {
+    this.service.deleteObject(record, this.path)
       .subscribe((deleted) => {
         if (deleted) {
-          this.onDeleted(object);
+          this.onDeleted(record);
         }
       })
       ;
   }
 
-  onDeleted(object: T): void {
-    if (this.paging) {
-      this.refresh();
-    } else {
-      const rows = this.rows.filter(row => row !== object);
-      this.setRows(rows);
-    }
-  }
-
-  getRows(): Array<T> {
-    return this.rows;
-  }
-
-  page(offset: number, limit: number) {
-    this.refreshingCount++;
-    this.fetch(offset, limit, (results: any) => {
-      this.refreshingCount--;
-      if (results) {
-        this.count = results.count;
-        this.setRows(results.rows);
-      }
-    });
+  get loading(): Observable<boolean> {
+    return this.pagingDataSource.loading;
   }
 
   newFilter(): {[fieldName: string]: string} {
@@ -146,20 +108,57 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit {
     return filter;
   }
 
-  fetch(offset: number, limit: number, callback: (results: any) => void) {
-    const filter = this.newFilter();
-    this.service.getRowsPage(
-      offset,
-      limit,
-      this.path,
-      this.filter
-    ).subscribe(callback);
+  ngOnInit() {
+    this.refresh();
+    if (!this.paging) {
+      this.arrayDataSource.paginator = this.paginator;
+    }
   }
 
-  onPage(event: any) {
-    if (this.lastOffset !== event.offset) {
-      this.lastOffset = event.offset;
-      this.page(event.offset, event.limit);
+  ngAfterViewInit() {
+    this.paginator.page.pipe(
+      tap(() => this.page())
+    ).subscribe();
+  }
+
+  onDeleted(record: T): void {
+    if (this.paging) {
+      this.refresh();
+    } else {
+      const records = this.arrayDataSource.data.filter(row => row !== record);
+      this.arrayDataSource.data = records;
+    }
+  }
+
+  page() {
+    const pageSize = this.pageSize;
+    const offset = this.paginator.pageIndex * pageSize;
+    const filter = this.newFilter();
+    this.pagingDataSource.loadPage(offset, pageSize, this.path, filter);
+  }
+
+  get recordCount(): Observable<number> {
+    if (this.paging) {
+      return this.pagingDataSource.recordCount;
+    } else {
+      return of(this.arrayDataSource.data.length);
+    }
+  }
+
+  refresh() {
+    if (this.paging) {
+      this.page();
+    } else {
+      const filter = this.newFilter();
+      const loadingIndex = this.pagingDataSource.startLoading();
+      this.service.getObjects(this.path, filter).pipe(
+        catchError(() => of([])),
+        finalize(() => this.pagingDataSource.stopLoading(loadingIndex))
+      ).subscribe(records => {
+        if (this.pagingDataSource.stopLoading(loadingIndex)) {
+          this.arrayDataSource.data = records;
+        }
+      });
     }
   }
 }

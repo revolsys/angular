@@ -1,0 +1,24 @@
+<div class="table-container">
+  <mat-table #table [dataSource]="dataSource" >
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let record">{{record.id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="label">
+      <mat-header-cell *matHeaderCellDef>Label</mat-header-cell>
+      <mat-cell  *matCellDef="let record">{{record.label}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnNames"></mat-row>
+  </mat-table>
+  <mat-paginator
+    #paginator
+    [length]="recordCount | async"
+    [pageSize]="pageSize"
+    [hidePageSize]="true"
+    [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

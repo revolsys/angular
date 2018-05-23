@@ -53,7 +53,7 @@ export class LoginDialogComponent implements AfterViewInit {
       const y = window.outerHeight / 2 + window.screenY - (300);
 
       this.loginWindow = window.open(
-        this.config.basePath + '/login/window',
+        this.config.getUrl('/login/window'),
         'gwaLogin',
         `menubar=no,location=no,status=no,left=${x},top=${y},width=${width},height=600`
       );

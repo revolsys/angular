@@ -170,7 +170,7 @@ export abstract class BaseService<T> implements Service<T> {
   }
 
   public getUrl(path: string): string {
-    return this.config.basePath + '/rest' + path;
+    return this.config.getUrl('/rest' + path);
   }
 
   deleteObject(object: T, path?: string): Observable<boolean> {

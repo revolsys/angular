@@ -53,11 +53,13 @@ const COMMON_MODULES = [
   exports: COMMON_MODULES
 })
 export class RevolsysAngularFrameworkModule {
-  static forRoot(config: Config): ModuleWithProviders {
+  static forRoot(config: any): ModuleWithProviders {
+    const configData = new Config();
+    Object.assign(configData, config);
     return {
       ngModule: RevolsysAngularFrameworkModule,
       providers: [
-        {provide: Config, useValue: config}
+        {provide: Config, useValue: configData}
       ]
     };
   }

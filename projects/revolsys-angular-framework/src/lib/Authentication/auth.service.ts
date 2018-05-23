@@ -23,15 +23,17 @@ export class AuthService extends BaseService<any>  {
       http => {
         return http.get(url);
       },
-      json => {
-        if (json.error) {
-          this.roles = [];
-        } else {
-          this.roles = json.roles;
-          this.username = json.name;
-        }
+      json => json
+    ).subscribe(result => {
+      if (result) {
+        this.roles = result.roles;
+        this.username = result.name;
+      } else {
+        this.roles = [];
+        this.username = null;
+
       }
-    );
+    });
   }
 
   hasRole(role: string): boolean {

@@ -73,7 +73,7 @@ export class BaseComponent<T> implements OnInit {
   }
 
   public getUrl(path: string): string {
-    return this.config.basePath + '/rest' + path;
+    return this.config.getUrl('/rest' + path);
   }
 
   hasRole(role: string): boolean {
