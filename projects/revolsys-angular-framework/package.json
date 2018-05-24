@@ -1,6 +1,6 @@
 {
   "name": "revolsys-angular-framework",
-  "version": "6.0.0-beta.6",
+  "version": "6.0.0-beta.11",
   "peerDependencies": {
     "@angular/animations": "^6.0.0",
     "@angular/cdk": "^6.0.0",
@@ -8,7 +8,6 @@
     "@angular/compiler": "^6.0.0",
     "@angular/core": "^6.0.0",
     "@angular/forms": "^6.0.0",
-    "@angular/http": "^6.0.0",
     "@angular/material": "^6.0.0",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",

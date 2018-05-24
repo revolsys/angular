@@ -15,6 +15,6 @@ export * from './lib/input-file/input-file-component';
 export * from './lib/Service/ArrayDataSource';
 export * from './lib/Service/BaseService';
 export * from './lib/Service/Service';
-export * from './lib/Config';
+export * from './lib/FrameworkConfig';
 
 export * from './lib/revolsys-angular-framework.module'

@@ -1,12 +1,17 @@
 import {
+  AsyncSubject,
   Observable,
   of,
-  throwError
+  throwError,
+  timer
 } from 'rxjs';
 import {
+  mergeMap,
   map,
-  catchError
+  catchError,
+  retryWhen
 } from 'rxjs/operators';
+
 import {
   Injectable,
   Injector,
@@ -19,7 +24,9 @@ import {
 
 import {
   HttpClient,
-  HttpHeaders
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams
 } from '@angular/common/http';
 
 import {
@@ -29,22 +36,20 @@ import {
 
 import {DOCUMENT} from '@angular/platform-browser';
 
-import {Config} from '../Config';
+import {FrameworkConfig} from '../FrameworkConfig';
 
 import {Service} from './Service';
 
 import {LoginDialogComponent} from '../Component/LoginDialogComponent';
 
 import {MessageDialogComponent} from '../Component/MessageDialogComponent';
-import {HttpErrorResponse} from "@angular/common/http";
-import {HttpParams} from "@angular/common/http";
 
 @Injectable()
 export abstract class BaseService<T> implements Service<T> {
 
   private static loginDialog: MatDialogRef<LoginDialogComponent> = null;
 
-  protected config: Config;
+  protected config: FrameworkConfig;
 
   protected document: any;
 
@@ -71,7 +76,7 @@ export abstract class BaseService<T> implements Service<T> {
   constructor(
     protected injector: Injector
   ) {
-    this.config = injector.get(Config);
+    this.config = injector.get(FrameworkConfig);
     this.document = injector.get(DOCUMENT);
     this.http = injector.get(HttpClient);
     this.location = injector.get(Location);
@@ -92,28 +97,41 @@ export abstract class BaseService<T> implements Service<T> {
     const response = request(this.http);
     return response.pipe(
       map(handler), //
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          let loginDialog = BaseService.loginDialog;
-          if (loginDialog) {
-            loginDialog.componentInstance.login();
-          } else {
-            loginDialog = this.dialog.open(LoginDialogComponent, {
-              disableClose: true
-            });
-            BaseService.loginDialog = loginDialog;
-            loginDialog.afterClosed().subscribe(dialogResponse => {
-              BaseService.loginDialog = null;
-            });
-          }
-          loginDialog.afterClosed().subscribe(dialogResponse => {
-            if (dialogResponse === 'Login') {
-              return this.httpRequest(request, handler);
+      retryWhen(errors => {
+        let count = 0;
+        return errors.pipe(
+          mergeMap((error: HttpErrorResponse, i) => {
+            if (i == 0) {
+              if (error.status === 403) {
+                let loginDialog = BaseService.loginDialog;
+                if (loginDialog) {
+                  loginDialog.componentInstance.login();
+                } else {
+                  loginDialog = this.dialog.open(LoginDialogComponent, {
+                    disableClose: true
+                  });
+                  BaseService.loginDialog = loginDialog;
+                  loginDialog.afterClosed().subscribe(dialogResponse => {
+                    BaseService.loginDialog = null;
+                  });
+                }
+                const retrySubject = new AsyncSubject<boolean>();
+                loginDialog.afterClosed().subscribe(dialogResponse => {
+                  retrySubject.next(true);
+                  retrySubject.complete();
+                });
+                return retrySubject;
+              } else {
+                return throwError(error);
+              }
             } else {
-              return throwError('Not logged in');
+              return throwError(error);
             }
-          });
-        } else if (error.status === 404) {
+          })
+        );
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
           return of(null);
         } else {
           this.showError(error.message);
@@ -170,7 +188,7 @@ export abstract class BaseService<T> implements Service<T> {
   }
 
   public getUrl(path: string): string {
-    return this.config.getUrl('/rest' + path);
+    return FrameworkConfig.getUrl(this.config, '/rest' + path);
   }
 
   deleteObject(object: T, path?: string): Observable<boolean> {

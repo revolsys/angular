@@ -116,9 +116,11 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
   }
 
   ngAfterViewInit() {
-    this.paginator.page.pipe(
-      tap(() => this.page())
-    ).subscribe();
+    if (this.paginator) {
+      this.paginator.page.pipe(
+        tap(() => this.page())
+      ).subscribe();
+    }
   }
 
   onDeleted(record: T): void {

@@ -13,7 +13,7 @@ import {
 } from '@angular/material';
 
 
-import {Config} from './Config';
+import {FrameworkConfig} from './FrameworkConfig';
 import {AuthService} from './Authentication/auth.service';
 import {DeleteDialogComponent} from './Component/DeleteDialogComponent';
 import {LoginDialogComponent} from './Component/LoginDialogComponent';
@@ -53,13 +53,11 @@ const COMMON_MODULES = [
   exports: COMMON_MODULES
 })
 export class RevolsysAngularFrameworkModule {
-  static forRoot(config: any): ModuleWithProviders {
-    const configData = new Config();
-    Object.assign(configData, config);
+  static forRoot(config: FrameworkConfig): ModuleWithProviders {
     return {
       ngModule: RevolsysAngularFrameworkModule,
       providers: [
-        {provide: Config, useValue: configData}
+        {provide: FrameworkConfig, useValue: config}
       ]
     };
   }

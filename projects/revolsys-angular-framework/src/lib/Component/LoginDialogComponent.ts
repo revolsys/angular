@@ -9,7 +9,7 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import {Config} from '../Config';
+import {FrameworkConfig} from '../FrameworkConfig';
 
 @Component({
   selector: 'raf-login-dialog',
@@ -29,7 +29,7 @@ export class LoginDialogComponent implements AfterViewInit {
   private loginWindow: Window;
 
   constructor(
-    private config: Config,
+    private config: FrameworkConfig,
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -53,7 +53,7 @@ export class LoginDialogComponent implements AfterViewInit {
       const y = window.outerHeight / 2 + window.screenY - (300);
 
       this.loginWindow = window.open(
-        this.config.getUrl('/login/window'),
+        FrameworkConfig.getUrl(this.config, '/login/window'),
         'gwaLogin',
         `menubar=no,location=no,status=no,left=${x},top=${y},width=${width},height=600`
       );

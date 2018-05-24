@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgModule} from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -65,8 +65,7 @@ import {DemoService} from './demo.service';
           title: 'List',
           routerLink: 'list-page'
         },
-      ],
-      securityService: new AppSecurityService()
+      ]
     }
     ),
     RevolsysAngularFrameworkModule.forRoot({
@@ -77,7 +76,20 @@ import {DemoService} from './demo.service';
 
     AppRoutingModule
   ],
-  providers: [DemoService],
+  providers: [
+    AppSecurityService,
+    DemoService,
+    {
+      // Initializes security service
+      provide: APP_INITIALIZER,
+      useFactory: (ds: AppSecurityService) => function() {
+        return null;
+      },
+      deps: [AppSecurityService],
+      multi: true
+    },
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

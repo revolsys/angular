@@ -19,7 +19,7 @@ import {
 } from '@angular/router';
 
 
-import {Config} from '../Config';
+import {FrameworkConfig} from '../FrameworkConfig';
 import {AuthService} from '../Authentication/auth.service';
 import {Service} from '../Service/Service';
 import {MessageDialogComponent} from './MessageDialogComponent';
@@ -28,7 +28,7 @@ export class BaseComponent<T> implements OnInit {
 
   authService: AuthService = this.injector.get(AuthService);
 
-  protected config = this.injector.get(Config);
+  protected config = this.injector.get(FrameworkConfig);
 
   dialog: MatDialog = this.injector.get(MatDialog);
 
@@ -73,7 +73,7 @@ export class BaseComponent<T> implements OnInit {
   }
 
   public getUrl(path: string): string {
-    return this.config.getUrl('/rest' + path);
+    return FrameworkConfig.getUrl(this.config, '/rest' + path);
   }
 
   hasRole(role: string): boolean {

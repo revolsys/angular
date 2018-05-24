@@ -1,7 +1,19 @@
 import {Observable} from 'rxjs';
-import {SecurityService} from 'revolsys-angular-bcgov-page';
+import {Injectable} from '@angular/core';
+import {
+  PageConfig,
+  SecurityService
+} from 'revolsys-angular-bcgov-page';
 
+
+@Injectable()
 export class AppSecurityService implements SecurityService {
+  constructor(
+    private pageConfig: PageConfig
+  ) {
+    this.pageConfig.securityService = this;
+  }
+
   getUsername(): string {
     return 'test_user';
   }
