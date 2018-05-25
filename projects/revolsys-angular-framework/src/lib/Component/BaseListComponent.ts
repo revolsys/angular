@@ -102,7 +102,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
         filter[fieldName] = this.filter[fieldName];
       }
     }
-    if (this.filterFieldName) {
+    if (this.filterFieldName && !(this.filterValue == null)) {
       filter[this.filterFieldName] = this.filterValue;
     }
     return filter;
@@ -133,10 +133,8 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
   }
 
   page() {
-    const pageSize = this.pageSize;
-    const offset = this.paginator.pageIndex * pageSize;
     const filter = this.newFilter();
-    this.pagingDataSource.loadPage(offset, pageSize, this.path, filter);
+    this.pagingDataSource.loadPage(this.paginator.pageIndex, this.pageSize, this.path, filter);
   }
 
   get recordCount(): Observable<number> {

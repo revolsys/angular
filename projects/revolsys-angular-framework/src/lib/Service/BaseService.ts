@@ -196,21 +196,20 @@ export abstract class BaseService<T> implements Service<T> {
   }
 
   protected deleteObjectDo(path: string, callback?: (deleted: boolean) => void, parameters?: any): Observable<boolean> {
-    const params = new HttpParams();
+    let params = new HttpParams();
     if (parameters) {
       for (const name of Object.keys(parameters)) {
-        params.set(name, parameters[name]);
+        params = params.set(name, parameters[name]);
       }
     }
 
     const url = this.getUrl(path);
-    const handler = httpResponse => {
-      const json = httpResponse.json();
-      if (json.error) {
-        this.showError(json.error, json.body);
+    const handler = response => {
+      if (response.error) {
+        this.showError(response.error, response.body);
         return false;
       } else {
-        const deleted = json.deleted === true;
+        const deleted = response.deleted === true;
         if (callback) {
           callback(deleted);
         }
@@ -304,8 +303,8 @@ export abstract class BaseService<T> implements Service<T> {
   }
 
   getObjectsDo(path: string, filter: {[fieldName: string]: string}): Observable<T[]> {
-    const params = new HttpParams();
-    this.addFilterParams(params, filter);
+    let params = new HttpParams();
+    params = this.addFilterParams(params, filter);
     const url = this.getUrl(path);
 
     return this.httpRequest(
@@ -343,25 +342,27 @@ export abstract class BaseService<T> implements Service<T> {
     return this.path;
   }
 
-  private addFilterParams(params: HttpParams, filter: {[fieldName: string]: string}) {
+  private addFilterParams(params: HttpParams, filter: {[fieldName: string]: string}): HttpParams {
     if (filter) {
       for (const fieldName of Object.keys(filter)) {
         const value = filter[fieldName];
-        params.append('filterFieldName', fieldName);
-        params.append('filterValue', value);
+        params = params.append('filterFieldName', fieldName);
+        params = params.append('filterValue', value);
       }
     }
+    return params;
   }
+
   getRowsPage(
     offset: number,
     limit: number,
     path: string,
     filter: {[fieldName: string]: string}
   ): Observable<any> {
-    const params = new HttpParams();
-    params.set('offset', offset.toString());
-    params.set('limit', limit.toString());
-    this.addFilterParams(params, filter);
+    let params = new HttpParams()
+      .set('offset', offset.toString())
+      .set('limit', limit.toString());
+    params = this.addFilterParams(params, filter);
     if (!path) {
       path = this.path;
     }
