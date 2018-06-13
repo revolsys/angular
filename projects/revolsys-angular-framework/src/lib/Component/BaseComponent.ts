@@ -45,7 +45,7 @@ export class BaseComponent<T> implements OnInit {
   constructor(
     protected injector: Injector,
     protected service: Service<T>,
-    protected title: string
+    protected title?: string
   ) {
     if (this.title) {
       this.setTitle(this.title);

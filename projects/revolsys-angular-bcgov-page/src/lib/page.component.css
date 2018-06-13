@@ -95,6 +95,12 @@ header {
   padding-top: 5px;
   padding-bottom: 10px;
 }
+.fullHeightScroll {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow-y: auto;
+}
 
 footer {
   font-size: 14px;
@@ -226,5 +232,24 @@ footer .menu-button {
   }
   .menu-right {
     
+  }
+}
+
+@media print {
+  .bcgov-template > footer,
+  .bcgov-template > header {
+    display: none;
+  }
+  .container {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .fullHeightScroll {
+    flex: 0 0 auto;
+    flex-direction: column;
+    overflow-y: visible;
   }
 }

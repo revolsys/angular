@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-   <bcgov-page>
+   <bcgov-page fullHeightScroll="true">
       <router-outlet></router-outlet>
    </bcgov-page>
   `,

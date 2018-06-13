@@ -19,13 +19,15 @@ import {DemoMapComponent} from './demo-map/demo-map.component';
 import {GeographicNameSearchComponent} from './geographic-name-search.component';
 import {DemoListPageComponent} from './demo-list-page/demo-list-page.component';
 import {DemoService} from './demo.service';
+import { LongContentComponent } from './long-content/long-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoMapComponent,
     GeographicNameSearchComponent,
-    DemoListPageComponent
+    DemoListPageComponent,
+    LongContentComponent
   ],
   imports: [
     BrowserModule,

@@ -1,16 +1,19 @@
 import {Observable} from 'rxjs';
+import {map, filter, mergeMap} from 'rxjs/operators';
 import {
   Component,
+  Input,
   Optional,
   OnInit
 } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {
   ActivatedRoute,
+  ActivatedRouteSnapshot,
+  NavigationEnd,
   Router,
   RouterState,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
+  RouterStateSnapshot
 } from '@angular/router';
 import {SecurityService} from './security.service';
 import {PageConfig} from './PageConfig';
@@ -30,6 +33,9 @@ export class PageComponent {
   headerMenuVisible = false;
 
   footerMenuVisible = false;
+
+  @Input()
+  fullHeightScroll: boolean = false;
 
   showHeaderAndFooter = true;
 
@@ -61,6 +67,24 @@ export class PageComponent {
       if (this.showHeaderAndFooter) {
         this.showHeaderAndFooter = !('true' === params['contentOnly']);
       }
+    });
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.route),
+      map(route => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      filter(route => route.outlet === 'primary'),
+      mergeMap(route => route.data),
+    ).subscribe(event => {
+      let title = event['title'];
+      if (!title) {
+        title = this.appTitle;
+      }
+      this.titleService.setTitle(title);
     });
   }
 

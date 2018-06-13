@@ -49,7 +49,7 @@
   </header>
 
   <div class="bcgov-content">
-    <div style="display: flex" [ngClass]="{'container': !fullWidthContent}">
+    <div style="display: flex" [ngClass]="{'container': !fullWidthContent, 'fullHeightScroll': fullHeightScroll}">
       <ng-content></ng-content>
     </div>
   </div>

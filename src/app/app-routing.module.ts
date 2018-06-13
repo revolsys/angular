@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {DemoMapComponent} from './demo-map/demo-map.component';
 import {DemoListPageComponent} from './demo-list-page/demo-list-page.component';
+import {LongContentComponent} from './long-content/long-content.component';
 
 import {
   PointOffsetComponent,
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'coordinate-system-conversion', component: CoordinateSystemConversionComponent, pathMatch: 'full'},
   {path: 'meridian-convergence', component: MeridianConvergenceComponent, pathMatch: 'full'},
   {path: 'list-page', component: DemoListPageComponent, pathMatch: 'full'},
+  {path: 'long-page', component: LongContentComponent, pathMatch: 'full', data: {title: 'Long Page'}},
 ];
 
 @NgModule({
