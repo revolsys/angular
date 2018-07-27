@@ -50,7 +50,7 @@
 
   <div class="bcgov-content">
     <div style="display: flex" [ngClass]="{'fullHeightScroll': fullHeightScroll}">
-      <div style="display: flex" [ngClass]="{'container': !fullWidthContent}">
+      <div [ngClass]="{'container': !fullWidthContent}">
         <ng-content></ng-content>
       </div>
     </div>
