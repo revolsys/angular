@@ -43,6 +43,7 @@ import {LongContentComponent} from './long-content/long-content.component';
     RevolsysAngularLeafletModule,
     RevolsysAngularBcgovPageModule.forRoot({
       basePath: '/',
+      fullWidthContent: true,
       title: 'BCGOV Page',
       headerMenuItems: [
         {

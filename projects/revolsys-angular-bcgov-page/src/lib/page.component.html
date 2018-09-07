@@ -49,8 +49,13 @@
   </header>
 
   <div class="bcgov-content">
-    <div style="display: flex" [ngClass]="{'container': !fullWidthContent, 'fullHeightScroll': fullHeightScroll}">
-      <ng-content></ng-content>
+    <div style="display: flex" [ngClass]="{'fullHeightScroll': fullHeightScroll}">
+      <div *ngIf="!fullWidthContent; else pageBody" class="container" >
+        <ng-container *ngTemplateOutlet="pageBody"></ng-container>
+      </div>
+      <ng-template #pageBody>
+        <ng-content></ng-content>
+      </ng-template>
     </div>
   </div>
 
