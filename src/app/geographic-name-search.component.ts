@@ -39,7 +39,6 @@ export class GeographicNameSearchComponent implements AfterViewInit {
   }
 
   search(query): Observable<SearchResult[]> {
-    console.log(query);
     const params = new HttpParams() //
       .set('name', query) //
       .set('minScore', '0.7') //

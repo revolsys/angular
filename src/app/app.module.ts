@@ -5,6 +5,7 @@ import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
 
 import {AppRoutingModule} from './app-routing.module';
 
@@ -19,7 +20,7 @@ import {DemoMapComponent} from './demo-map/demo-map.component';
 import {GeographicNameSearchComponent} from './geographic-name-search.component';
 import {DemoListPageComponent} from './demo-list-page/demo-list-page.component';
 import {DemoService} from './demo.service';
-import { LongContentComponent } from './long-content/long-content.component';
+import {LongContentComponent} from './long-content/long-content.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LongContentComponent } from './long-content/long-content.component';
     HttpClientModule,
     HttpClientJsonpModule,
 
+    MatIconModule,
     MatPaginatorModule,
     MatTableModule,
 

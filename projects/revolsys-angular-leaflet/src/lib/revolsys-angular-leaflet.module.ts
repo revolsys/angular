@@ -7,12 +7,11 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule
-} from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 
 import {EsriFeatureLayerComponent} from './esri-feature-layer.component';
 import {EsriTiledLayerComponent} from './esri-tiled-layer.component';
@@ -33,6 +32,7 @@ import {WmsLayerComponent} from './wms-layer.component';
     MatAutocompleteModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule
   ],
   declarations: [

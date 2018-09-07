@@ -1,14 +1,12 @@
 import {
   Component,
-  ElementRef,
-  Input,
-  ViewChild
+  Input
 } from '@angular/core';
 import {
   FormGroup,
   FormBuilder
 } from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 import {Observable} from 'rxjs';
 import * as L from 'leaflet';
@@ -18,15 +16,17 @@ import {SearchResult} from './SearchResult';
 @Component({
   selector: 'leaflet-search-zoom',
   template: `
-  <mat-form-field floatLabel="never" [formGroup]="form">
+  <mat-form-field floatLabel="always" [formGroup]="form">
     <input matInput [placeholder]="label" [matAutocomplete]="searchAuto" formControlName="searchValue">
     <mat-autocomplete #searchAuto="matAutocomplete" (optionSelected)="optionSelected($event)">
       <mat-option *ngFor="let result of results" [value]="result.name">
         {{result.label}}
       </mat-option>
     </mat-autocomplete>
+    <button mat-button matSuffix mat-icon-button title="Zoom to {{label}}" (click)="zoomToResult($event)" [disabled]="searchInvalid">
+      <mat-icon>search</mat-icon>
+    </button>
   </mat-form-field>
-  <button mat-raised-button (click)="zoomToResult()" title="Zoom to {{label}}" [disabled]="searchInvalid"><i class="fa fa-search"></i></button>
   `,
   styles: ['']
 })
@@ -38,11 +38,7 @@ export class SearchZoomComponent {
 
   form: FormGroup;
 
-  public query: string;
-
   private loading = false;
-
-  private noResults = true;
 
   private searchResult: SearchResult;
 
@@ -66,9 +62,16 @@ export class SearchZoomComponent {
           this.loading = true;
           this.searchFunction(searchValue).subscribe(results => {
             if (searchIndex === this.searchIndex) {
-              this.searchResult = null;
               this.results = results;
               this.loading = false;
+              if (this.searchResult) {
+                for (const result of results) {
+                  if (result.id == this.searchResult.id) {
+                    return;
+                  }
+                }
+              }
+              this.searchResult = null;
             }
           });
         }
@@ -92,10 +95,11 @@ export class SearchZoomComponent {
 
 
   get searchInvalid(): boolean {
-    return this.loading || !this.query || !this.searchResult;
+    return !this.searchResult;
   }
 
-  zoomToResult() {
+  zoomToResult(event: any) {
+    event.stopPropagation();
     this.mapService.withMap(map => {
       if (this.searchResult.bounds) {
         map.fitBounds(this.searchResult.bounds.pad(0.1));
