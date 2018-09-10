@@ -11,7 +11,7 @@ import {ZoomToWorld} from './ZoomToWorld';
 
 @Component({
   selector: 'leaflet-map',
-  template: '<div id="map" #map></div>',
+  template: '<div class="map" #map></div>',
   styles: [`
 :host {
   flex: 1 1 auto;
@@ -19,7 +19,7 @@ import {ZoomToWorld} from './ZoomToWorld';
   flex-direction: column;
 }
 
-#map {
+.map {
   flex: 1 1 auto;
 }
 `]

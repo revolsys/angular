@@ -12,7 +12,7 @@ export let ZoomToWorld = L.Control.Zoom.extend({
   onAdd: function(map) {
     const container = L.Control.Zoom.prototype.onAdd.call(this, map);
 
-    this._zoomToWorldButton = this._createButton('<span class="glyphicon glyphicon-globe"></span>',
+    this._zoomToWorldButton = this._createButton('<span class="fas fa-globe-americas"></span>',
       'Zoom To World', 'leaflet-control-zoom-to-world', container, this._zoomToWorld);
     L.DomUtil.toBack(this._zoomToWorldButton);
     if (this.options.bounds) {
@@ -22,7 +22,7 @@ export let ZoomToWorld = L.Control.Zoom.extend({
   },
 
   _zoomToWorld: function(e) {
-    if (!this._disabled ) {
+    if (!this._disabled) {
       let bounds = this.options.bounds;
       if (bounds && bounds.isValid()) {
         this._map.fitBounds(bounds);

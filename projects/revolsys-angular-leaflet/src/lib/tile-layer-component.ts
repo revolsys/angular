@@ -68,23 +68,57 @@ export class TileLayerComponent extends LayerComponent {
 
   protected getOptions(): any {
     const options = super.getOptions();
-    options['maxNativeZoom'] = this.maxNativeZoom;
-    options['tileSize'] = this.tileSize;
-    options['subdomains'] = this.subdomains;
-    options['errorTileUrl'] = this.errorTileUrl;
-    options['attribution'] = this.attribution;
-    options['tms'] = this.tms;
-    options['continuousWorld'] = this.continuousWorld;
-    options['noWrap'] = this.noWrap;
-    options['zoomOffset'] = this.zoomOffset;
-    options['zoomReverse'] = this.zoomReverse;
-    options['opacity'] = this.opacity;
-    options['zIndex'] = this.zIndex;
-    options['unloadInvisibleTiles'] = this.unloadInvisibleTiles;
-    options['updateWhenIdle'] = this.updateWhenIdle;
-    options['detectRetina'] = this.detectRetina;
-    options['reuseTiles'] = this.reuseTiles;
-    options['bounds'] = this.bounds;
+    if (this.maxNativeZoom != null) {
+      options['maxNativeZoom'] = this.maxNativeZoom;
+    }
+    if (this.tileSize !== 256) {
+      options['tileSize'] = this.tileSize;
+    }
+    if (this.subdomains !== 'abc') {
+      options['subdomains'] = this.subdomains;
+    }
+    if (this.errorTileUrl !== '') {
+      options['errorTileUrl'] = this.errorTileUrl;
+    }
+    if (this.attribution !== '') {
+      options['attribution'] = this.attribution;
+    }
+    if (this.tms) {
+      options['tms'] = this.tms;
+    }
+    if (this.continuousWorld) {
+      options['continuousWorld'] = this.continuousWorld;
+    }
+    if (this.noWrap) {
+      options['noWrap'] = this.noWrap;
+    }
+    if (this.zoomOffset !== 0) {
+      options['zoomOffset'] = this.zoomOffset;
+    }
+    if (this.zoomReverse) {
+      options['zoomReverse'] = this.zoomReverse;
+    }
+    if (this.opacity !== 1) {
+      options['opacity'] = this.opacity;
+    }
+    if (this.zIndex !== null) {
+      options['zIndex'] = this.zIndex;
+    }
+    if (this.unloadInvisibleTiles) {
+      options['unloadInvisibleTiles'] = this.unloadInvisibleTiles;
+    }
+    if (this.updateWhenIdle) {
+      options['updateWhenIdle'] = this.updateWhenIdle;
+    }
+    if (this.detectRetina) {
+      options['detectRetina'] = this.detectRetina;
+    }
+    if (this.reuseTiles) {
+      options['reuseTiles'] = this.reuseTiles;
+    }
+    if (this.bounds !== null) {
+      options['bounds'] = this.bounds;
+    }
     return options;
   }
 }
