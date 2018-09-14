@@ -3,7 +3,7 @@ import {
   TestBed,
   async
 } from '@angular/core/testing';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterTestingModule} from '@angular/router/testing'; import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
 
@@ -27,6 +27,11 @@ import {
   MatTooltipModule
 } from '@angular/material';
 
+import {MatDialogModule} from '@angular/material/dialog';
+
+import {RevolsysAngularFrameworkModule} from 'revolsys-angular-framework';
+
+import {Angle} from '../cs/Angle';
 
 import {CSI} from '../cs/CSI';
 
@@ -34,6 +39,8 @@ import {CsFieldComponent} from '../cs-field/cs-field.component';
 import {PointFieldComponent} from '../point-field/point-field.component';
 
 import {PointOffsetComponent} from './point-offset.component';
+
+import pointOffsetData from '../../test/data/point-offset.json';
 
 describe('PointOffsetComponent', () => {
 
@@ -49,9 +56,11 @@ describe('PointOffsetComponent', () => {
       imports: [
         NoopAnimationsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         FormsModule,
         MatButtonModule,
         MatCardModule,
+        MatDialogModule,
         MatDividerModule,
         MatExpansionModule,
         MatFormFieldModule,
@@ -59,7 +68,10 @@ describe('PointOffsetComponent', () => {
         MatMenuModule,
         MatSelectModule,
         MatToolbarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        RevolsysAngularFrameworkModule.forRoot({
+          useAuthService: false
+        })
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CsFieldComponent, PointFieldComponent, PointOffsetComponent]
@@ -78,7 +90,7 @@ describe('PointOffsetComponent', () => {
   it('form invalid when empty', () => {
     expect(form.valid).toBeFalsy();
   });
-  for (let fieldName of ['point', 'azimuth', 'distance']) {
+  for (let fieldName of ['azimuth', 'distance']) {
     it(`${fieldName} invalid when empty`, () => {
       expect(controls[fieldName].valid).toBeFalsy();
     });
@@ -89,14 +101,13 @@ describe('PointOffsetComponent', () => {
     expect(controls['azimuth'].value).toBe('');
   });
 
-  const validValues = [
-    [CSI.NAD83, '-109 0 0.12345', '45 0 0.12345', '1.234', '12 34 5.68', '109 00 00.11119W', '45 00 00.16247N', '192 34 05.69']
-  ];
-  for (let i = 0; i < validValues.length; i++) {
-    const values = validValues[i];
+  for (let i = 0; i < pointOffsetData.length; i++) {
+    const values = pointOffsetData[i];
+    const csName = values[0];
+    const cs = CSI[csName];
     it('values ' + (i + 1), () => {
       form.patchValue({
-        cs: values[0],
+        cs: cs,
         point: {
           x: values[1],
           y: values[2]

@@ -3,6 +3,8 @@ import {Numbers} from './Numbers';
 
 export class Ellipsoid {
 
+  //  static NAD83 = new Ellipsoid(6378137, null, 6356752.314);
+
   static NAD83 = new Ellipsoid(6378137, 298.257222101);
 
   static WGS84 = new Ellipsoid(6378137, 298.257223563);
@@ -15,12 +17,27 @@ export class Ellipsoid {
 
   readonly e: number;
 
+  readonly semiMajorAxis: number;
+
+  readonly inverseFlattening: number;
+
   constructor(
-    public readonly semiMajorAxis: number, // semiMajorAxis
-    public readonly inverseFlattening: number
+    semiMajorAxis: number,
+    inverseFlattening: number,
+    semiMinorAxis: number = null
   ) {
-    this.f = 1 / inverseFlattening;
-    this.b = this.a - this.a * this.f;
+    this.semiMajorAxis = semiMajorAxis;
+    if (inverseFlattening == null) {
+      this.inverseFlattening = semiMajorAxis / (semiMajorAxis - semiMinorAxis);
+    } else {
+      this.inverseFlattening = inverseFlattening;
+    }
+    this.f = 1 / this.inverseFlattening;
+    if (semiMinorAxis == null) {
+      this.b = this.a - this.a * this.f;
+    } else {
+      this.b = semiMinorAxis;
+    }
     this.eSq = this.f + this.f - this.f * this.f;
     this.e = Math.sqrt(this.eSq);
   }

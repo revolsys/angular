@@ -18,22 +18,24 @@ export class AuthService extends BaseService<any>  {
 
   constructor(injector: Injector) {
     super(injector);
-    const url = this.getUrl('/authentication');
-    this.httpRequest(
-      http => {
-        return http.get(url);
-      },
-      json => json
-    ).subscribe(result => {
-      if (result) {
-        this.roles = result.roles;
-        this.username = result.name;
-      } else {
-        this.roles = [];
-        this.username = null;
+    if (this.config.useAuthService) {
+      const url = this.getUrl('/authentication');
+      this.httpRequest(
+        http => {
+          return http.get(url);
+        },
+        json => json
+      ).subscribe(result => {
+        if (result) {
+          this.roles = result.roles;
+          this.username = result.name;
+        } else {
+          this.roles = [];
+          this.username = null;
 
-      }
-    });
+        }
+      });
+    }
   }
 
   hasRole(role: string): boolean {
@@ -58,21 +60,24 @@ export class AuthService extends BaseService<any>  {
   }
 
   hasAnyRoleAsync(roles: string[]): Observable<boolean> {
-    if (this.roles == null) {
-      const url = this.getUrl('/authentication');
-      return this.http.get(url).pipe(
-        map((json: any) => {
-          if (json.error) {
-            this.roles = [];
-          } else {
-            this.roles = json.roles;
+    if (this.config.useAuthService) {
+      if (this.roles == null) {
+        const url = this.getUrl('/authentication');
+        return this.http.get(url).pipe(
+          map((json: any) => {
+            if (json.error) {
+              this.roles = [];
+            } else {
+              this.roles = json.roles;
+            }
+            return this.hasAnyRole(roles);
           }
-          return this.hasAnyRole(roles);
-        }
-        )
-      );
-    } else {
+          )
+        );
+      }
       return of(this.hasAnyRole(roles));
+    } else {
+      return of(false);
     }
   }
 }

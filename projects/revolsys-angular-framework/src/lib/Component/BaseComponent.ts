@@ -70,6 +70,7 @@ export class BaseComponent<T> implements OnInit {
         body: body,
       }
     });
+    throw Error();
   }
 
   public getUrl(path: string): string {

@@ -43,10 +43,13 @@ export class AbstractCoordinateSystemComponent extends BaseComponent<any> {
     }
   }
 
-  formatX(value: any): string {
+  formatX(value: any, cs?: CS): string {
+    if (!cs) {
+      cs = this.cs;
+    }
     if (typeof value === 'number') {
       if (value) {
-        if (this.cs instanceof GeoCS) {
+        if (cs instanceof GeoCS) {
           if ('DMS' === this.angleFormat) {
             return Angle.toDegreesMinutesSecondsLon(value, 5);
           } else {
@@ -65,10 +68,13 @@ export class AbstractCoordinateSystemComponent extends BaseComponent<any> {
     }
   }
 
-  formatY(value: any): string {
+  formatY(value: any, cs?: CS): string {
+    if (!cs) {
+      cs = this.cs;
+    }
     if (typeof value === 'number') {
       if (value) {
-        if (this.cs instanceof GeoCS) {
+        if (cs instanceof GeoCS) {
           if ('DMS' === this.angleFormat) {
             return Angle.toDegreesMinutesSecondsLat(value, 5);
           } else {

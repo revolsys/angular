@@ -1,9 +1,9 @@
 export class Angle {
   static readonly RE_DMS = new RegExp('^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?)"?)?)?)\\s*$');
   static readonly RE_LAT = new RegExp(
-    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?)"?)?)?([NS])?)\\s*$');
+    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([NS])?)\\s*$');
   static readonly RE_LON = new RegExp(
-    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?)"?)?)?([WE])?)\\s*$');
+    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([WE])?)\\s*$');
 
   static RAD_DEGREE = 0.01745329251994328;
 
@@ -36,6 +36,26 @@ export class Angle {
 
   static angleCompassDegrees(x1: number, y1: number, x2: number, y2: number): number {
     return Angle.toCompass(Angle.angleDegrees(x1, y1, x2, y2));
+  }
+
+  static equalDms(a: string, b: string, minDiff: number = 0, regEx = Angle.RE_DMS): boolean {
+    if (a === b) {
+      return true;
+    } else {
+      const dms1 = Angle.dmsParts(a, regEx);
+      const dms2 = Angle.dmsParts(b, regEx);
+      if (dms1[0] === dms2[0]) {
+        if (dms1[1] === dms2[1]) {
+          const second1 = dms1[2];
+          const second2 = dms2[2];
+          const diff = Math.abs(second1 - second2);
+          if (diff < minDiff || minDiff === 0 && diff === 0) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   static toCompass(degrees: number): number {
@@ -95,6 +115,47 @@ export class Angle {
           } else {
             return result;
           }
+        }
+      }
+    }
+    return null;
+  }
+
+  static dmsParts(dms: any, regEx = Angle.RE_DMS): number[] {
+    if (dms) {
+      const dmsString = dms.toString().trim();
+      const match = dmsString.match(regEx);
+      if (match) {
+        const degrees = match[1];
+        const decimal = match[2];
+        if (decimal) {
+          const degree = Number(degrees);
+          const minute = Math.floor(Number(decimal) * 60) % 60;
+          const second = (Number(decimal) * 3600) % 60;
+          return new Array(degree, minute, second);
+        } else {
+          const minutes = match[3];
+          const seconds = match[4];
+          const direction = match[5];
+          let negative = direction === 'S' || direction === 'W';
+          let degree = parseFloat(degrees);
+          if (negative && degree > 0) {
+            degree = -degree;
+          }
+          let minute: number;
+          if (minutes) {
+            minute = parseFloat(minutes);
+          } else {
+            minute = 0;
+          }
+          let second: number;
+          if (seconds) {
+            second = parseFloat(seconds);
+          } else {
+            second = 0;
+          }
+
+          return new Array(degree, minute, second);
         }
       }
     }

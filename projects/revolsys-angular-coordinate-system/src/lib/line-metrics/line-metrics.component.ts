@@ -328,6 +328,7 @@ export class LineMetricsComponent extends AbstractCoordinateSystemComponent impl
           return false;
         }
       }
+      return true;
     } else {
       return true;
     }

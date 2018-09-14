@@ -109,15 +109,15 @@ export class TransverseMercatorThomas extends TransverseMercator {
   public projectRadians(λ: number, φ: number): number[] {
     const deltaλ = λ - this.λo;
     const sinφ = Math.sin(φ);
-    const sinφPow2 = sinφ * sinφ;
+    const sinφPow2 = Math.pow(sinφ, 2);
     const cosφ = Math.cos(φ);
-    const cosφPow2 = cosφ * cosφ;
-    const cosφPow4 = cosφPow2 * cosφPow2;
-    const cosφPow6 = cosφPow2 * cosφPow4;
+    const cosφPow2 = Math.pow(cosφ, 2);
+    const cosφPow4 = Math.pow(cosφ, 4);
+    const cosφPow6 = Math.pow(cosφ, 6);
     const tanφ = Math.tan(φ);
-    const tanφPow2 = tanφ * tanφ;
-    const tanφPow4 = tanφPow2 * tanφPow2;
-    const tanφPow6 = tanφPow2 * tanφPow4;
+    const tanφPow2 = Math.pow(tanφ, 2);
+    const tanφPow4 = Math.pow(tanφ, 4);
+    const tanφPow6 = Math.pow(tanφ, 6);
     const a = this.a;
     const b = this.b;
     const e = this.e;

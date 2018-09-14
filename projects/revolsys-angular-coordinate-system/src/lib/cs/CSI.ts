@@ -1,5 +1,6 @@
 import {Angle} from './Angle';
 import {Ellipsoid} from './Ellipsoid';
+import {CS} from './CS';
 import {GeoCS} from './GeoCS';
 import {ProjCS} from './ProjCS';
 import {AlbersConicEqualArea} from './AlbersConicEqualArea';
@@ -22,5 +23,20 @@ export class CSI {
       CSI.utmNCS[zone] = utm;
     }
     return utm;
+  }
+
+  static getCs(csId: number): CS {
+    switch (csId) {
+      case 4269:
+        return CSI.NAD83;
+      case 4326:
+        return CSI.WGS84;
+      default:
+        if (csId > 26900 && csId <= 26923) {
+          return CSI.utmN(csId - 26900);
+        } else {
+          return null;
+        }
+    }
   }
 }

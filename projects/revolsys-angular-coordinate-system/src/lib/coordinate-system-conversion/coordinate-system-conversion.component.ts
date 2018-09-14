@@ -73,10 +73,12 @@ export class CoordinateSystemConversionComponent extends AbstractCoordinateSyste
         const targetPoint = sourceCs.convertPoint(this.targetCs, x1, y1);
         if (targetPoint) {
           this.hasResult = true;
+
           const x2 = this.targetCs.makePrecise(targetPoint[0]);
           const y2 = this.targetCs.makePrecise(targetPoint[1]);
           this.resultForm.patchValue({
             targetPoint: {
+              cs: this.targetCs,
               x: x2,
               y: y2
             },
@@ -93,6 +95,7 @@ export class CoordinateSystemConversionComponent extends AbstractCoordinateSyste
 
   ngOnInit() {
     super.ngOnInit();
+
     //    this.form.patchValue({
     //      sourcePoint: {
     //        x: '-121',
@@ -111,8 +114,8 @@ export class CoordinateSystemConversionComponent extends AbstractCoordinateSyste
     //      sourceCs: CSI.utmN(10),
     //      targetCs: CSI.NAD83,
     //      sourcePoint: {
-    //        x: '674623.543',
-    //        y: '6181185.988'
+    //        x: '499997.297',
+    //        y: '4982954.21'
     //      },
     //    });
   }
