@@ -40,7 +40,7 @@ export function createAngleValidator(angleValueType: string, required: boolean) 
         max = 90;
         angle = Angle.toDecimalDegrees(value, Angle.RE_LAT);
       } else {
-        min = -360;
+        min = 0;
         max = 360;
         angle = Angle.toDecimalDegrees(value, Angle.RE_DMS);
       }

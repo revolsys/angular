@@ -32,6 +32,7 @@
           <mat-form-field class="distance">
             <input matInput formControlName="distance" [placeholder]="distancePlaceholder" required>
             <mat-hint>metres</mat-hint>
+      <mat-error *ngIf="form.controls['distance'].invalid">{{getErrorMessage(form, 'distance')}}</mat-error>
           </mat-form-field>
           
           <rs-cs-angle-field formControlName="azimuth" placeholder="{{anglePlaceholder}} From -> To" required class="azimuth">

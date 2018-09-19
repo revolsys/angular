@@ -7,7 +7,9 @@ export class Angle {
 
   static RAD_DEGREE = 0.01745329251994328;
 
-  static PI_TIMES_2 = 2.0 * Math.PI;
+  static PI = 3.1415926535897931;
+
+  static PI_TIMES_2 = 2.0 * Angle.PI;
 
   static angleDegrees(x1: number, y1: number, x2: number, y2: number): number {
     const width = x2 - x1;
@@ -67,11 +69,11 @@ export class Angle {
   }
 
   static toRadians(degrees: number): number {
-    return degrees * (Math.PI / 180);
+    return degrees * Angle.PI / 180;
   }
 
   static toDegrees360(radians: number): number {
-    const degrees = (radians * 180) / Math.PI;
+    const degrees = radians * 180 / Math.PI;
     if (degrees < 0) {
       return 360 + degrees;
     } else {
@@ -80,7 +82,7 @@ export class Angle {
   }
 
   static toDegrees(radians: number): number {
-    return radians * 180.0 / Math.PI;
+    return radians * 180.0 / Angle.PI;
   }
 
   static toDecimalDegrees(dms: any, regEx = Angle.RE_DMS): number {

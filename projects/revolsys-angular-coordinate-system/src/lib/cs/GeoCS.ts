@@ -57,6 +57,18 @@ export class GeoCS extends CS {
     return this.ellipsoid.pointOffset(x, y, distance, angle);
   }
 
+  pointOffsetAngle(x: number, y: number, distance: number, angle: number): number[] {
+    const lon = Angle.toRadians(-x);
+    const lat = Angle.toRadians(y);
+    angle = Angle.toRadians(angle);
+    const result = this.ellipsoid.vincenty(lon, lat, distance, angle);
+    for (let i = 0; i < result.length; i++) {
+      result[i] = Angle.toDegrees(result[i]);
+    }
+    result[0] = -result[0];
+    return result;
+  }
+
   toDegrees(value: number): number {
     if (this._df === 1) {
       return value;

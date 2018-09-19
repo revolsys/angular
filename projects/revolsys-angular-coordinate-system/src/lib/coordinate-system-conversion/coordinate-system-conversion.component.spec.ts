@@ -142,9 +142,6 @@ describe('CoordinateSystemConversionComponent', () => {
       if (Angle.equalDms(lonDms, actualLonDms, 0, Angle.RE_LON)) {
         lonDmsMeasures.addValue(0);
       } else {
-        console.log(lonDms);
-        console.log(actualLonDms);
-        return;
         lonDmsMeasures.addValue(1);
       }
       if (Angle.equalDms(latDms, actualLatDms, 0, Angle.RE_LAT)) {
@@ -153,21 +150,21 @@ describe('CoordinateSystemConversionComponent', () => {
         latDmsMeasures.addValue(1);
       }
     }
-    expect(xDmsMeasures.max).toBe(0);
-    expect(yDmsMeasures.max).toBe(0);
-    expect(xMeasures.max).toBe(0);
+    expect(xDmsMeasures.max).toBe(0.001);
+    expect(yDmsMeasures.max).toBe(0.001);
+    expect(xMeasures.max).toBe(0.001);
     expect(yMeasures.max).toBe(0.001);
     expect(lonMeasures.max).toBe(1e-11);
     expect(latMeasures.max).toBe(2e-11);
 
-    console.log(xDmsMeasures.toString());
-    console.log(yDmsMeasures.toString());
-    console.log(xMeasures.toString());
-    console.log(yMeasures.toString());
-    console.log(lonMeasures.toString());
-    console.log(latMeasures.toString());
-    console.log(lonDmsMeasures.toString());
-    console.log(latDmsMeasures.toString());
+    //    console.log(xDmsMeasures.toString());
+    //    console.log(yDmsMeasures.toString());
+    //    console.log(xMeasures.toString());
+    //    console.log(yMeasures.toString());
+    //    console.log(lonMeasures.toString());
+    //    console.log(latMeasures.toString());
+    //    console.log(lonDmsMeasures.toString());
+    //    console.log(latDmsMeasures.toString());
   });
   for (let i = 0; i < coordinateSystemConversionData.length; i += 10000) {
     const values = coordinateSystemConversionData[i];

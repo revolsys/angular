@@ -2,6 +2,7 @@ import {AbstractCoordinateSystemComponent} from '../abstract-coordinate-system.c
 import {Component, OnInit, Injector, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
 import {
   FormBuilder,
+  AbstractControl,
   FormGroup,
   Validators
 } from '@angular/forms';
@@ -33,8 +34,27 @@ export class PointOffsetComponent extends AbstractCoordinateSystemComponent impl
     cs: CSI.NAD83,
     point: this.pointForm,
     azimuth: ['', Validators.required],
-    distance: ['', Validators.required]
+    distance: ['', [Validators.required, Validators.min(0), Validators.max(3500000)]]
   });
+
+  getErrorMessage(form: FormGroup, controlName: string): string {
+    const messages = [];
+    const control = form.controls[controlName];
+    if (control.hasError('required')) {
+      messages.push('Required');
+    }
+
+    const minError = control.getError('min');
+    if (minError) {
+      messages.push(`< ${minError.min}`);
+    }
+
+    const maxError = control.getError('max');
+    if (maxError) {
+      messages.push(`> ${maxError.max}`);
+    }
+    return messages.join(', ');
+  }
 
   resultForm = this.fb.group({
     toPoint: this.fb.group({

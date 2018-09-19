@@ -3,9 +3,9 @@ import {Numbers} from './Numbers';
 
 export class Ellipsoid {
 
-  //  static NAD83 = new Ellipsoid(6378137, null, 6356752.314);
+  static NAD83 = new Ellipsoid(6378137, null, 6356752.314);
 
-  static NAD83 = new Ellipsoid(6378137, 298.257222101);
+  //  static NAD83 = new Ellipsoid(6378137, 298.257222101);
 
   static WGS84 = new Ellipsoid(6378137, 298.257223563);
 
@@ -27,13 +27,13 @@ export class Ellipsoid {
     semiMinorAxis: number = null
   ) {
     this.semiMajorAxis = semiMajorAxis;
-    if (inverseFlattening == null) {
+    if (inverseFlattening === null) {
       this.inverseFlattening = semiMajorAxis / (semiMajorAxis - semiMinorAxis);
     } else {
       this.inverseFlattening = inverseFlattening;
     }
     this.f = 1 / this.inverseFlattening;
-    if (semiMinorAxis == null) {
+    if (semiMinorAxis === null) {
       this.b = this.a - this.a * this.f;
     } else {
       this.b = semiMinorAxis;
@@ -58,18 +58,18 @@ export class Ellipsoid {
     return this.b;
   }
 
-  vincentyInverse(lambda1: number, phi1: number, lambda2: number, phi2: number): number[] {
+  vincentyInverse(λ1: number, phi1: number, λ2: number, phi2: number): number[] {
     const sing = 1e-12;
-    if (Math.abs(phi1 - phi2) <= sing && Math.abs(lambda1 - lambda2) <= sing) {
+    if (Math.abs(phi1 - phi2) <= sing && Math.abs(λ1 - λ2) <= sing) {
       return [0, 0, 0];
     }
 
     const tpi = Math.PI * 2.;
-    if (lambda1 > 0 && lambda1 < Math.PI) {
-      lambda1 = tpi - lambda1;
+    if (λ1 > 0 && λ1 < Math.PI) {
+      λ1 = tpi - λ1;
     }
-    if (lambda2 > 0 && lambda2 < Math.PI) {
-      lambda2 = tpi - lambda2;
+    if (λ2 > 0 && λ2 < Math.PI) {
+      λ2 = tpi - λ2;
     }
 
     const a = this.a;
@@ -105,7 +105,7 @@ export class Ellipsoid {
     const cu1cu2 = cu1 * cu2;
 
     let iter = 0;
-    const dlon = lambda2 - lambda1;
+    const dlon = λ2 - λ1;
     if ((Math.abs(dlon - Math.PI)) < sing && Math.abs(phi1) < sing && Math.abs(phi2) < sing) {
       return null;
     }
@@ -173,142 +173,183 @@ export class Ellipsoid {
     return [s12, a12, a21];
   }
 
-  vincenty(lambda1: number, phi1: number, s12: number, a12: number): number[] {
-    const pi = Math.PI;
+  vincenty(λ1: number, φ1: number, distance: number, α1: number): number[] {
     const sing = 1e-12;
-    const a = this.a;
-    const b = this.b;
-    const f = (a - b) / a;
 
     let west = false;
-    if (lambda1 > 0 && lambda1 < pi) {
-      lambda1 = pi * 2 - lambda1;
+    if (λ1 > 0 && λ1 < Angle.PI) {
+      λ1 = Angle.PI * 2 - λ1;
       west = true;
     }
 
-    const b2 = b * b;
+    const a = this.semiMajorAxis;
+    let b1 = this.semiMinorAxis;
+    if (b1 === 0.) {
+      b1 = a;
+    }
+    let b;
+    let f;
+    if (b1 > 1e3) {
+      b = b1;
+      f = (a - b) / a;
+    }
+    if (b1 < 1e3) {
+      f = 1. / b1;
+      b = a - a * f;
+    }
+    if (b === a) {
+      b1 = 0.;
+    }
+
+    const bSq = b * b;
     const omf = 1 - f;
 
-    const smax = a * pi;
-    if (s12 > smax) {
-      return [NaN, NaN];
-    }
-
-    const tpi = pi * 2;
-    const pot = pi / 2;
-    let redlat = pot;
-    if (phi1 < 0.) {
-      redlat = -redlat;
-    }
-    if ((Math.abs(Math.abs(phi1) - pot)) > sing) {
-      redlat = Math.atan(omf * Math.tan(phi1));
-    }
-    const su = Math.sin(redlat);
-    const cu = Math.cos(redlat);
-
-    const ca12 = Math.cos(a12);
-    const sa12 = Math.sin(a12);
-
-    let sig1 = 0;
-    if (Math.abs(ca12) > sing) {
-      sig1 = Math.atan2(su / cu, ca12);
-    }
-
-    const sa = cu * sa12;
-    const sa2 = sa * sa;
-    const alpha = Math.asin(sa);
-    const ca = Math.cos(alpha);
-    const ca2 = 1. - sa2;
-
-    const usq = ca2 * (a * a - b2) / b2;
-
-    const a3 = usq / 16384. * (usq * (usq * (320. - usq * 175.) - 768.) + 4096.) +
-      1.;
-    const b4 = usq / 1024. * (usq * (usq * (74. - usq * 47.) - 128.) + 256.);
-
-
-    let iter = 0;
-    const tsig1 = sig1 * 2.;
-    const soba = s12 / b / a3;
-    let sig = soba;
-    let ddsig = 0.;
-    let csig = 0;
-    let ssig = 0;
-    let ctsm;
-    let ctsm2 = 0;
-    do {
-      const tsigm = tsig1 + sig;
-      ctsm = Math.cos(tsigm);
-      ctsm2 = ctsm * ctsm;
-      ssig = Math.sin(sig);
-      const ssig2 = ssig * ssig;
-      csig = Math.cos(sig);
-      const delsig = b4 * ssig * (ctsm + b4 / 4. * (csig * (ctsm2 * 2. - 1.) - b4 /
-        6. * ctsm * (ssig2 * 4. - 3.) * (ctsm2 * 4. - 3.)));
-      sig = soba + delsig;
-      ctsm2 = ddsig - delsig;
-      if (Math.abs(ctsm2) < sing) {
-        break;
+    const smax = a * Angle.PI;
+    if (distance > smax) {
+      throw Error('Distance greater than 1/2 the ellipsoid');
+    } else {
+      const tpi = Angle.PI * 2.;
+      const pot = Angle.PI / 2.;
+      let U1 = pot;
+      if (φ1 < 0.) {
+        U1 = -U1;
       }
-      ddsig = delsig;
-      ++iter;
-      if (iter > 50) {
-        return [NaN, NaN];
+      if (Math.abs(Math.abs(φ1) - pot) > sing) {
+        U1 = Math.atan(omf * Math.tan(φ1));
       }
-    } while (true);
+      const sinU1 = Math.sin(U1);
+      const cosU1 = Math.cos(U1);
 
-    const sucs = su * csig;
-    const cuss = cu * ssig;
-    const suss = su * ssig;
-    const cucs = cu * csig;
+      /*  TRIG FUNCTIONS OF FORWARD AZIMUTH */
 
-    let phi2 = 0;
-    let dnum = sucs + cuss * ca12;
-    const d__1 = suss - cucs * ca12;
-    let den = omf * Math.sqrt(sa2 + d__1 * d__1);
-    if (Math.abs(dnum) > sing || Math.abs(den) > sing) {
-      phi2 = Math.atan2(dnum, den);
-    }
+      const cosα1 = Math.cos(α1);
+      const sinα1 = Math.sin(α1);
 
-    let dlas = 0;
-    dnum = ssig * sa12;
-    den = cucs - suss * ca12;
-    if (Math.abs(dnum) > sing || Math.abs(den) > sing) {
-      dlas = Math.atan2(dnum, den);
-    }
+      /*  COMPUTE SIGMA1  CHECK FOR ZERO  (EQUATION 1) */
 
+      let σ1 = 0.;
+      if (Math.abs(cosα1) > sing) {
+        σ1 = Math.atan2(sinU1 / cosU1, cosα1);
+      }
 
-    const c = f / 16. * ca2 * (f * (4. - ca2 * 3.) + 4.);
-    const dlam = dlas - (1. - c) * f * sa * (sig + c * ssig * (ctsm + c * csig * (
-      ctsm2 * 2. - 1.)));
-    let lambda2 = lambda1 + dlam;
-    if (lambda2 < 0.) {
-      lambda2 += tpi;
+      /*  ALPHA AND ITS TRIG FUNCTIONS  (EQUATION 2) */
+
+      const sinα = cosU1 * sinα1;
+      const sinαSq = sinα * sinα;
+      const cosαSq = 1. - sinαSq;
+      const aSq = a * a;
+      /*  U SQUARED  (NOTE  NOT REDUCED LATITUDE) */
+
+      const μSq = cosαSq * (aSq - bSq) / bSq;
+
+      /*  CONSTANTS A AND B  (EQUATIONS 3 AND 4) */
+
+      const A = μSq / 16384.
+        * (μSq * (μSq * (320. - μSq * 175.) - 768.) + 4096.) + 1.;
+      const B = μSq / 1024. * (μSq * (μSq * (74. - μSq * 47.) - 128.) + 256.);
+
+      /*  ITERATE TO FIND SIGMA TO 10-12 RADIANS  (EQUATIONS 5,6,7) */
+
+      let iter = 0;
+      const tsig1 = σ1 * 2.;
+      const soba = distance / b / A;
+      let sig = soba;
+      let ddsig = 0.;
+      let csig;
+      let ssig;
+      let ctsm;
+      let ctsm2;
+      while (true) {
+        const tsigm = tsig1 + sig;
+        ctsm = Math.cos(tsigm);
+        /* Computing 2nd power */
+        ctsm2 = ctsm * ctsm;
+        ssig = Math.sin(sig);
+        const ssig2 = ssig * ssig;
+        csig = Math.cos(sig);
+        const delsig =
+          B * ssig
+          * (ctsm
+            + B / 4.
+            * (csig * (ctsm2 * 2. - 1.)
+              - B / 6. * ctsm * (ssig2 * 4. - 3.)
+              * (ctsm2 * 4. - 3.)));
+        sig = soba + delsig;
+        if ((Math.abs(ddsig - delsig)) < sing) {
+          break;
+        }
+        ddsig = delsig;
+        ++iter;
+        if (iter > 50) {
+          throw Error('Solution will not converge after 50 iterations');
+        }
+      }
+
+      /*  CONSTANT TERMS IN REMAINING EQUATIONS */
+
+      const sucs = sinU1 * csig;
+      const cuss = cosU1 * ssig;
+      const suss = sinU1 * ssig;
+      const cucs = cosU1 * csig;
+
+      /*  LATITUDE OF POINT 2  (EQUATION 8) */
+
+      let φ2 = 0.;
+      let dnum = sucs + cuss * cosα1;
+      /* Computing 2nd power */
+      const sussMinusCucsCa12 = suss - cucs * cosα1;
+      let den = omf * Math.sqrt(sinαSq + sussMinusCucsCa12 * sussMinusCucsCa12);
+      if (Math.abs(dnum) > sing || Math.abs(den) > sing) {
+        φ2 = Math.atan2(dnum, den);
+      }
+
+      /*  CHANGE IN LONGITUDE ON AUXILLARY SPHERE  (EQUATION 9) */
+
+      let dlas = 0.;
+      dnum = ssig * sinα1;
+      den = cucs - suss * cosα1;
+      if (Math.abs(dnum) > sing || Math.abs(den) > sing) {
+        dlas = Math.atan2(dnum, den);
+      }
+
+      /*  CHANGE IN LONGITUDE AND LONGITUDE OF POINT 2  (EQUATIONS 10 AND 11) */
+
+      const c = f / 16. * cosαSq * (f * (4. - cosαSq * 3.) + 4.);
+      const dlam = dlas
+        - (1. - c) * f * sinα
+        * (sig + c * ssig * (ctsm + c * csig * (ctsm2 * 2. - 1.)));
+      let λ2 = λ1 + dlam;
+      if (λ2 < 0.) {
+        λ2 += tpi;
+      }
+      if (λ2 > tpi) {
+        λ2 -= tpi;
+      }
+      if (west) {
+        λ2 = tpi - λ2;
+      }
+
+      /*  BACK AZIMUTH  (EQUATION 12) */
+
+      let α2;
+      if (Math.abs(α1) < sing) {
+        α2 = Angle.PI;
+      }
+      if (Math.abs(α1 - Angle.PI) < sing) {
+        α2 = 0.;
+      }
+      den = suss - cucs * cosα1;
+      if (Math.abs(sinα) > sing || Math.abs(den) > sing) {
+        α2 = Math.atan2(-sinα, den);
+      }
+      if (α2 > tpi) {
+        α2 -= tpi;
+      }
+      if (α2 < 0.) {
+        α2 += tpi;
+      }
+      return [λ2, φ2, α2];
     }
-    if (lambda2 > tpi) {
-      lambda2 -= tpi;
-    }
-    if (west) {
-      lambda2 = tpi - lambda2;
-    }
-    let a21;
-    if (Math.abs(a12) < sing) {
-      a21 = pi;
-    }
-    if (Math.abs(a12 - pi) < sing) {
-      a21 = 0.;
-    }
-    den = suss - cucs * ca12;
-    if (Math.abs(sa) > sing || Math.abs(den) > sing) {
-      a21 = Math.atan2(-sa, den);
-    }
-    if (a21 > tpi) {
-      a21 -= tpi;
-    }
-    if (a21 < 0.) {
-      a21 += tpi;
-    }
-    return [lambda2, phi2, a21];
   }
 
 

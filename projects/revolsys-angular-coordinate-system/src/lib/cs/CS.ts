@@ -18,6 +18,8 @@ export abstract class CS {
 
   abstract pointOffset(x: number, y: number, distance: number, angle: number): number[];
 
+  abstract pointOffsetAngle(x: number, y: number, distance: number, angle: number): number[];
+
   abstract toX(text: string);
 
   abstract toY(text: string);
