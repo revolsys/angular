@@ -41,6 +41,66 @@ export class MeridianConvergenceComponent extends AbstractCoordinateSystemCompon
 
   pointScaleFactor: number;
 
+  public static calculatePointScaleFactor(cs: TransverseMercator, lon: number, lat: number): number {
+    const geoCs = cs.geoCS;
+    const a = geoCs.ellipsoid.semiMajorAxis;
+    const b = geoCs.ellipsoid.semiMinorAxis;
+
+    const sf1 = cs.ko;
+    const centralMeridan = -cs.centralMeridan;
+    const crad = geoCs.toRadians(centralMeridan);
+
+    const lambda = geoCs.toRadians(-lon);
+    const deltaLambda = -lambda + crad;
+    const phi = geoCs.toRadians(lat);
+    const dlamSq = deltaLambda * deltaLambda;
+    const bSq = b * b;
+    const cp = Math.cos(phi);
+    const cpSq = cp * cp;
+
+    const t = Math.tan(phi);
+    const tSq = t * t;
+    const eta = Math.sqrt((a * a - bSq) / bSq * cpSq);
+
+    const etaSq = eta * eta;
+    let sf = dlamSq * cpSq / 2 * (etaSq + 1) + 1
+      + dlamSq * dlamSq * (cpSq * cpSq) / 24 * (5 - tSq * 4);
+    sf *= sf1;
+
+    return sf;
+  }
+
+
+  public static calculateMeridianConvergence(cs: TransverseMercator, lon: number, lat: number): number {
+    const geoCs = cs.geoCS;
+    const lambda = geoCs.toRadians(-lon);
+    const phi = geoCs.toRadians(lat);
+
+    const a = geoCs.ellipsoid.semiMajorAxis;
+    const b = geoCs.ellipsoid.semiMinorAxis;
+
+    const sf1 = cs.ko;
+    const centralMeridan = -cs.centralMeridan;
+    const crad = geoCs.toRadians(centralMeridan);
+    const deltaLambda = -lambda + crad;
+
+    const dlamSq = deltaLambda * deltaLambda;
+    const cp = Math.cos(phi);
+    const cpSq = cp * cp;
+
+    const t = Math.tan(phi);
+    const tSq = t * t;
+
+    const eta = Math.sqrt((a * a - b * b) / (b * b) * cpSq);
+    const etaSq = eta * eta;
+
+    const meridianConvegence = deltaLambda * Math.sin(phi)
+      * (dlamSq * cpSq / 3.0 * (etaSq * 3 + 1 + etaSq * etaSq * 2) + 1
+        + dlamSq * dlamSq * cpSq * cpSq / 15.0 * (2 - tSq));
+
+    return Angle.toDegrees(meridianConvegence);
+  }
+
   constructor(
     protected injector: Injector,
     private fb: FormBuilder) {
@@ -84,61 +144,8 @@ export class MeridianConvergenceComponent extends AbstractCoordinateSystemCompon
   }
 
   private calculate(lon: number, lat: number) {
-    lon = -lon;
-    const projCs = this.projCoordinateSystem;
-    const geoCs = this.geoCoordinateSystem;
-
-    const a = geoCs.ellipsoid.semiMajorAxis;
-    const b = geoCs.ellipsoid.semiMinorAxis;
-
-    const sf1 = projCs.ko;
-    const centralMeridan = -projCs.centralMeridan;
-
-
-    const phi = geoCs.toRadians(lat);
-    const lambda = geoCs.toRadians(lon);
-    const crad = geoCs.toRadians(centralMeridan);
-    const deltaLambda = -lambda + crad;
-    this.pointScaleFactor = this.calculatePointScaleFactor(phi, deltaLambda, sf1, a, b);
-    this.meridianConvergence = this.calculateMeridianConvergence(phi, deltaLambda, sf1, a, b);
-  }
-
-  private calculatePointScaleFactor(phi: number, deltaLambda: number, sfo: number, a: number, b: number): number {
-    const dlamSq = deltaLambda * deltaLambda;
-    const bSq = b * b;
-    const cp = Math.cos(phi);
-    const cpSq = cp * cp;
-
-    const t = Math.tan(phi);
-    const tSq = t * t;
-    const eta = Math.sqrt((a * a - bSq) / bSq * cpSq);
-
-    const etaSq = eta * eta;
-    let sf = dlamSq * cpSq / 2 * (etaSq + 1) + 1
-      + dlamSq * dlamSq * (cpSq * cpSq) / 24 * (5 - tSq * 4);
-    sf *= sfo;
-
-    return sf;
-  }
-
-
-  private calculateMeridianConvergence(phi: number, deltaLambda: number, sfo: number,
-    a: number, b: number): number {
-    const dlamSq = deltaLambda * deltaLambda;
-    const cp = Math.cos(phi);
-    const cpSq = cp * cp;
-
-    const t = Math.tan(phi);
-    const tSq = t * t;
-
-    const eta = Math.sqrt((a * a - b * b) / (b * b) * cpSq);
-    const etaSq = eta * eta;
-
-    const meridianConvegence = deltaLambda * Math.sin(phi)
-      * (dlamSq * cpSq / 3.0 * (etaSq * 3 + 1 + etaSq * etaSq * 2) + 1
-        + dlamSq * dlamSq * cpSq * cpSq / 15.0 * (2 - tSq));
-
-    return Angle.toDegrees360(meridianConvegence);
+    this.pointScaleFactor = MeridianConvergenceComponent.calculatePointScaleFactor(this.projCoordinateSystem, lon, lat);
+    this.meridianConvergence = MeridianConvergenceComponent.calculateMeridianConvergence(this.projCoordinateSystem, lon, lat);
   }
 
 }

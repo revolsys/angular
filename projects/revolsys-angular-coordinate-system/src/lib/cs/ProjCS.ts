@@ -61,13 +61,19 @@ export class ProjCS extends CS {
   }
 
   pointOffsetAngle(x: number, y: number, distance: number, angle: number): number[] {
-    angle = Angle.toRadians(Angle.toCartesian(angle));
-    const x2 = x + distance * Math.cos(angle);
-    const y2 = y + distance * Math.sin(angle);
+    const rad = Angle.toRadians(angle);
+    const x2 = x + distance * Math.cos(rad);
+    const y2 = y + distance * Math.sin(rad);
+    let resultAngle;
+    if (angle >= 180) {
+      resultAngle = angle - 180;
+    } else {
+      resultAngle = angle + 180;
+    }
     return [
       x2,
       y2,
-      Angle.angleCompassDegrees(x, y, x2, y2)
+      resultAngle
     ];
   }
 

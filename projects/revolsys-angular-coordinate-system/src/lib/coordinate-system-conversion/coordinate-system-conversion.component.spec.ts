@@ -5,7 +5,7 @@ import {
 } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing'; import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 import {
   AbstractControl,
@@ -43,15 +43,16 @@ import {PointFieldComponent} from '../point-field/point-field.component';
 import {CoordinateSystemConversionComponent} from './coordinate-system-conversion.component';
 
 import coordinateSystemConversionData from '../../test/data/coordinate-system-conversion.json';
+import {Measures} from '../../test/measures';
 
 describe('CoordinateSystemConversionComponent', () => {
 
   let component: CoordinateSystemConversionComponent;
   let fixture: ComponentFixture<CoordinateSystemConversionComponent>;
   let form: FormGroup;
-  let controls: {[key: string]: AbstractControl;}
+  let controls: {[key: string]: AbstractControl};
   let resultForm: FormGroup;
-  let resultControls: {[key: string]: AbstractControl;}
+  let resultControls: {[key: string]: AbstractControl};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -210,58 +211,3 @@ describe('CoordinateSystemConversionComponent', () => {
     action(utmCs, x, y, geoCs, lon, lat);
   }
 });
-
-class Measures {
-  count = 0;
-
-  sum = 0;
-
-  min = Number.MAX_VALUE;
-
-  max = 0;
-
-  counts: {[value: number]: number} = {};
-
-  constructor(private scaleFactor?: number) {
-  }
-  addValue(value: number) {
-    if (this.scaleFactor) {
-      value = Math.round(value * this.scaleFactor) / this.scaleFactor;
-    }
-    let count = this.counts[value];
-    if (count) {
-      count++;
-    } else {
-      count = 1;
-    }
-    this.counts[value] = count;
-    this.count++;
-    this.sum += value;
-    if (value < this.min) {
-      this.min = value;
-    }
-    if (value > this.max) {
-      this.max = value;
-    }
-  }
-
-  get average(): number {
-    return this.sum / this.count;
-  }
-
-  toString(): string {
-    let s = `{count:${this.count},min:${this.min},max:${this.max},average:${this.average},counts:{`;
-    let first = true;
-    const keys = Object.keys(this.counts);
-    keys.sort();
-    for (const k of keys) {
-      if (first) {
-        first = false;
-      } else {
-        s += ','
-      }
-      s += `'${k}': ${this.counts[k]}`;
-    }
-    return s + '}'
-  }
-}

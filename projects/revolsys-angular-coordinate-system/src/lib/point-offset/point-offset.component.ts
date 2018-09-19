@@ -18,6 +18,9 @@ import {GeoCS} from '../cs/GeoCS';
   styleUrls: ['./point-offset.component.css']
 })
 export class PointOffsetComponent extends AbstractCoordinateSystemComponent implements OnInit, AfterViewChecked {
+
+  azimuth2: number;
+
   private _cs: CS = CSI.NAD83;
 
   get cs(): CS {
@@ -37,6 +40,13 @@ export class PointOffsetComponent extends AbstractCoordinateSystemComponent impl
     distance: ['', [Validators.required, Validators.min(0), Validators.max(3500000)]]
   });
 
+  resultForm = this.fb.group({
+    toPoint: this.fb.group({
+      cs: CSI.NAD83,
+      x: ['', Validators.required],
+      y: null
+    })
+  });
   getErrorMessage(form: FormGroup, controlName: string): string {
     const messages = [];
     const control = form.controls[controlName];
@@ -56,13 +66,6 @@ export class PointOffsetComponent extends AbstractCoordinateSystemComponent impl
     return messages.join(', ');
   }
 
-  resultForm = this.fb.group({
-    toPoint: this.fb.group({
-      cs: CSI.NAD83,
-      x: ['', Validators.required],
-      y: null
-    })
-  });
 
   get distancePlaceholder(): string {
     if (this.cs instanceof GeoCS) {
@@ -83,8 +86,6 @@ export class PointOffsetComponent extends AbstractCoordinateSystemComponent impl
   get hasResult(): boolean {
     return this.form.valid;
   }
-
-  azimuth2: number;
 
   constructor(
     protected injector: Injector,

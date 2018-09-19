@@ -102,6 +102,7 @@ describe('PointOffsetComponent', () => {
   });
 
   it(`test-data`, () => {
+    let hasError = false;
     for (let i = 0; i < pointOffsetData.length; i++) {
       const values = pointOffsetData[i];
       const csId = values[0];
@@ -118,13 +119,26 @@ describe('PointOffsetComponent', () => {
       const x2 = result[0];
       const y2 = result[1];
       const angle2 = result[2];
-      if (Math.abs(x2 - expectedX2) > 1e-11 || Math.abs(y2 - expectedY2) > 1e-11 || Math.abs(angle2 - expectedAngle2) > 1e-11) {
+      let minDiff;
+      let decimalPlaces;
+      if (csId === 4269) {
+        minDiff = 1e-11;
+        decimalPlaces = 11;
+      } else {
+        minDiff = 0.001;
+        decimalPlaces = 3;
+      }
+      if (Math.abs(x2 - expectedX2) > minDiff || Math.abs(y2 - expectedY2) > minDiff || Math.abs(angle2 - expectedAngle2) > 1e-11) {
         fail(`${i}\t
-SRID=${csId};POINT(${x} ${y})\t${distance}\t${angle}\t
-SRID=${csId};POINT(${expectedX2} ${expectedY2})\t${expectedAngle2}\t
-SRID=${csId};POINT(${x2} ${y2})\t${angle2}`);
+Params  \tSRID=${csId};POINT(${x} ${y})\t${distance}\t${angle}\t
+Expected\tSRID=${csId};POINT(${expectedX2} ${expectedY2})\t${expectedAngle2}\t
+Actual  \tSRID=${csId};POINT(${x2.toFixed(decimalPlaces)} ${y2.toFixed(decimalPlaces)})\t${angle2}`
+        );
+        hasError = true;
+        break;
       }
     }
+    expect(hasError).toBeFalsy();
   });
 
   // @TODO tests on form
