@@ -1,8 +1,6 @@
 import {Angle} from './Angle';
-import {Ellipsoid} from './Ellipsoid';
 import {CS} from './CS';
 import {GeoCS} from './GeoCS';
-import {Numbers} from './Numbers';
 
 export class ProjCS extends CS {
   constructor(
@@ -14,7 +12,7 @@ export class ProjCS extends CS {
   }
 
   angle(x1: number, y1: number, x2: number, y2: number): number {
-    return Angle.angleCompassDegrees(x1, y1, x2, y2);
+    return Angle.angleDegrees(x1, y1, x2, y2);
   }
 
   angleEllipsoid(x1: number, y1: number, x2: number, y2: number): number {
@@ -62,14 +60,9 @@ export class ProjCS extends CS {
 
   pointOffsetAngle(x: number, y: number, distance: number, angle: number): number[] {
     const rad = Angle.toRadians(angle);
-    const x2 = x + distance * Math.cos(rad);
-    const y2 = y + distance * Math.sin(rad);
-    let resultAngle;
-    if (angle >= 180) {
-      resultAngle = angle - 180;
-    } else {
-      resultAngle = angle + 180;
-    }
+    const x2 = x + distance * Math.sin(rad);
+    const y2 = y + distance * Math.cos(rad);
+    const resultAngle = this.angle(x2, y2, x, y);
     return [
       x2,
       y2,

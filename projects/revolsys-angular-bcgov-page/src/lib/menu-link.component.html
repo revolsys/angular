@@ -1,14 +1,12 @@
 <a *ngIf="routerLink; else plainLink" [routerLink]="routerLink" routerLinkActive="active-link"
   ><span *ngIf="prefix">{{prefix}} </span
-  ><i *ngIf="icon" class="fa fa-{{icon}}" aria-hidden="true"></i
-  ><span *ngIf="label"> {{label}}</span
+  ><mat-icon *ngIf="icon">{{icon}}</mat-icon><span *ngIf="label"> {{label}}</span
 ></a>
 <ng-template #plainLink>
   <a [href]="href"
     ><span *ngIf="prefix">{{prefix}}</span
     ><span *ngIf="prefix && icon"> </span
-    ><i *ngIf="icon" class="fa fa-{{icon}}" aria-hidden="true"></i
-     ><span *ngIf="icon && label"> </span
+    ><mat-icon *ngIf="icon">{{icon}}</mat-icon><span *ngIf="icon && label"> </span
     ><span *ngIf="label">{{label}}</span
   ></a>
 </ng-template>

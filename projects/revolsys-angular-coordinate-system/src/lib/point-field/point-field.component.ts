@@ -1,10 +1,9 @@
-import {AbstractCoordinateSystemComponent} from '../abstract-coordinate-system.component';
-import {Angle} from '../cs/Angle';
-import {Component, Inject, Input, OnInit, Injector} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {CS} from '../cs/CS';
-import {CSI} from '../cs/CSI';
-import {GeoCS} from '../cs/GeoCS';
+import { AbstractCoordinateSystemComponent } from '../abstract-coordinate-system.component';
+import { Component, Inject, Input, OnInit, Injector } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CS } from '../cs/CS';
+import { CSI } from '../cs/CSI';
+import { GeoCS } from '../cs/GeoCS';
 
 @Component({
   selector: 'rs-cs-point-field',
@@ -14,10 +13,10 @@ import {GeoCS} from '../cs/GeoCS';
 export class PointFieldComponent extends AbstractCoordinateSystemComponent implements OnInit {
   private _cs: CS = CSI.NAD83;
 
-  @Input('parentForm')
+  @Input()
   parentForm: FormGroup;
 
-  @Input('name')
+  @Input()
   name: string;
 
   pointForm: FormGroup;
@@ -28,8 +27,17 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
   @Input()
   floatLabel = 'auto';
 
+  private _x: string;
+
+  private _y: string;
+
   get cs(): CS {
     return this._cs;
+  }
+
+  @Input()
+  set cs(cs: CS) {
+     this._cs = cs;
   }
 
   get isGeographic(): boolean {
@@ -43,19 +51,37 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
   required = false;
 
   get x(): string {
-    const coordinate = this.pointForm.value['x'];
-    return this.formatX(coordinate);
+    if (this.pointForm) {
+      const x = this.pointForm.value['x'];
+      return this.formatX(x);
+    } else {
+      return this._x;
+    }
   }
 
+  @Input()
   set x(x: string) {
+    this._x = x;
+    if (this.pointForm) {
+      this.pointForm.patchValue({ x: x });
+    }
   }
 
   get y(): string {
-    const coordinate = this.pointForm.value['y'];
-    return this.formatY(coordinate);
+    if (this.pointForm) {
+      const y = this.pointForm.value['y'];
+      return this.formatY(y);
+    } else {
+      return this._y;
+    }
   }
 
+  @Input()
   set y(y: string) {
+    this._y = y;
+    if (this.pointForm) {
+      this.pointForm.patchValue({ y: y });
+    }
   }
 
   constructor(
@@ -69,30 +95,31 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
     if (this.prefix) {
       this.prefix = this.prefix.trim() + ' ';
     }
-    const value = this.parentForm.value[this.name];
-    this.pointForm = <FormGroup>this.parentForm.controls[this.name];
-    if (this.pointForm) {
-      if (!this.pointForm.controls['cs']) {
-        this.pointForm.addControl('cs', this.fb.control(CSI.NAD83));
+    if (this.parentForm) {
+      this.pointForm = <FormGroup>this.parentForm.controls[this.name];
+      if (this.pointForm) {
+        if (!this.pointForm.controls['cs']) {
+          this.pointForm.addControl('cs', this.fb.control(CSI.NAD83));
+        }
+        this._cs = this.pointForm.controls['cs'].value;
+        this.setValidators();
+      } else {
+        this.pointForm = this.fb.group({
+          'cs': CSI.NAD83,
+          'x': null,
+          'y': null
+        });
+        this.setValidators();
+        this.parentForm.addControl(this.name, this.pointForm);
+        const newValue = {};
+        newValue[this.name] = this.pointForm.value;
+        this.parentForm.patchValue(newValue);
       }
-      this._cs = this.pointForm.controls['cs'].value;
-      this.setValidators();
-    } else {
-      this.pointForm = this.fb.group({
-        'cs': CSI.NAD83,
-        'x': null,
-        'y': null
+      this.pointForm.controls['cs'].valueChanges.subscribe(data => {
+        this._cs = data;
+        this.setValidators();
       });
-      this.setValidators();
-      this.parentForm.addControl(this.name, this.pointForm);
-      const newValue = {};
-      newValue[this.name] = this.pointForm.value;
-      this.parentForm.patchValue(newValue);
     }
-    this.pointForm.controls['cs'].valueChanges.subscribe(data => {
-      this._cs = data;
-      this.setValidators();
-    });
   }
 
   getErrorMessage(form: FormGroup, controlName: string): string {

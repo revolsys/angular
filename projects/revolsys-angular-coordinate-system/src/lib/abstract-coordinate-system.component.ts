@@ -5,7 +5,6 @@ import {
   Injector
 } from '@angular/core';
 import {GeoCS} from './cs/GeoCS';
-import {Numbers} from './cs/Numbers';
 import {CSI} from './cs/CSI';
 import {BaseComponent} from 'revolsys-angular-framework';
 

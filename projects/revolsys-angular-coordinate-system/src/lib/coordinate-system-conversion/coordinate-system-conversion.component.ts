@@ -6,16 +6,10 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormGroup,
-  Validators
+  FormGroup
 } from '@angular/forms';
-import {AlbersConicEqualArea} from '../cs/AlbersConicEqualArea';
-import {Angle} from '../cs/Angle';
-import {Ellipsoid} from '../cs/Ellipsoid';
-import {GeoCS} from '../cs/GeoCS';
 import {CS} from '../cs/CS';
 import {CSI} from '../cs/CSI';
-import {Numbers} from '../cs/Numbers';
 
 @Component({
   selector: 'rs-cs-coordinate-system-conversion',

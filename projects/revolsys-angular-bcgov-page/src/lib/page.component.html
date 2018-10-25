@@ -16,7 +16,7 @@
   
           <button type="button" class="menu-button collapsed" (click)="headerMenuVisible = !headerMenuVisible">
             <span class="sr-only">Toggle navigation</span>
-            <span class="fa fa-bars"></span>
+            <mat-icon>menu</mat-icon>
           </button>
         </div>
       </div>
@@ -40,7 +40,7 @@
               *ngIf="username" 
               href="logout" 
               prefix="{{username}}" 
-              icon="sign-out"
+              icon="exit_to_app"
             ></menu-link>
           </div>
         </div>
@@ -76,7 +76,7 @@
      <div class="titlebar">
         <button type="button" class="menu-button collapsed" (click)="footerMenuVisible = !footerMenuVisible">
           <span class="sr-only">Toggle navigation</span>
-          <span class="fa fa-bars"></span>
+          <mat-icon>menu</mat-icon>
         </button>
       </div>
     </nav>

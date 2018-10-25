@@ -1,5 +1,4 @@
 import {Angle} from './Angle';
-import {ProjCS} from './ProjCS';
 import {GeoCS} from './GeoCS';
 import {TransverseMercator} from './TransverseMercator';
 

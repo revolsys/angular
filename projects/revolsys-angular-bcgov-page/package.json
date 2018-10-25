@@ -2,9 +2,10 @@
   "name": "revolsys-angular-bcgov-page",
   "version": "6.1.0-1",
   "peerDependencies": {
-    "@angular/common": "^6.1.0",
-    "@angular/core": "^6.1.0",
-    "@angular/platform-browser": "^6.1.0",
-    "@angular/router": "^6.1.0"
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@angular/material": "^7.0.0",
+    "@angular/platform-browser": "^7.0.0",
+    "@angular/router": "^7.0.0"
   }
 }

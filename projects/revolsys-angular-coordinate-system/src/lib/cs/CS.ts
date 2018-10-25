@@ -8,6 +8,10 @@ export abstract class CS {
 
   abstract angle(x1: number, y1: number, x2: number, y2: number): number;
 
+  angleBackwards(x1: number, y1: number, x2: number, y2: number): number {
+    return this.angle(x2, y2, x1, y1);
+  }
+
   abstract angleEllipsoid(x1: number, y1: number, x2: number, y2: number): number;
 
   abstract distanceMetres(x1: number, y1: number, x2: number, y2: number): number;

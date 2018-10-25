@@ -1,11 +1,10 @@
 import {
   ComponentFixture,
-  TestBed,
-  async
+  TestBed
 } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing'; import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {
   AbstractControl,
@@ -50,7 +49,6 @@ describe('CoordinateSystemConversionComponent', () => {
   let component: CoordinateSystemConversionComponent;
   let fixture: ComponentFixture<CoordinateSystemConversionComponent>;
   let form: FormGroup;
-  let controls: {[key: string]: AbstractControl};
   let resultForm: FormGroup;
   let resultControls: {[key: string]: AbstractControl};
 
@@ -85,7 +83,6 @@ describe('CoordinateSystemConversionComponent', () => {
     component = fixture.componentInstance;
     component.ngOnInit();
     form = component.form;
-    controls = form.controls;
     resultForm = component.resultForm;
     resultControls = resultForm.controls;
   });

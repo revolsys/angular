@@ -2,12 +2,10 @@ import {AbstractCoordinateSystemComponent} from '../abstract-coordinate-system.c
 import {Component, OnInit, Injector, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
 import {
   FormBuilder,
-  AbstractControl,
   FormGroup,
   Validators
 } from '@angular/forms';
 import {Angle} from '../cs/Angle';
-import {Ellipsoid} from '../cs/Ellipsoid';
 import {CS} from '../cs/CS';
 import {CSI} from '../cs/CSI';
 import {GeoCS} from '../cs/GeoCS';

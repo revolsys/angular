@@ -15,9 +15,9 @@ import {
 <mat-form-field>
   <input matInput placeholder="File" name="file" [(ngModel)]="fileName" disabled="true" />
 </mat-form-field>
- 
+
 <button type="button" mat-raised-button (click)="selectFile()">
-  <mat-icon fontSet="fa" fontIcon="fa-{{iconName}}"></mat-icon>
+  <mat-icon>{{iconName}}</mat-icon>
   {{label}}
 </button>
 `
@@ -25,7 +25,7 @@ import {
 export class InputFileComponent {
   @Input() accept: string;
 
-  @Input() iconName = 'floppy-o';
+  @Input() iconName = 'cloud_upload';
 
   @Input() label = 'Choose File';
 

@@ -1,7 +1,6 @@
 import {Angle} from './Angle';
 import {CS} from './CS';
 import {Ellipsoid} from './Ellipsoid';
-import {ProjCS} from './ProjCS';
 
 export class GeoCS extends CS {
   private _df: number;
@@ -28,6 +27,9 @@ export class GeoCS extends CS {
     return this.ellipsoid.azimuth(x1, y1, x2, y2);
   }
 
+  angleBackwards(x1: number, y1: number, x2: number, y2: number): number {
+    return this.ellipsoid.azimuthBackwards(x1, y1, x2, y2);
+  }
   angleEllipsoid(x1: number, y1: number, x2: number, y2: number): number {
     return this.ellipsoid.azimuth(x1, y1, x2, y2);
   }
@@ -79,7 +81,7 @@ export class GeoCS extends CS {
 
   toX(text: string): number {
     const degrees = Angle.toDecimalDegrees(text, Angle.RE_LON);
-    if (degrees > 0 && this.name == 'NAD83') {
+    if (degrees > 0 && this.name === 'NAD83') {
       return -degrees;
     } else {
       return degrees;

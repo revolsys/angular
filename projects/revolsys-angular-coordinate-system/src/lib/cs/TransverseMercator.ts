@@ -23,7 +23,6 @@ export class TransverseMercator extends ProjCS {
     public readonly yo: number,
   ) {
     super(id, name, geoCS);
-    const latitudeOfNaturalOrigin = latitudeOfOrigin;
     const centralMeridian = centralMeridan;
 
     const ellipsoid = geoCS.ellipsoid;

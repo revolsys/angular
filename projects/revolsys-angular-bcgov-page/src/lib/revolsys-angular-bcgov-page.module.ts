@@ -5,12 +5,13 @@ import {RouterModule} from '@angular/router';
 import {MenuLinkComponent} from './menu-link.component';
 import {PageComponent} from './page.component';
 import {PageConfig} from './PageConfig';
-import {MenuItem} from './MenuItem';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    MatIconModule
   ],
   declarations: [
     MenuLinkComponent,

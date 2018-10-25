@@ -1,44 +1,30 @@
 export class Angle {
-  static readonly RE_DMS = new RegExp('^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?)"?)?)?)\\s*$');
+  static readonly RE_DMS = new RegExp(
+    '^\\s*(-?\\d+)(?:\\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\\.\\d{0,6})?)"?)?)?)\\s*$');
   static readonly RE_LAT = new RegExp(
-    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([NS])?)\\s*$');
+    '^\\s*(-?\\d+)(?:\\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\\.\\d{0,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([NS])?)\\s*$');
   static readonly RE_LON = new RegExp(
-    '^\\s*(-?\\d+)(?:\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\.\\d{1,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([WE])?)\\s*$');
+    '^\\s*(-?\\d+)(?:\\.(\\d+)?|(?:[*° ](60|[0-5]?\\d)(?:[ \'](60|[0-5]?\\d(?:\\.\\d{0,6})?|\\d(?:.\\d+)?E-\\d+)"?)?)?([WE])?)\\s*$');
 
   static RAD_DEGREE = 0.01745329251994328;
 
-  static PI = 3.1415926535897931;
+  static π = 3.1415926535897931;
 
-  static PI_TIMES_2 = 2.0 * Angle.PI;
+  static πx2 = 2.0 * Angle.π;
+
+  static angle(x1: number, y1: number, x2: number, y2: number): number {
+    let angle = Math.atan2(x2 - x1, y2 - y1);
+    if (angle < 0) {
+      angle += Angle.πx2;
+    }
+    return angle;
+  }
 
   static angleDegrees(x1: number, y1: number, x2: number, y2: number): number {
-    const width = x2 - x1;
-    const height = y2 - y1;
-    if (width === 0) {
-      if (height < 0) {
-        return 270;
-      } else {
-        return 90;
-      }
-    } else if (height === 0) {
-      if (width < 0) {
-        return 180;
-      } else {
-        return 0;
-      }
-    }
-    const arctan = Math.atan(height / width);
-    const degrees = Angle.toDegrees(arctan);
-    if (width < 0) {
-      return 180 + degrees;
-    } else {
-      return (360 + degrees) % 360;
-    }
+    const angle = Angle.angle(x1, y1, x2, y2);
+    return Angle.toDegrees(angle);
   }
 
-  static angleCompassDegrees(x1: number, y1: number, x2: number, y2: number): number {
-    return Angle.toCompass(Angle.angleDegrees(x1, y1, x2, y2));
-  }
 
   static equalDms(a: string, b: string, minDiff: number = 0, regEx = Angle.RE_DMS): boolean {
     if (a === b) {
@@ -69,7 +55,7 @@ export class Angle {
   }
 
   static toRadians(degrees: number): number {
-    return degrees * Angle.PI / 180;
+    return degrees * Angle.π / 180;
   }
 
   static toDegrees360(radians: number): number {
@@ -82,7 +68,7 @@ export class Angle {
   }
 
   static toDegrees(radians: number): number {
-    return radians * 180.0 / Angle.PI;
+    return radians * 180.0 / Angle.π;
   }
 
   static toDecimalDegrees(dms: any, regEx = Angle.RE_DMS): number {
@@ -139,7 +125,7 @@ export class Angle {
           const minutes = match[3];
           const seconds = match[4];
           const direction = match[5];
-          let negative = direction === 'S' || direction === 'W';
+          const negative = direction === 'S' || direction === 'W';
           let degree = parseFloat(degrees);
           if (negative && degree > 0) {
             degree = -degree;

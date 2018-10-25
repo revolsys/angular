@@ -1,11 +1,10 @@
 import {
   ComponentFixture,
-  TestBed,
-  async
+  TestBed
 } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing'; import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {
   AbstractControl,
@@ -31,8 +30,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 import {RevolsysAngularFrameworkModule} from 'revolsys-angular-framework';
 
-import {Angle} from '../cs/Angle';
-
 import {CSI} from '../cs/CSI';
 
 import {CsFieldComponent} from '../cs-field/cs-field.component';
@@ -48,8 +45,6 @@ describe('PointOffsetComponent', () => {
   let fixture: ComponentFixture<PointOffsetComponent>;
   let form: FormGroup;
   let controls: {[key: string]: AbstractControl};
-  let resultForm: FormGroup;
-  let resultControls: {[key: string]: AbstractControl};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,8 +78,6 @@ describe('PointOffsetComponent', () => {
     component.ngOnInit();
     form = component.form;
     controls = form.controls;
-    resultForm = component.resultForm;
-    resultControls = resultForm.controls;
   });
 
   it('form invalid when empty', () => {

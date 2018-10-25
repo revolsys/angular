@@ -1,8 +1,6 @@
 import {AbstractCoordinateSystemComponent} from '../abstract-coordinate-system.component';
 import {Angle} from '../cs/Angle';
 import {CS} from '../cs/CS';
-import {GeoCS} from '../cs/GeoCS';
-import {ProjCS} from '../cs/ProjCS';
 import {CSI} from '../cs/CSI';
 import {TransverseMercator} from '../cs/TransverseMercator';
 import {Component, OnInit, Injector} from '@angular/core';

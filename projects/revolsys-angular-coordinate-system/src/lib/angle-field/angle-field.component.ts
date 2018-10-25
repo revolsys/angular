@@ -1,21 +1,14 @@
-import {Observable} from 'rxjs';
-import {AbstractCoordinateSystemComponent} from '../abstract-coordinate-system.component';
 import {Angle} from '../cs/Angle';
-import {Component, Inject, Input, OnInit, forwardRef, OnChanges} from '@angular/core';
+import {Component, Inject, Input,  forwardRef, OnChanges} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
-  Validators,
   ControlValueAccessor,
   FormControl,
   NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
-  AbstractControl,
   Validator
 } from '@angular/forms';
-import {CS} from '../cs/CS';
-import {CSI} from '../cs/CSI';
-import {GeoCS} from '../cs/GeoCS';
 
 export function createAngleValidator(angleValueType: string, required: boolean) {
   return function validateAngle(control: FormControl) {
@@ -95,7 +88,7 @@ export class AngleFieldComponent implements ControlValueAccessor, OnChanges, Val
   @Input()
   public angleFormat: string;
 
-  @Input('name')
+  @Input()
   name: string;
 
   errorMessage: string;
