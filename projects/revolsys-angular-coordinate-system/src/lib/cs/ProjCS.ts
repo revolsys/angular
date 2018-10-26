@@ -1,8 +1,14 @@
 import {Angle} from './Angle';
 import {CS} from './CS';
 import {GeoCS} from './GeoCS';
+import {Ellipsoid} from './Ellipsoid';
 
 export class ProjCS extends CS {
+
+  get ellipsoid(): Ellipsoid {
+    return this.geoCS.ellipsoid;
+  }
+
   constructor(
     id: number,
     name: string,

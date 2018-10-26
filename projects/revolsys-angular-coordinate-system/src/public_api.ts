@@ -15,8 +15,11 @@ export * from './lib/angle-field/angle-field.component';
 export * from './lib/meridian-convergence/meridian-convergence.component';
 export * from './lib/coordinate-system-conversion/coordinate-system-conversion.component';
 export * from './lib/cs-field/cs-field.component';
-export * from './lib/line-metrics/line-metrics.component';
+export * from './lib/distance-angle/distance-angle.component';
 export * from './lib/point-field/point-field.component';
 export * from './lib/point-offset/point-offset.component';
+export * from './lib/scale-factor-tt-correction/scale-factor-tt-correction.component';
+export * from './lib/reduction-from-ellipsoid/reduction-from-ellipsoid.component';
+export * from './lib/reduction-to-ellipsoid/reduction-to-ellipsoid.component';
 
 export * from './lib/revolsys-angular-coordinate-system.module';

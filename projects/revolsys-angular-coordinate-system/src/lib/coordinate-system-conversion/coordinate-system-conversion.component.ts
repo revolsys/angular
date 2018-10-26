@@ -89,29 +89,6 @@ export class CoordinateSystemConversionComponent extends AbstractCoordinateSyste
 
   ngOnInit() {
     super.ngOnInit();
-
-    //    this.form.patchValue({
-    //      sourcePoint: {
-    //        x: '-121',
-    //        y: '50'
-    //      },
-    //    });
-    //    this.form.patchValue({
-    //      targetCs: CSI.utmN(10),
-    //      sourcePoint: {
-    //        x: '120 13 04.80242W',
-    //        y: '55 44 41.39955N'
-    //      },
-    //    });
-
-    //    this.form.patchValue({
-    //      sourceCs: CSI.utmN(10),
-    //      targetCs: CSI.NAD83,
-    //      sourcePoint: {
-    //        x: '499997.297',
-    //        y: '4982954.21'
-    //      },
-    //    });
   }
 
 }

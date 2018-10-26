@@ -51,7 +51,7 @@ body {
   .flexFields .mat-form-field,
   .flexRowToColumn .mat-form-field,
   .flexRowToColumn .flexDiv {
-    margin: 2px;
+    margin: 4px 2px;
   }
   
   .flexFields {

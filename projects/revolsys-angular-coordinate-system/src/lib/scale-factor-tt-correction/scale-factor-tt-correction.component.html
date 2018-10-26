@@ -1,0 +1,62 @@
+<mat-card>
+  <mat-card-title>Line Scale Factor &amp; (T-t) correction</mat-card-title>
+
+  <mat-card-content>
+    <mat-accordion multi="true">
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title><div style="display: flex;align-items: center;"><mat-icon>help</mat-icon> Description</div></mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>This utility calculates the line scale factor and (T-t) correction between the two points of the line for UTM coordinate
+          systems. The line scale factor is the ratio between the distance between the UTM coordinates and the distance of
+          geographics coordinates on the ellipsoid. The (T-t) correction is the angle between the tangent to a geodesic between
+          the two UTM coordinates and the grid azimuth between the two points.</p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" [formGroup]="form">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Input</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="flexRowToColumn">
+          <rs-cs-coordinate-system-field formControlName="cs" [coordinateSystems]="coordinateSystems">
+          </rs-cs-coordinate-system-field>
+
+          <rs-cs-point-field [parentForm]="form" name="fromPoint" prefix="From" [required]="true" [floatLabel]="'always'">
+          </rs-cs-point-field>
+
+          <rs-cs-point-field [parentForm]="form" name="toPoint" prefix="To" [required]="true" [floatLabel]="'always'">
+          </rs-cs-point-field>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Result</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+
+          <div class="flexRowToColumn">
+            <rs-cs-point-field [point]="fromPoint" prefix="From" [angleFormat]="angleFormat" [readonly]="true" [floatLabel]="'always'">
+            </rs-cs-point-field>
+
+            <rs-cs-point-field [point]="toPoint" prefix="To" [angleFormat]="angleFormat" [readonly]="true" [floatLabel]="'always'">
+            </rs-cs-point-field>
+          </div>
+
+          <div class="flexRowToColumn">
+            <mat-form-field floatLabel="always">
+              <input matInput [value]="lineScaleFactor?.toFixed(6)" placeholder="Line Scale Factor" readonly>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always">
+              <input matInput [value]="ttCorrection?.toFixed(2)" placeholder="(T-t) Correction" readonly>
+              <mat-hint>seconds</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>

@@ -4,10 +4,15 @@ import {Ellipsoid} from './Ellipsoid';
 
 export class GeoCS extends CS {
   private _df: number;
+
+  get ellipsoid(): Ellipsoid {
+    return this._ellipsoid;
+  }
+
   constructor(
     id: number,
     name: string,
-    public readonly ellipsoid: Ellipsoid,
+    private _ellipsoid: Ellipsoid,
     public readonly primeMeridian: number,
     private _rf: number
   ) {

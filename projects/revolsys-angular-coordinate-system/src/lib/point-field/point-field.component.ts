@@ -1,9 +1,10 @@
 import { AbstractCoordinateSystemComponent } from '../abstract-coordinate-system.component';
-import { Component, Inject, Input, OnInit, Injector } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Inject, Input, OnInit, Injector, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CS } from '../cs/CS';
 import { CSI } from '../cs/CSI';
 import { GeoCS } from '../cs/GeoCS';
+import { Point } from '../cs/Point';
 
 @Component({
   selector: 'rs-cs-point-field',
@@ -13,32 +14,35 @@ import { GeoCS } from '../cs/GeoCS';
 export class PointFieldComponent extends AbstractCoordinateSystemComponent implements OnInit {
   private _cs: CS = CSI.NAD83;
 
-  @Input()
-  parentForm: FormGroup;
-
-  @Input()
-  name: string;
-
-  pointForm: FormGroup;
-
-  @Input()
-  readonly = false;
-
-  @Input()
-  floatLabel = 'auto';
-
-  private _x: string;
-
-  private _y: string;
-
   get cs(): CS {
     return this._cs;
   }
 
   @Input()
   set cs(cs: CS) {
-     this._cs = cs;
+    this._cs = cs;
+    if (this.pointForm) {
+      this.pointForm.patchValue({ cs: cs });
+    }
   }
+
+  @Input()
+  floatLabel = 'auto';
+
+  @Input()
+  name: string;
+
+  @Input()
+  parentForm: FormGroup;
+
+  pointForm: FormGroup;
+
+  @Input()
+  readonly = false;
+
+  private _x: string;
+
+  private _y: string;
 
   get isGeographic(): boolean {
     return this.cs instanceof GeoCS;
@@ -64,6 +68,18 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
     this._x = x;
     if (this.pointForm) {
       this.pointForm.patchValue({ x: x });
+    }
+  }
+
+  @Input()
+  set point(point: Point) {
+    if (point == null) {
+      this.x = '';
+      this.y = '';
+    } else {
+      this.cs = point.cs;
+      this.x = point.formatX(this.angleFormat);
+      this.y = point.formatY(this.angleFormat);
     }
   }
 
@@ -97,17 +113,32 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
     }
     if (this.parentForm) {
       this.pointForm = <FormGroup>this.parentForm.controls[this.name];
+      let pointControl: AbstractControl;
       if (this.pointForm) {
         if (!this.pointForm.controls['cs']) {
           this.pointForm.addControl('cs', this.fb.control(CSI.NAD83));
         }
         this._cs = this.pointForm.controls['cs'].value;
+        this._x = this.pointForm.controls['x'].value;
+        this._y = this.pointForm.controls['y'].value;
+
+        const point = Point.newPoint(this.pointForm.value);
+        pointControl = this.pointForm.controls['point'];
+        if (pointControl) {
+          pointControl.patchValue(point);
+        } else {
+          pointControl = this.fb.control(point);
+          this.pointForm.addControl('point', pointControl);
+        }
+
         this.setValidators();
+        this.pointForm.updateValueAndValidity();
       } else {
         this.pointForm = this.fb.group({
           'cs': CSI.NAD83,
           'x': null,
-          'y': null
+          'y': null,
+          'point': null
         });
         this.setValidators();
         this.parentForm.addControl(this.name, this.pointForm);
@@ -119,6 +150,19 @@ export class PointFieldComponent extends AbstractCoordinateSystemComponent imple
         this._cs = data;
         this.setValidators();
       });
+      for (const field of ['x', 'y', 'cs']) {
+        this.pointForm.controls[field].valueChanges.subscribe(data => {
+          const point = Point.newPoint(this.pointForm.value);
+          if ('x' === field) {
+            point.setX(data);
+          } else if ('y' === field) {
+            point.setY(data);
+          } else {
+            point[field] = data;
+          }
+          pointControl.patchValue(point);
+        });
+      }
     }
   }
 

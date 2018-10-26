@@ -1,3 +1,5 @@
+import { Ellipsoid } from './Ellipsoid';
+
 export abstract class CS {
 
   constructor(
@@ -29,6 +31,8 @@ export abstract class CS {
   abstract toY(text: string);
 
   abstract convertPoint(cs: CS, x: number, y: number): number[];
+
+  abstract get ellipsoid(): Ellipsoid;
 
   public equals(cs: CS): boolean {
     if (this === cs) {

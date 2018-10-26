@@ -12,14 +12,14 @@ import { CS } from '../cs/CS';
 import { GeoCS } from '../cs/GeoCS';
 import { CSI } from '../cs/CSI';
 import { ProjCS } from '../cs/ProjCS';
-import { TransverseMercator } from '../cs/TransverseMercator';
+import { Point } from '../cs/Point';
 
 @Component({
-  selector: 'rs-cs-line-metrics',
-  templateUrl: './line-metrics.component.html',
-  styleUrls: ['./line-metrics.component.css']
+  selector: 'rs-cs-distance-angle',
+  templateUrl: './distance-angle.component.html',
+  styleUrls: ['./distance-angle.component.css']
 })
-export class LineMetricsComponent extends AbstractCoordinateSystemComponent implements OnInit {
+export class DistanceAndAnglesComponent extends AbstractCoordinateSystemComponent implements OnInit {
 
   get angleTitle(): string {
     if (this.cs instanceof GeoCS) {
@@ -47,8 +47,6 @@ export class LineMetricsComponent extends AbstractCoordinateSystemComponent impl
 
   form: FormGroup;
 
-  lineScaleFactor: number;
-
   get distanceTitle(): string {
     if (this.cs instanceof GeoCS) {
       return 'Ellipsoid';
@@ -57,13 +55,11 @@ export class LineMetricsComponent extends AbstractCoordinateSystemComponent impl
     }
   }
 
-  ttCorrection: number;
-
   constructor(
     protected injector: Injector,
     private fb: FormBuilder,
   ) {
-    super(injector, 'Line Calculations', 'DMS');
+    super(injector, 'Distance and Angles', 'DMS');
     this.form = this.fb.group({
       fromPoint: this.fb.group({
         cs: CSI.NAD83,
@@ -87,49 +83,31 @@ export class LineMetricsComponent extends AbstractCoordinateSystemComponent impl
     });
   }
 
-  get x1(): number {
-    return this.cs.toX(this.form.value['fromPoint'].x);
+  get fromPoint(): Point {
+    return this.form.value['fromPoint'].point;
   }
 
-  get y1(): number {
-    return this.cs.toY(this.form.value['fromPoint'].y);
-  }
-
-  get x2(): number {
-    return this.cs.toX(this.form.value['toPoint'].x);
-  }
-
-  get y2(): number {
-    return this.cs.toY(this.form.value['toPoint'].y);
+  get toPoint(): Point {
+    return this.form.value['toPoint'].point;
   }
 
   private calculate(data) {
-    if (this.form.valid) {
+    const fromPoint = this.fromPoint;
+    const toPoint = this.toPoint;
+    if (this.form.valid && fromPoint != null && toPoint != null) {
+      const x1 = fromPoint.x;
+      const y1 = fromPoint.y;
+      const x2 = toPoint.x;
+      const y2 = toPoint.y;
       const cs: CS = data.cs;
-      const x1 = cs.toX(data['fromPoint'].x);
-      const y1 = cs.toY(data['fromPoint'].y);
-      const x2 = cs.toX(data['toPoint'].x);
-      const y2 = cs.toY(data['toPoint'].y);
       this.distance = cs.distanceMetres(x1, y1, x2, y2);
       this.azimuth1 = cs.angle(x1, y1, x2, y2);
       this.azimuth2 = cs.angleBackwards(x1, y1, x2, y2);
-
-      console.log(`${x1} ${y1}, ${x2} ${y2}`);
-      console.log(`${this.distance}`);
-      if (cs instanceof TransverseMercator) {
-        this.lineScaleFactor = cs.lineScaleFactor(x1, y1, x2, y2);
-        this.ttCorrection = cs.ttCorrection(x1, y1, x2, y2);
-      } else {
-        this.lineScaleFactor = null;
-        this.ttCorrection = null;
-      }
-    } else {
-      this.lineScaleFactor = null;
-      this.ttCorrection = null;
-      this.distance = null;
-      this.azimuth1 = null;
-      this.azimuth2 = null;
+      return;
     }
+    this.distance = null;
+    this.azimuth1 = null;
+    this.azimuth2 = null;
   }
 
   formatDistance(): string {
