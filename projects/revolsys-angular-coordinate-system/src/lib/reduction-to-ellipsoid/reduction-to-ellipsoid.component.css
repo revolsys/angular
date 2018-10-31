@@ -1,20 +1,18 @@
-.mat-card {
-	max-width: 1024px;
-	margin: 0.5em auto 0.5em auto;
-}
-
-.mat-form-field {
-  flex-basis: 150px;
-  max-width: 150px;
-}
-
-.calculationName {
+mat-form-field.calculationName {
   flex-basis: 300px;
   max-width: 300px;
 }
+
+.mat-form-field {
+  flex-basis: 140px;
+  max-width: 140px;
+}
+
 @media (max-width: 768px) {
   .calculationName,
   .mat-form-field {
+    flex-basis: initial;
+    max-width: initial;
     max-width: auto;
     width: 100%;
   }

@@ -7,6 +7,7 @@ import {
 import {GeoCS} from './cs/GeoCS';
 import {CSI} from './cs/CSI';
 import {BaseComponent} from 'revolsys-angular-framework';
+import { FormGroup } from '@angular/forms';
 
 export class AbstractCoordinateSystemComponent extends BaseComponent<any> {
   get cs(): CS {
@@ -91,4 +92,24 @@ export class AbstractCoordinateSystemComponent extends BaseComponent<any> {
       return value.toString();
     }
   }
+
+  getErrorMessage(form: FormGroup, controlName: string): string {
+    const messages = [];
+    const control = form.controls[controlName];
+    if (control.hasError('required')) {
+      messages.push('Required');
+    }
+
+    const minError = control.getError('min');
+    if (minError) {
+      messages.push(`< ${minError.min}`);
+    }
+
+    const maxError = control.getError('max');
+    if (maxError) {
+      messages.push(`> ${maxError.max}`);
+    }
+    return messages.join(', ');
+  }
+
 }

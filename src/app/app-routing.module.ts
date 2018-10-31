@@ -11,7 +11,8 @@ import {
   ScaleFactorAndTTCorrectionComponent,
   CoordinateSystemConversionComponent,
   MeridianConvergenceComponent,
-  ReductionFromEllipsoidComponent
+  ReductionFromEllipsoidComponent,
+  ReductionToEllipsoidComponent
 } from 'revolsys-angular-coordinate-system';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'ui/utilities/meridian-convergence', component: MeridianConvergenceComponent, pathMatch: 'full'},
   {path: 'ui/utilities/scale-factor-tt-correction', component: ScaleFactorAndTTCorrectionComponent, pathMatch: 'full'},
   {path: 'ui/utilities/reduction-from-ellipsoid', component: ReductionFromEllipsoidComponent, pathMatch: 'full'},
+  {path: 'ui/utilities/reduction-to-ellipsoid', component: ReductionToEllipsoidComponent, pathMatch: 'full'},
   {path: 'list-page', component: DemoListPageComponent, pathMatch: 'full'},
   {path: 'long-page', component: LongContentComponent, pathMatch: 'full', data: {title: 'Long Page'}},
 ];

@@ -45,6 +45,7 @@ export class PointOffsetComponent extends AbstractCoordinateSystemComponent impl
       y: null
     })
   });
+
   getErrorMessage(form: FormGroup, controlName: string): string {
     const messages = [];
     const control = form.controls[controlName];

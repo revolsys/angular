@@ -4,7 +4,6 @@
 }
 
 @media (max-width: 768px) {
-  .calculationName,
   .mat-form-field {
     flex-basis: initial;
     max-width: initial;
