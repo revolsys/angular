@@ -7,15 +7,11 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  Validators,
-  AbstractControl
+  Validators
 } from '@angular/forms';
 import { Angle } from '../cs/Angle';
 import { CS } from '../cs/CS';
-import { GeoCS } from '../cs/GeoCS';
 import { CSI } from '../cs/CSI';
-import { ProjCS } from '../cs/ProjCS';
-import { TransverseMercator } from '../cs/TransverseMercator';
 import { Point } from '../cs/Point';
 
 @Component({
@@ -87,17 +83,17 @@ export class ReductionFromEllipsoidComponent extends AbstractCoordinateSystemCom
         x: ['', Validators.required],
         y: ['', Validators.required]
       }),
-      fromHeight: [0, [Validators.required, Validators.min(0), Validators.max(5000)]],
-      xi: [0, [Validators.required, Validators.min(-30), Validators.max(30)]],
-      eta: [0, [Validators.required, Validators.min(-30), Validators.max(30)]],
+      fromHeight: ['0', [Validators.required, Validators.min(0), Validators.max(5000)]],
+      xi: ['0', [Validators.required, Validators.min(-30), Validators.max(30)]],
+      eta: ['0', [Validators.required, Validators.min(-30), Validators.max(30)]],
       toPoint: this.fb.group({
         cs: CSI.NAD83,
         x: ['', Validators.required],
         y: ['', Validators.required]
       }),
-      toHeight: [0, [Validators.min(0), Validators.max(5000)]],
+      toHeight: ['0', [Validators.min(0), Validators.max(5000)]],
       cs: CSI.NAD83,
-      reducedDirection: 0,
+      reducedDirection: '0',
       astronomicAzimuth: null,
       observedDirection: null
     });

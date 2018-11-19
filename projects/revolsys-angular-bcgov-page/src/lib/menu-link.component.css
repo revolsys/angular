@@ -1,5 +1,6 @@
 :host {
   vertical-align: top;
+  height: 18px;
 }
 a {
   color: #ffffff;
@@ -14,4 +15,14 @@ a:hover {
 a.active-link {
   font-weight: bold;
   text-decoration: underline;
+}
+
+.menu-link-text {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.mat-icon {
+  margin-top: -4px;
+  margin-bottom: -4px;
 }

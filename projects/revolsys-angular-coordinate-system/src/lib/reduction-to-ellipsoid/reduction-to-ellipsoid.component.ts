@@ -133,51 +133,6 @@ export class ReductionToEllipsoidComponent extends AbstractCoordinateSystemCompo
   ngOnInit() {
     super.ngOnInit();
     this.calculate(this.form.value);
-
-    //    this.form.patchValue({
-    //      cs: CSI.utmN(10),
-    //      fromPoint: {
-    //        x: '-1000000',
-    //        y: '5200000'
-    //      },
-    //      toPoint: {
-    //        x: '1000000',
-    //        y: '6900000'
-    //      },
-    //    });
-
-    this.form.patchValue({
-      fromPoint: {
-        x: '-135 55 55.123456',
-        y: '55 55 55.123456'
-      },
-      fromHeight: 12.345,
-      toPoint: {
-        x: '-135 55 54.123456',
-        y: '55 55 54.123456'
-      },
-      toHeight: 56.789,
-      xi: 10,
-      eta: 10,
-      reducedDirection: 60,
-      astronomicAzimuth: 60,
-      observedDirection: 60,
-      heightOfInstrument: 23.456,
-      heightOfTarget: 34.567,
-      distance: 12.345
-    });
-
-    //    this.form.patchValue({
-    //      fromPoint: {
-    //        x: '-121',
-    //        y: '50'
-    //      },
-    //      toPoint: {
-    //        x: '-120',
-    //        y: '51'
-    //      }
-    //    });
-
   }
 
 }

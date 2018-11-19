@@ -4,9 +4,9 @@
 ></a>
 <ng-template #plainLink>
   <a [href]="href"
-    ><span *ngIf="prefix">{{prefix}}</span
+    ><span *ngIf="prefix" class="menu-link-text">{{prefix}}</span
     ><span *ngIf="prefix && icon"> </span
     ><mat-icon *ngIf="icon">{{icon}}</mat-icon><span *ngIf="icon && label"> </span
-    ><span *ngIf="label">{{label}}</span
+    ><span *ngIf="label" class="menu-link-text">{{label}}</span
   ></a>
 </ng-template>

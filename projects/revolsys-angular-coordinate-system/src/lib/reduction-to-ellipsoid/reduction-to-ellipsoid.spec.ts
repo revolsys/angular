@@ -1,6 +1,6 @@
 import {CSI} from '../cs/CSI';
 
-describe('LineMetrics', () => {
+describe('Reduction to Ellipsoid', () => {
 
 
 });

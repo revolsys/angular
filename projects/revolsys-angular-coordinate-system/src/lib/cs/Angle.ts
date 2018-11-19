@@ -46,6 +46,35 @@ export class Angle {
     return false;
   }
 
+
+  static radianToDMS(rad: number): number[] {
+    const deg = Math.abs(rad) * 180. / Angle.π;
+
+    let degree = Math.floor(deg);
+    const f = (deg - degree) * 60.;
+    let minute = Math.floor(f);
+    let second = (f - minute) * 60.;
+    if (Math.abs(second - 60.) <= 1e-6) {
+      second = 0.;
+      ++(minute);
+      if (minute === 60) {
+        minute = 0;
+        ++(degree);
+      }
+    }
+    if (rad < 0) {
+      degree = -degree;
+      if (degree === 0) {
+        minute = -minute;
+      }
+      if (minute === 0 && degree === 0) {
+        second = -second;
+      }
+    }
+    return [degree, minute, second];
+  }
+
+
   static toCompass(degrees: number): number {
     return (450 - degrees) % 360;
   }

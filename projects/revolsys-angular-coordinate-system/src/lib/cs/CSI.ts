@@ -2,7 +2,6 @@ import {Angle} from './Angle';
 import {Ellipsoid} from './Ellipsoid';
 import {CS} from './CS';
 import {GeoCS} from './GeoCS';
-import {ProjCS} from './ProjCS';
 import {AlbersConicEqualArea} from './AlbersConicEqualArea';
 import {TransverseMercator} from './TransverseMercator';
 import {TransverseMercatorThomas} from './TransverseMercatorThomas';

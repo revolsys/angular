@@ -6,6 +6,21 @@
   background-color: #f1f1f1;
 }
 
+.sr-only {
+  position: absolute;
+  margin: -1px 0 0 -1px;
+  padding: 0;
+  display: block;
+  width: 1px;
+  height: 1px;
+  font-size: 1px;
+  line-height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  outline: 0;
+}
+
 .collapse {
   display: none;
 }
@@ -16,6 +31,7 @@
   margin-right: auto;
   margin-left: auto;
 }
+
 .menu .menu-sections.container {
   padding-left: 0px;
   padding-right: 0px;
@@ -84,7 +100,8 @@ header {
   margin: 0px;
   align-items: stretch;
 }
-.bcgov-content > div{
+
+.bcgov-content>div {
   background-color: white;
   flex: 1 1 auto;
   display: flex;
@@ -95,6 +112,7 @@ header {
   padding-top: 5px;
   padding-bottom: 10px;
 }
+
 .fullHeightScroll {
   display: flex;
   flex: 1 1 auto;
@@ -116,11 +134,12 @@ footer .menu {
   background-color: #003366;
   padding: 10px;
 }
+
 .titlebar .container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  }
+}
 
 header .titlebar {
   border-bottom: 2px solid #fcba19;
@@ -171,7 +190,7 @@ footer .titlebar {
   padding: 0px;
 }
 
-:host /deep/ .menuGroup > * {
+:host /deep/ .menuGroup>* {
   border-top: 1px solid #748bad;
   padding: 5px 10px 5px 10px;
   display: block;
@@ -179,8 +198,7 @@ footer .titlebar {
 }
 
 .fill-width {
-  flex-grow: 1;
-  height: 0px;
+  display: none;
 }
 
 footer .menu-button {
@@ -188,8 +206,11 @@ footer .menu-button {
   display: block;
 }
 
-@media ( min-width : 769px) {
-  .bcgov-content {
+@media ( min-width: 769px) {
+  .fill-width {
+    display: initial;
+    flex-grow: 1;
+    height: 0px;
   }
   .logo-small {
     display: none;
@@ -220,24 +241,21 @@ footer .menu-button {
   .menuGroup {
     flex-direction: row;
   }
-  :host /deep/ .menuGroup > * {
+  :host /deep/ .menuGroup>* {
     border-left: 1px solid #748bad;
     border-top-width: 0px;
     padding: 0px 10px 0px 10px;
     width: auto;
     margin-bottom: 10px;
   }
-  :host /deep/ .menuGroup > *:first-child {
+  :host /deep/ .menuGroup>*:first-child {
     border-left-width: 0px;
-  }
-  .menu-right {
-    
   }
 }
 
 @media print {
-  .bcgov-template > footer,
-  .bcgov-template > header {
+  .bcgov-template>footer,
+  .bcgov-template>header {
     display: none;
   }
   .container {
@@ -246,7 +264,6 @@ footer .menu-button {
     margin-right: auto;
     margin-left: auto;
   }
-
   .fullHeightScroll {
     flex: 0 0 auto;
     flex-direction: column;
