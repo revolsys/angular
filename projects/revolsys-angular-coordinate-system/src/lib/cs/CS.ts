@@ -18,6 +18,11 @@ export abstract class CS {
 
   abstract distanceMetres(x1: number, y1: number, x2: number, y2: number): number;
 
+  abstract spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
+    x2: number, y2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number;
+
+  abstract spatialDistanceHeight(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number): number;
+
   abstract distanceMetresEllipsoid(x1: number, y1: number, x2: number, y2: number): number;
 
   abstract makePrecise(value: number): number;

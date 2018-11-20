@@ -1,7 +1,7 @@
-import {Angle} from './Angle';
-import {CS} from './CS';
-import {GeoCS} from './GeoCS';
-import {Ellipsoid} from './Ellipsoid';
+import { Angle } from './Angle';
+import { CS } from './CS';
+import { GeoCS } from './GeoCS';
+import { Ellipsoid } from './Ellipsoid';
 
 export class ProjCS extends CS {
 
@@ -52,6 +52,20 @@ export class ProjCS extends CS {
     const lonLat1 = this.inverse(x1, y1);
     const lonLat2 = this.inverse(x2, y2);
     return this.geoCS.distanceMetresEllipsoid(lonLat1[0], lonLat1[1], lonLat2[0], lonLat2[1]);
+  }
+
+
+  public spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
+    x2: number, y2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number {
+    const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+    return this.geoCS.spatialDirection(lonLat1[0], lonLat1[1], h1, xsi, eta, lonLat2[0], lonLat2[1], h2, xo, yo, zo, reducedDirection);
+  }
+
+  spatialDistanceHeight(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number): number {
+    const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+    return this.geoCS.spatialDistanceHeight(lonLat1[0], lonLat1[1], h1, lonLat2[0], lonLat2[1], h2);
   }
 
   pointOffset(x: number, y: number, distance: number, angle: number): number[] {

@@ -1,6 +1,6 @@
-import {Angle} from './Angle';
-import {CS} from './CS';
-import {Ellipsoid} from './Ellipsoid';
+import { Angle } from './Angle';
+import { CS } from './CS';
+import { Ellipsoid } from './Ellipsoid';
 
 export class GeoCS extends CS {
   private _df: number;
@@ -54,6 +54,30 @@ export class GeoCS extends CS {
 
   distanceMetresEllipsoid(x1: number, y1: number, x2: number, y2: number) {
     return this.distanceMetres(x1, y1, x2, y2);
+  }
+
+  public spatialDirection(lon1: number, lat1: number, h1: number, xsi: number, eta: number,
+    lon2: number, lat2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+
+    eta = Angle.toRadians(eta / 3600);
+    xsi = Angle.toRadians(xsi / 3600);
+    reducedDirection = Angle.toRadians(reducedDirection);
+
+    const spatialDirection = this.ellipsoid.spatialDirection(λ1, φ1, h1, xsi, eta, λ2, φ2, h2, reducedDirection, xo, yo, zo);
+    return Angle.toDegrees(spatialDirection);
+  }
+
+  public spatialDistanceHeight(lon1: number, lat1: number, h1: number,
+    lon2: number, lat2: number, h2: number): number {
+    const λ1 = Angle.toRadians(-lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(-lon2);
+    const φ2 = Angle.toRadians(lat2);
+    return this._ellipsoid.spatialDistanceHeight(λ1, φ1, h1, λ2, φ2, h2);
   }
 
   makePrecise(value: number): number {

@@ -112,23 +112,28 @@ export class ReductionFromEllipsoidComponent extends AbstractCoordinateSystemCom
     if (this.form.valid && fromPoint != null && toPoint != null) {
       const cs: CS = data.cs;
 
+      const x1 = fromPoint.x;
+      const y1 = fromPoint.y;
+      const x2 = toPoint.x;
+      const y2 = toPoint.y;
+
       const lon1 = fromPoint.lon;
       const lat1 = fromPoint.lat;
       const lon2 = toPoint.lon;
       const lat2 = toPoint.lat;
       const height1 = parseFloat(data.fromHeight);
       const height2 = parseFloat(data.toHeight);
-      const xi = parseFloat(data.xi) / 3600;
-      const eta = parseFloat(data.eta) / 3600;
+      const xsi = parseFloat(data.xi);
+      const eta = parseFloat(data.eta);
       const reducedDirection = Angle.toDecimalDegrees(data.reducedDirection);
 
       const ellipsoid = cs.ellipsoid;
 
-      this.spatialDistance = ellipsoid.distanceMetresZ(lon1, lat1, height1, lon2, lat2, height2);
+      this.spatialDistance = cs.spatialDistanceHeight(x1, y1, height1, x2, y2, height2);
 
-      this.spatialDirection = ellipsoid.spatialDirection(lon1, lat1, height1, xi, eta, lon2, lat2, height2, 0, 0, -4.5, reducedDirection);
+      this.spatialDirection = Math.abs(cs.spatialDirection(x1, y1, height1, xsi, eta, x2, y2, height2, reducedDirection, 0, 0, -4.5));
 
-      this.astronomicAzimuth = ellipsoid.astronomicAzimuth(lon1, lat1, height1, xi, eta, lon2, lat2, height2);
+      this.astronomicAzimuth = ellipsoid.astronomicAzimuth(lon1, lat1, height1, xsi, eta, lon2, lat2, height2);
       this.slopeDistance = ellipsoid.slopeDistance(lon1, lat1, height1, lon2, lat2, height2, 0, 0, -4.5);
     } else {
       this.spatialDistance = null;
