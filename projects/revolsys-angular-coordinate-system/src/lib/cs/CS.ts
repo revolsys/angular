@@ -16,6 +16,10 @@ export abstract class CS {
 
   abstract angleEllipsoid(x1: number, y1: number, x2: number, y2: number): number;
 
+  abstract astronomicAzimuth(lon1: number, lat1: number, h1: number, xsi: number,
+    eta: number, lon2: number, lat2: number, h2: number,
+    xo: number, yo: number, zo: number): number;
+
   abstract distanceMetres(x1: number, y1: number, x2: number, y2: number): number;
 
   abstract spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
@@ -30,6 +34,9 @@ export abstract class CS {
   abstract pointOffset(x: number, y: number, distance: number, angle: number): number[];
 
   abstract pointOffsetAngle(x: number, y: number, distance: number, angle: number): number[];
+
+  abstract slopeDistance(lon1: number, lat1: number, h1: number, lon2: number, lat2: number, h2: number,
+    xo: number, yo: number, zo: number): number;
 
   abstract toX(text: string);
 

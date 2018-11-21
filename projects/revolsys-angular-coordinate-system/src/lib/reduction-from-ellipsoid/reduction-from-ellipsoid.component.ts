@@ -127,14 +127,12 @@ export class ReductionFromEllipsoidComponent extends AbstractCoordinateSystemCom
       const eta = parseFloat(data.eta);
       const reducedDirection = Angle.toDecimalDegrees(data.reducedDirection);
 
-      const ellipsoid = cs.ellipsoid;
-
       this.spatialDistance = cs.spatialDistanceHeight(x1, y1, height1, x2, y2, height2);
 
-      this.spatialDirection = Math.abs(cs.spatialDirection(x1, y1, height1, xsi, eta, x2, y2, height2, reducedDirection, 0, 0, -4.5));
+      this.spatialDirection = cs.spatialDirection(x1, y1, height1, xsi, eta, x2, y2, height2, reducedDirection, 0, 0, -4.5);
 
-      this.astronomicAzimuth = ellipsoid.astronomicAzimuth(lon1, lat1, height1, xsi, eta, lon2, lat2, height2);
-      this.slopeDistance = ellipsoid.slopeDistance(lon1, lat1, height1, lon2, lat2, height2, 0, 0, -4.5);
+      this.astronomicAzimuth = cs.astronomicAzimuth(lon1, lat1, height1, xsi, eta, lon2, lat2, height2, 0, 0, -4.5);
+      this.slopeDistance = cs.slopeDistance(lon1, lat1, height1, lon2, lat2, height2, 0, 0, -4.5);
     } else {
       this.spatialDistance = null;
       this.spatialDirection = null;

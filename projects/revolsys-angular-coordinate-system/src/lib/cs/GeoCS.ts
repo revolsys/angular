@@ -39,6 +39,21 @@ export class GeoCS extends CS {
     return this.ellipsoid.azimuth(x1, y1, x2, y2);
   }
 
+
+  public astronomicAzimuth(lon1: number, lat1: number, height1: number, xsi: number,
+    eta: number, lon2: number, lat2: number, height2: number,
+    xo: number, yo: number, zo: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+    xsi = Angle.toRadians(xsi / 3600);
+    eta = Angle.toRadians(eta / 3600);
+
+    const astronomicAzimuth = this.ellipsoid.astronomicAzimuth(λ1, φ1, height1, xsi, eta, λ2, φ2, height2, xo, yo, zo);
+    return Math.abs(Angle.toDegrees(astronomicAzimuth));
+  }
+
   convertPoint(cs: CS, x: number, y: number): number[] {
     // No datum conversion
     if (this === cs || cs == null || cs instanceof GeoCS) {
@@ -56,6 +71,15 @@ export class GeoCS extends CS {
     return this.distanceMetres(x1, y1, x2, y2);
   }
 
+  public slopeDistance(lon1: number, lat1: number, h1: number, lon2: number, lat2: number, h2: number,
+    xo: number, yo: number, zo: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+    return this.ellipsoid.slopeDistance(λ1, φ1, h1, λ2, φ2, h2, xo, yo, zo);
+  }
+
   public spatialDirection(lon1: number, lat1: number, h1: number, xsi: number, eta: number,
     lon2: number, lat2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number {
     const λ1 = Angle.toRadians(lon1);
@@ -68,7 +92,7 @@ export class GeoCS extends CS {
     reducedDirection = Angle.toRadians(reducedDirection);
 
     const spatialDirection = this.ellipsoid.spatialDirection(λ1, φ1, h1, xsi, eta, λ2, φ2, h2, reducedDirection, xo, yo, zo);
-    return Angle.toDegrees(spatialDirection);
+    return Math.abs(Angle.toDegrees(spatialDirection));
   }
 
   public spatialDistanceHeight(lon1: number, lat1: number, h1: number,
