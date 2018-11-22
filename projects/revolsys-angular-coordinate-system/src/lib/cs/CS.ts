@@ -22,10 +22,11 @@ export abstract class CS {
 
   abstract distanceMetres(x1: number, y1: number, x2: number, y2: number): number;
 
-  abstract spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
-    x2: number, y2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number;
+  abstract geodeticAzimuth(x1: number, y1: number, height1: number, xsi: number, eta: number, x2: number,
+    y2: number, height2: number, astronomicAzimuth: number, xo: number, yo: number, zo: number): number;
 
-  abstract spatialDistanceHeight(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number): number;
+  abstract ellipsoidDirection(x1: number, y1: number, height1: number, xi: number, eta: number,
+    x2: number, y2: number, height2: number, observedDirection: number, xo: number, yo: number, zo: number): number;
 
   abstract distanceMetresEllipsoid(x1: number, y1: number, x2: number, y2: number): number;
 
@@ -37,6 +38,17 @@ export abstract class CS {
 
   abstract slopeDistance(lon1: number, lat1: number, h1: number, lon2: number, lat2: number, h2: number,
     xo: number, yo: number, zo: number): number;
+
+  abstract spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
+    x2: number, y2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number;
+
+  abstract spatialDistanceHeight(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number): number;
+
+ abstract spatialDistanceReduction(x1: number, y1: number, h1: number, heightOfInstrument: number,
+    x2: number, y2: number, h2: number, heightOfTarget: number, distance: number): number;
+
+  abstract horizontalEllipsoidalFactor(x1: number, y1: number, height1: number,
+    x2: number, y2: number, height2: number): number;
 
   abstract toX(text: string);
 

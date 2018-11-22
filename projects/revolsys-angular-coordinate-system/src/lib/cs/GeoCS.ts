@@ -71,6 +71,37 @@ export class GeoCS extends CS {
     return this.distanceMetres(x1, y1, x2, y2);
   }
 
+  public ellipsoidDirection(lon1: number, lat1: number, height1: number, xsi: number, eta: number,
+    lon2: number, lat2: number, height2: number, observedDirection: number, xo: number, yo: number, zo: number): any {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+    xsi = Angle.toRadians(xsi / 3600);
+    eta = Angle.toRadians(eta / 3600);
+    observedDirection = Angle.toRadians(observedDirection);
+
+    const ellipsoidDirection = this.ellipsoid.ellipsoidDirection(λ1, φ1, height1, xsi, eta, λ2, φ2, height2, observedDirection, xo, yo, zo);
+    return Angle.toDegrees(ellipsoidDirection);
+  }
+
+  public geodeticAzimuth(lon1: number, lat1: number, h1: number,
+    xsi: number, eta: number, lon2: number, lat2: number, h2: number,
+    astronomicAzimuth: number, xo: number, yo: number, zo: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+
+    xsi = Angle.toRadians(xsi / 3600);
+    eta = Angle.toRadians(eta / 3600);
+    astronomicAzimuth = Angle.toRadians(astronomicAzimuth);
+
+    const geodeticAzimuth = this.ellipsoid.geodeticAzimuth(λ1, φ1, h1, xsi, eta, λ2,
+      φ2, h2, astronomicAzimuth, xo, yo, zo);
+    return Angle.toDegrees(geodeticAzimuth);
+  }
+
   public slopeDistance(lon1: number, lat1: number, h1: number, lon2: number, lat2: number, h2: number,
     xo: number, yo: number, zo: number): number {
     const λ1 = Angle.toRadians(lon1);
@@ -102,6 +133,26 @@ export class GeoCS extends CS {
     const λ2 = Angle.toRadians(-lon2);
     const φ2 = Angle.toRadians(lat2);
     return this._ellipsoid.spatialDistanceHeight(λ1, φ1, h1, λ2, φ2, h2);
+  }
+
+
+  public spatialDistanceReduction(lon1: number, lat1: number, h1: number, heightOfInstrument: number,
+    lon2: number, lat2: number, h2: number, heightOfTarget: number, distance: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+    return this.ellipsoid.spatialDistanceReduction(λ1, φ1, h1, heightOfInstrument, λ2,
+      φ2, h2, heightOfTarget, distance);
+  }
+
+  public horizontalEllipsoidalFactor(lon1: number, lat1: number, height1: number,
+    lon2: number, lat2: number, height2: number): number {
+    const λ1 = Angle.toRadians(lon1);
+    const φ1 = Angle.toRadians(lat1);
+    const λ2 = Angle.toRadians(lon2);
+    const φ2 = Angle.toRadians(lat2);
+    return this.ellipsoid.horizontalEllipsoidalFactor(λ1, φ1, height1, λ2, φ2, height2);
   }
 
   makePrecise(value: number): number {

@@ -371,7 +371,7 @@ export class Ellipsoid {
 
   public astronomicAzimuth(λ1: number, φ1: number, height1: number, xsi: number,
     eta: number, λ2: number, φ2: number, height2: number, xo: number, yo: number, zo: number): number {
-     const a = this.semiMajorAxis;
+    const a = this.semiMajorAxis;
     const b = this.semiMinorAxis;
 
 
@@ -379,46 +379,31 @@ export class Ellipsoid {
     const esq = (a * a - b * b) / (a * a);
 
     const mm = (a * (1 - esq) / Math.pow(Math.sqrt(1 - esq * Math.pow(Math.sin(φ1), 2)), 3)
-        + a * (1 - esq) / Math.pow(Math.sqrt(1 - esq * Math.pow(Math.sin(φ2), 2)), 3)) / 2;
+      + a * (1 - esq) / Math.pow(Math.sqrt(1 - esq * Math.pow(Math.sin(φ2), 2)), 3)) / 2;
     const nm = (a / Math.sqrt(1 - esq * Math.pow(Math.sin(φ1), 2))
-        + a / Math.sqrt(1 - esq * Math.pow(Math.sin(φ2), 2))) / 2;
+      + a / Math.sqrt(1 - esq * Math.pow(Math.sin(φ2), 2))) / 2;
 
     const lineMetrics = this.vincentyInverse(λ1, φ1, λ2, φ2);
-  const s12 = lineMetrics[0];
+    const s12 = lineMetrics[0];
     const a12 = lineMetrics[1];
 
 
     const ssq = this.slopeDistanceSquared(λ1, φ1, height1, λ2, φ2, height2, xo, yo,
-        zo);
+      zo);
 
     const dh = 0;
     const c1 = (-(xsi) * Math.sin(a12) + eta * Math.cos(a12)) * dh
-        / Math.sqrt(ssq - Math.pow(dh, 2));
+      / Math.sqrt(ssq - Math.pow(dh, 2));
     const c2 = height2 / mm * esq * Math.sin(a12) * Math.cos(a12) * Math.pow(Math.cos(φ2), 2);
     const c3 = -esq * Math.pow(s12, 2) * Math.pow(Math.cos(phim), 2) * Math.sin(a12 * 2)
-        / (Math.pow(nm, 2) * 12);
+      / (Math.pow(nm, 2) * 12);
     return a12 + eta * Math.tan(φ1) - c1 - c2 - c3;
   }
 
 
-  public geodeticAzimuth(lon1: number, lat1: number, h1: number, xsi: number,
-    eta: number, lon2: number, lat2: number, h2: number, x0: number,
-    y0: number, z0: number, spaz: number): number {
-    const λ1 = Angle.toRadians(lon1);
-    const φ1 = Angle.toRadians(lat1);
-    const λ2 = Angle.toRadians(lon2);
-    const φ2 = Angle.toRadians(lat2);
-    spaz = Angle.toRadians(spaz);
-    xsi = Angle.toRadians(xsi);
-    eta = Angle.toRadians(eta);
-    const radians = this.geodeticAzimuthRadians(λ1, φ1, h1, xsi, eta, λ2, φ2, h2,
-      x0, y0, z0, spaz);
-    return Angle.toDegrees360(radians);
-  }
-
-  public geodeticAzimuthRadians(λ1: number, φ1: number, h1: number,
-    xsi: number, eta: number, λ2: number, φ2: number, h2: number,
-    x0: number, y0: number, z0: number, astronomicAzimuth: number): number {
+  public geodeticAzimuth(λ1: number, φ1: number, h1: number,
+    xsi: number, eta: number, λ2: number, φ2: number, h2: number, astronomicAzimuth: number,
+    xo: number, yo: number, zo: number): number {
     const a = this.semiMajorAxis;
     const b = this.semiMinorAxis;
 
@@ -432,12 +417,15 @@ export class Ellipsoid {
       / 2;
     const nm = (a / mm1 + a / mm2) / 2;
 
-    const a12 = this.azimuthRadians(λ1, φ1, λ2, φ2);
+    const lineMetrics = this.vincentyInverse(λ1, φ1, λ2, φ2);
+    const s12 = lineMetrics[0];
+    const a12 = lineMetrics[1];
 
-    const s12 = this.distanceMetresRadians(λ1, φ1, λ2, φ2);
+    const ssq = this.slopeDistanceSquared(λ1, φ1, h1, λ2, φ2, h2, xo, yo, zo);
 
-    // Always 0 as dh = 0
-    const c1 = 0; // (-(xsi) * Math.sin(a12) + eta * Math.cos(a12)) * 0 / sqrt(ssq - 0 * 0);
+    const dh = 0;
+    const c1 = (-(xsi) * Math.sin(a12) + eta * Math.cos(a12)) * dh
+      / Math.sqrt(ssq - Math.pow(dh, 2));
 
     const cosφ2 = Math.cos(φ2);
     const c2 = h2 / mm * esq * Math.sin(a12) * Math.cos(a12) * (cosφ2 * cosφ2);
@@ -477,54 +465,49 @@ export class Ellipsoid {
     }
   }
 
-  public spatialDistance(lon1: number, lat1: number, h1: number, heightOfInstrument: number, heightOfTarget: number,
-    lon2: number, lat2: number, h2: number, spatialDistance: number): number {
-    const λ1 = Angle.toRadians(lon1);
-    const φ1 = Angle.toRadians(lat1);
-    const λ2 = Angle.toRadians(lon2);
-    const φ2 = Angle.toRadians(lat2);
-    return this.spatialDistanceRadians(λ1, φ1, h1, heightOfInstrument, heightOfTarget, λ2,
-      φ2, h2, spatialDistance);
-  }
+  public spatialDistanceReduction(λ1: number, φ1, h1: number, heightOfInstrument: number,
+    λ2: number, φ2, h2: number,  heightOfTarget: number, distance: number): number {
+    h1 += heightOfInstrument;
+    h2 += heightOfTarget;
 
-  public spatialDistanceRadians(λ1: number, φ1, h1: number, heightOfInstrument: number, heightOfTarget: number,
-    λ2: number, φ2, h2: number, spatialDistance: number): number {
+    const lineMetrics = this.vincentyInverse(λ1, φ1, λ2, φ2);
+    const a12 = lineMetrics[1];
+    const a21 = lineMetrics[2];
 
-    const a12 = this.azimuthRadians(λ1, φ1, λ2, φ2);
-    const a21 = this.azimuthRadians(λ2, φ2, λ1, φ1);
     const r1 = this.radius(φ1, a12);
     const r2 = this.radius(φ2, a21);
 
-    h1 += heightOfInstrument;
-    h2 += heightOfTarget;
     const deltaH = h2 - h1;
     const deltaHSq = deltaH * deltaH;
-    if (spatialDistance * spatialDistance - deltaHSq >= 0) {
+    if (distance * distance - deltaHSq >= 0) {
       const twor = r1 + r2;
       const lo = Math
-        .sqrt((spatialDistance * spatialDistance - deltaHSq) / ((h1 / r1 + 1) * (h2 / r2 + 1)));
+        .sqrt((distance * distance - deltaHSq) / ((h1 / r1 + 1) * (h2 / r2 + 1)));
       return twor * Math.asin(lo / twor);
     } else {
-      return spatialDistance;
+      return distance;
     }
   }
 
-  public ellipsoidDirection(lon1: number, lat1: number, h1: number, xsi: number, eta: number,
-    lon2: number, lat2: number, h2: number, x0: number, y0: number, z0: number, spatialDirection: number): number {
-    const λ1 = Angle.toRadians(lon1);
-    const φ1 = Angle.toRadians(lat1);
-    const λ2 = Angle.toRadians(lon2);
-    const φ2 = Angle.toRadians(lat2);
-    eta = Angle.toRadians(eta);
-    xsi = Angle.toRadians(xsi);
-    spatialDirection = Angle.toRadians(spatialDirection);
-    const radians = this.ellipsoidDirectionRadians(λ1, φ1, h1, xsi, eta, λ2, φ2, h2,
-      x0, y0, z0, spatialDirection);
-    return Angle.toDegrees360(radians);
+  public horizontalEllipsoidalFactor(λ1: number, φ1: number, height1: number,
+    λ2: number, φ2: number, height2: number): number {
+    const lineMetrics = this.vincentyInverse(λ1, φ1, λ2, φ2);
+    const a12 = lineMetrics[1];
+    const a21 = lineMetrics[2];
+
+    const r1 = this.radius(φ1, a12);
+    const r2 = this.radius(φ2, a21);
+
+    const delh = (Math.abs(height2 - height1));
+    if (delh > 30) {
+      return r1 / (r1 + height1);
+    } else {
+      return 1 / Math.sqrt((height1 / r1 + 1) * (height2 / r2 + 1));
+    }
   }
 
-  public ellipsoidDirectionRadians(λ1: number, φ1: number, h1: number, xsi: number, eta: number,
-    λ2: number, φ2: number, h2: number, x0: number, y0: number, z0: number, spatialDirection: number) {
+  public ellipsoidDirection(λ1: number, φ1: number, h1: number, xsi: number, eta: number,
+    λ2: number, φ2: number, h2: number, spatialDirection: number, xo: number, yo: number, zo: number): number {
     const a = this.semiMajorAxis;
     const b = this.semiMinorAxis;
 
@@ -542,8 +525,8 @@ export class Ellipsoid {
     const s12 = this.distanceMetresRadians(λ1, φ1, λ2, φ2);
     const a12 = this.azimuthRadians(λ1, φ1, λ2, φ2);
 
-    const slopeDistance = this.slopeDistance(λ1, φ1, h1, λ2, φ2, h2, x0,
-      y0, z0);
+    const slopeDistance = this.slopeDistance(λ1, φ1, h1, λ2, φ2, h2, xo,
+      yo, zo);
 
     const dh = h2 - h1;
     const c1 = (-xsi * Math.sin(a12) + eta * Math.cos(a12)) * dh / Math.sqrt(slopeDistance * slopeDistance - dh * dh);
@@ -566,7 +549,7 @@ export class Ellipsoid {
     const deltaY = p1[1] - p2[1];
     const deltaZ = p1[2] - p2[2];
     return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-   }
+  }
 
   public slopeDistance(λ1: number, φ1: number, h1: number, λ2: number, φ2: number, h2: number,
     xo: number, yo: number, zo: number): number {
@@ -592,11 +575,7 @@ export class Ellipsoid {
     const s12 = lineMetrics[0];
     const a12 = lineMetrics[1];
 
-    const xyz1 = this.ellipsoidalToCartesianCoordinates(λ1, φ1, h1, xo, yo, zo);
-
-    const xyz2 = this.ellipsoidalToCartesianCoordinates(λ2, φ2, h2, xo, yo, zo);
-
-    const ssq = Math.pow(xyz1[0] - xyz2[0], 2) + Math.pow(xyz1[1] - xyz2[1], 2) + Math.pow(xyz1[2] - xyz2[2], 2);
+    const ssq = this.slopeDistanceSquared(λ1, φ1, h1, λ2, φ2, h2, xo, yo, zo);
 
     const dh = 0; // could remove this and resulting multiplies
     const c1 = (-(xsi) * Math.sin(a12) + eta * Math.cos(a12)) * dh

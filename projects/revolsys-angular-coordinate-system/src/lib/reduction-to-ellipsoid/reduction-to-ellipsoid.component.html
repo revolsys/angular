@@ -50,6 +50,13 @@
             <mat-hint align="end">0..5000</mat-hint>
             <mat-error *ngIf="form.controls['fromHeight'].invalid">{{getErrorMessage(form, 'fromHeight')}}</mat-error>
           </mat-form-field>
+          <mat-form-field floatLabel="always">
+            <input matInput formControlName="heightOfInstrument" type="number" min="0" max="99.999" placeholder="Height Of Instrument" required
+            />
+            <mat-hint>metres</mat-hint>
+            <mat-hint align="end">0..99.999</mat-hint>
+            <mat-error *ngIf="form.controls['heightOfInstrument'].invalid">{{getErrorMessage(form, 'heightOfTarget')}}</mat-error>
+          </mat-form-field>
         </div>
         <div class="flexRowToColumn">
           <mat-form-field floatLabel="always">
@@ -64,19 +71,6 @@
             <mat-hint align="end">-30..30</mat-hint>
             <mat-error *ngIf="form.controls['eta'].invalid">{{getErrorMessage(form, 'eta')}}</mat-error>
           </mat-form-field>
-          <mat-form-field floatLabel="always">
-            <input matInput formControlName="heightOfInstrument" type="number" min="0" max="999.999" placeholder="Height Of Instrument" required
-            />
-            <mat-hint>metres</mat-hint>
-            <mat-hint align="end">0..999.999</mat-hint>
-            <mat-error *ngIf="form.controls['heightOfInstrument'].invalid">{{getErrorMessage(form, 'heightOfTarget')}}</mat-error>
-          </mat-form-field>
-          <mat-form-field floatLabel="always">
-            <input matInput formControlName="heightOfTarget" type="number" min="0" max="999.999" placeholder="Height Of Target" required />
-            <mat-hint>metres</mat-hint>
-            <mat-hint align="end">0..999.999</mat-hint>
-            <mat-error *ngIf="form.controls['heightOfTarget'].invalid">{{getErrorMessage(form, 'heightOfTarget')}}</mat-error>
-          </mat-form-field>
         </div>
         <div class="flexRowToColumn">
           <rs-cs-point-field [parentForm]="form" name="toPoint" prefix="To"  [required]="true" [floatLabel]="'always'">
@@ -86,6 +80,12 @@
             <mat-hint>metres</mat-hint>
             <mat-hint align="end">0..5000</mat-hint>
             <mat-error *ngIf="form.controls['toHeight'].invalid">{{getErrorMessage(form, 'toHeight')}}</mat-error>
+          </mat-form-field>
+          <mat-form-field floatLabel="always">
+            <input matInput formControlName="heightOfTarget" type="number" min="0" max="99.999" placeholder="Height Of Target" required />
+            <mat-hint>metres</mat-hint>
+            <mat-hint align="end">0..99.999</mat-hint>
+            <mat-error *ngIf="form.controls['heightOfTarget'].invalid">{{getErrorMessage(form, 'heightOfTarget')}}</mat-error>
           </mat-form-field>
         </div>
         <div class="flexRowToColumn">
@@ -120,11 +120,19 @@
 
           <div class="flexRowToColumn">
             <mat-form-field floatLabel="always">
-              <input matInput [value]="horizontalScaleFactor?.toFixed(8)" placeholder="Horizontal Ellipsoid Factor" readonly>
+              <input matInput [value]="spatialEllipsoidalFactor?.toFixed(8)" placeholder="Spatial Ellipsoid Factor" readonly>
               <mat-hint>metres</mat-hint>
             </mat-form-field>
             <mat-form-field floatLabel="always">
               <input matInput [value]="spatialEllipsoidalDistance?.toFixed(3)" placeholder="Spatial Ellipsoidal Distance" readonly>
+              <mat-hint>metres</mat-hint>
+            </mat-form-field>
+            <mat-form-field floatLabel="always">
+              <input matInput [value]="horizontalEllipsoidalFactor?.toFixed(8)" placeholder="Horizontal Ellipsoid Factor" readonly>
+              <mat-hint>metres</mat-hint>
+            </mat-form-field>
+            <mat-form-field floatLabel="always">
+              <input matInput [value]="horizontalEllipsoidalDistance?.toFixed(3)" placeholder="Horizontal Ellipsoidal Distance" readonly>
               <mat-hint>metres</mat-hint>
             </mat-form-field>
             <mat-form-field floatLabel="always">

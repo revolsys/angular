@@ -62,13 +62,29 @@ export class ProjCS extends CS {
     return this.geoCS.distanceMetresEllipsoid(lonLat1[0], lonLat1[1], lonLat2[0], lonLat2[1]);
   }
 
+  ellipsoidDirection(x1: number, y1: number, height1: number, xsi: number, eta: number, x2: number,
+    y2: number, height2: number, observedDirection: number, xo: number, yo: number, zo: number): number {
+    const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+    return this.geoCS.ellipsoidDirection(lonLat1[0], lonLat1[1], height1, xsi, eta,
+      lonLat2[0], lonLat2[1], height2, observedDirection, xo, yo, zo);
+  }
+
+  geodeticAzimuth(x1: number, y1: number, height1: number, xsi: number, eta: number, x2: number,
+    y2: number, height2: number, astronomicAzimuth: number, xo: number, yo: number, zo: number): number {
+    const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+    return this.geoCS.geodeticAzimuth(lonLat1[0], lonLat1[1], height1, xsi, eta,
+      lonLat2[0], lonLat2[1], height2, astronomicAzimuth, xo, yo, zo);
+  }
+
   public slopeDistance(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number,
     xo: number, yo: number, zo: number): number {
-        const lonLat1 = this.inverse(x1, y1);
+    const lonLat1 = this.inverse(x1, y1);
     const lonLat2 = this.inverse(x2, y2);
-     return this.slopeDistance(lonLat1[0], lonLat1[1], h1, lonLat2[0], lonLat2[1], h2, xo, yo, zo);
+    return this.slopeDistance(lonLat1[0], lonLat1[1], h1, lonLat2[0], lonLat2[1], h2, xo, yo, zo);
 
-    }
+  }
 
   public spatialDirection(x1: number, y1: number, h1: number, xsi: number, eta: number,
     x2: number, y2: number, h2: number, reducedDirection: number, xo: number, yo: number, zo: number): number {
@@ -81,6 +97,21 @@ export class ProjCS extends CS {
     const lonLat1 = this.inverse(x1, y1);
     const lonLat2 = this.inverse(x2, y2);
     return this.geoCS.spatialDistanceHeight(lonLat1[0], lonLat1[1], h1, lonLat2[0], lonLat2[1], h2);
+  }
+
+  spatialDistanceReduction(x1: number, y1: number, h1: number, heightOfInstrument: number, x2: number,
+    y2: number, h2: number, heightOfTarget: number, distance: number): number {
+     const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+   return this.ellipsoid.spatialDistanceReduction(lonLat1[0], lonLat1[1], h1, heightOfInstrument,
+      lonLat2[0], lonLat2[1], h2, heightOfTarget, distance);
+  }
+
+  horizontalEllipsoidalFactor(x1: number, y1: number, height1: number,
+    x2: number, y2: number, height2: number): number {
+    const lonLat1 = this.inverse(x1, y1);
+    const lonLat2 = this.inverse(x2, y2);
+    return this.geoCS.horizontalEllipsoidalFactor(lonLat1[0], lonLat1[1], height1, lonLat2[0], lonLat2[1], height2);
   }
 
   pointOffset(x: number, y: number, distance: number, angle: number): number[] {
