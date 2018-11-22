@@ -52,8 +52,8 @@ export class ReductionToEllipsoidComponent extends AbstractCoordinateSystemCompo
   spatialEllipsoidalDistance: number;
 
   get spatialEllipsoidalFactor(): number {
-    const distance = this.form.controls['distance'].value;
-    if (this.spatialEllipsoidalDistance == null || distance === 0) {
+    const distance = parseFloat(this.form.controls['distance'].value);
+    if (this.spatialEllipsoidalDistance == null || distance === 0 || isNaN(distance)) {
       return null;
     } else {
       return this.spatialEllipsoidalDistance / distance;
@@ -85,8 +85,8 @@ export class ReductionToEllipsoidComponent extends AbstractCoordinateSystemCompo
       toHeight: ['0', [Validators.required, Validators.min(0), Validators.max(5000)]],
       distance: ['0', [Validators.min(0), Validators.max(3500000)]],
       cs: CSI.NAD83,
-      astronomicAzimuth: '0',
-      observedDirection: '0'
+      astronomicAzimuth: ['0', [Validators.required]],
+      observedDirection: ['0', [Validators.required]],
     });
     this.form.controls['cs'].valueChanges.subscribe(cs => {
       this.form.controls.fromPoint.patchValue({ cs: cs });
@@ -99,6 +99,7 @@ export class ReductionToEllipsoidComponent extends AbstractCoordinateSystemCompo
 
   private calculate(data) {
     this.horizontalEllipsoidalFactor = null;
+    this.spatialEllipsoidalDistance = null;
     this.ellipsoidDirection = null;
     this.geodeticAzimuth = null;
 

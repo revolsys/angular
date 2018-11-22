@@ -73,7 +73,7 @@
           </mat-form-field>
         </div>
         <div class="flexRowToColumn">
-          <rs-cs-point-field [parentForm]="form" name="toPoint" prefix="To"  [required]="true" [floatLabel]="'always'">
+          <rs-cs-point-field [parentForm]="form" name="toPoint" prefix="To" [required]="true" [floatLabel]="'always'">
           </rs-cs-point-field>
           <mat-form-field floatLabel="always">
             <input matInput formControlName="toHeight" type="number" min="0" max="5000" placeholder="To Height Marker" required />
@@ -90,16 +90,16 @@
         </div>
         <div class="flexRowToColumn">
           <mat-form-field floatLabel="always">
-            <input matInput formControlName="distance" type="number" min="0" max="3500000" placeholder="Distance" />
+            <input matInput formControlName="distance" type="number" min="0" max="3500000" placeholder="Distance" required />
             <mat-hint>metres</mat-hint>
             <mat-hint align="end">0..3500000</mat-hint>
             <mat-error *ngIf="form.controls['distance'].invalid">{{getErrorMessage(form, 'distance')}}</mat-error>
           </mat-form-field>
 
-          <rs-cs-angle-field formControlName="observedDirection" placeholder="Observed Direction" [floatLabel]="'always'">
+          <rs-cs-angle-field formControlName="observedDirection" placeholder="Observed Direction" [floatLabel]="'always'" [required]="true">
           </rs-cs-angle-field>
 
-          <rs-cs-angle-field formControlName="astronomicAzimuth" placeholder="Astronomic Azimuth" [floatLabel]="'always'">
+          <rs-cs-angle-field formControlName="astronomicAzimuth" placeholder="Astronomic Azimuth" [floatLabel]="'always'" [required]="true">
           </rs-cs-angle-field>
         </div>
       </mat-expansion-panel>
