@@ -9,6 +9,7 @@
 
   </div>
   <div *ngIf="!isGeographic" class="flexFields" [formGroup]="pointForm">
+
     <mat-form-field [floatLabel]="floatLabel">
       <input matInput formControlName="x" placeholder="{{prefix}}X (Easting)" [required]="required">
       <mat-hint>metres</mat-hint>

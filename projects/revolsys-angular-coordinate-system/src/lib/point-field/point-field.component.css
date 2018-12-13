@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  flex: 0;
+  flex: 0 0 auto;
   flex-direction: row;
 }
 
@@ -10,7 +10,7 @@
 
 @media (max-width: 768px) {
   :host {
-    flex-direction:column;
+    flex-direction: column;
     align-items: stretch;
     flex: 1 1 auto;
   }

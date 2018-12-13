@@ -1,6 +1,6 @@
 {
   "name": "revolsys-angular-coordinate-system",
-  "version": "7.1.0-1",
+  "version": "7.1.0-3",
   "peerDependencies": {
     "@angular/animations": "^7.1.0",
     "@angular/cdk": "^7.1.0",

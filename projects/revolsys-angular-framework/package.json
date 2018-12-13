@@ -1,6 +1,6 @@
 {
   "name": "revolsys-angular-framework",
-  "version": "7.1.0",
+  "version": "7.1.0-1",
   "peerDependencies": {
     "@angular/animations": "^7.1.0",
     "@angular/cdk": "^7.1.0",
