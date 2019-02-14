@@ -73,11 +73,14 @@
           </div>
         </div>
       </div>
-     <div class="titlebar">
+      <div class="titlebar">
         <button type="button" class="menu-button collapsed" (click)="footerMenuVisible = !footerMenuVisible">
           <span class="sr-only">Toggle navigation</span>
           <mat-icon>menu</mat-icon>
         </button>
+      </div>
+      <div class="version" *ngIf="config.version">
+        <small>{{config.version}}</small>
       </div>
     </nav>
   </footer>

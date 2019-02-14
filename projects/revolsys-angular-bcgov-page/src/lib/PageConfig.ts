@@ -11,4 +11,6 @@ export class PageConfig {
   securityService?: SecurityService;
 
   fullWidthContent?: boolean = false;
+
+  version: string;
 }

@@ -56,7 +56,8 @@ import { LongContentComponent } from './long-content/long-content.component';
           title: 'List',
           routerLink: 'list-page'
         },
-      ]
+      ],
+      version: 'test'
     }
     ),
     RevolsysAngularFrameworkModule.forRoot({

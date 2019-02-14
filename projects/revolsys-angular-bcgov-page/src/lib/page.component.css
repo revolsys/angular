@@ -206,6 +206,16 @@ footer .menu-button {
   display: block;
 }
 
+
+div.version {
+  background-color: #003366;
+  color: #fff;
+  text-align: right;
+  padding-bottom: 2px;
+  padding-right: 5px;
+  text-align: right;
+}
+
 @media ( min-width: 769px) {
   .fill-width {
     display: initial;
@@ -250,6 +260,12 @@ footer .menu-button {
   }
   :host /deep/ .menuGroup>*:first-child {
     border-left-width: 0px;
+  }
+
+  div.version {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
   }
 }
 

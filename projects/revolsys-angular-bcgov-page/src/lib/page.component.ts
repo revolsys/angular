@@ -35,7 +35,7 @@ export class PageComponent {
   footerMenuVisible = false;
 
   @Input()
-  fullHeightScroll: boolean = false;
+  fullHeightScroll = false;
 
   showHeaderAndFooter = true;
 
@@ -47,7 +47,7 @@ export class PageComponent {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    @Optional() private config: PageConfig
+    @Optional() public config: PageConfig
   ) {
     if (config) {
       this.securityService = config.securityService;
