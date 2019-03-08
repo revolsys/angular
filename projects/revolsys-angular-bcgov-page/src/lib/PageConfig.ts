@@ -12,5 +12,5 @@ export class PageConfig {
 
   fullWidthContent?: boolean = false;
 
-  version: string;
+  version?: string;
 }

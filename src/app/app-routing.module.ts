@@ -18,7 +18,7 @@ import {
 const routes: Routes = [
   {path: '', component: DemoMapComponent, pathMatch: 'full'},
   {path: 'map', component: DemoMapComponent, pathMatch: 'full'},
-  {path: 'ui/utilities/distance-angles', component: DistanceAndAnglesComponent, pathMatch: 'full'},
+  {path: 'ui/utilities/distance-angle', component: DistanceAndAnglesComponent, pathMatch: 'full'},
   {path: 'ui/utilities/point-offset', component: PointOffsetComponent, pathMatch: 'full'},
   {path: 'ui/utilities/coordinate-system-conversion', component: CoordinateSystemConversionComponent, pathMatch: 'full'},
   {path: 'ui/utilities/meridian-convergence', component: MeridianConvergenceComponent, pathMatch: 'full'},

@@ -2,7 +2,7 @@ import { CSI } from '../cs/CSI';
 
 import pointOffsetData from '../../test/data/point-offset.json';
 
-describe('Distance and Angles', () => {
+describe('Distance and Angle', () => {
 
 
   it(`test-data`, () => {

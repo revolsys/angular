@@ -59,7 +59,7 @@ export class DistanceAndAnglesComponent extends AbstractCoordinateSystemComponen
     protected injector: Injector,
     private fb: FormBuilder,
   ) {
-    super(injector, 'Distance and Angles', 'DMS');
+    super(injector, 'Distance and Angle', 'DMS');
     this.form = this.fb.group({
       fromPoint: this.fb.group({
         cs: CSI.NAD83,
