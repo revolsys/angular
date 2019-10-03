@@ -25,7 +25,7 @@ import {ZoomToWorld} from './ZoomToWorld';
 `]
 })
 export class MapComponent implements OnInit {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', {static: true}) mapElement: ElementRef;
 
   constructor(
     private mapService: MapService

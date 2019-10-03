@@ -29,9 +29,9 @@ export class InputFileComponent {
 
   @Input() label = 'Choose File';
 
-  @Output() onFileSelect: EventEmitter<File> = new EventEmitter();
+  @Output() fileSelect: EventEmitter<File> = new EventEmitter();
 
-  @ViewChild('inputFile') nativeInputFile: ElementRef;
+  @ViewChild('inputFile', {static: false}) nativeInputFile: ElementRef;
 
   private file: File;
 
@@ -46,7 +46,7 @@ export class InputFileComponent {
       this.file = files[0];
       this.fileName = this.file.name;
     }
-    this.onFileSelect.emit(this.file);
+    this.fileSelect.emit(this.file);
   }
 
   selectFile() {

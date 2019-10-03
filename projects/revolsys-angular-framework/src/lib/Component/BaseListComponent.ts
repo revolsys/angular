@@ -2,8 +2,8 @@ import {
   Observable,
   of
 } from 'rxjs';
-import {catchError, finalize, tap} from 'rxjs/operators';
-import {DataSource} from '@angular/cdk/table';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { DataSource } from '@angular/cdk/table';
 import {
   AfterViewInit,
   Injector,
@@ -11,19 +11,18 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  MatDialog,
-  MatDialogRef
+  MatDialog, MatSort
 } from '@angular/material';
 import {
   MatPaginator,
   MatTableDataSource
 } from '@angular/material';
 
-import {BaseComponent} from './BaseComponent';
-import {DeleteDialogComponent} from './DeleteDialogComponent';
+import { BaseComponent } from './BaseComponent';
+import { DeleteDialogComponent } from './DeleteDialogComponent';
 
-import {Service} from '../Service/Service';
-import {PagingServiceDataSource} from '../Service/PagingServiceDataSource';
+import { Service } from '../Service/Service';
+import { PagingServiceDataSource } from '../Service/PagingServiceDataSource';
 
 export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, AfterViewInit {
 
@@ -39,7 +38,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
 
   dialog: MatDialog = this.injector.get(MatDialog);
 
-  filter: {[fieldName: string]: string} = {};
+  filter: { [fieldName: string]: string } = {};
 
   filterFieldName: string;
 
@@ -49,11 +48,15 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
 
   pageSize = 10;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
 
   paging = false;
 
   path: string;
+
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
 
   constructor(injector: Injector, service: Service<T>, title: string) {
     super(injector, service, title);
@@ -95,8 +98,8 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
     return this.pagingDataSource.loading;
   }
 
-  newFilter(): {[fieldName: string]: string} {
-    const filter: {[fieldName: string]: string} = {};
+  newFilter(): { [fieldName: string]: string } {
+    const filter: { [fieldName: string]: string } = {};
     if (this.filter) {
       for (const fieldName of Object.keys(this.filter)) {
         filter[fieldName] = this.filter[fieldName];
@@ -111,6 +114,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
   ngOnInit() {
     this.refresh();
     if (!this.paging) {
+      this.arrayDataSource.sort = this.sort;
       this.arrayDataSource.paginator = this.paginator;
     }
   }

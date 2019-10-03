@@ -2,8 +2,7 @@ import {
   AsyncSubject,
   Observable,
   of,
-  throwError,
-  timer
+  throwError
 } from 'rxjs';
 import {
   mergeMap,
@@ -14,8 +13,7 @@ import {
 
 import {
   Injectable,
-  Injector,
-  Optional
+  Injector
 } from '@angular/core';
 
 import {
@@ -34,7 +32,7 @@ import {
   MatDialogRef
 } from '@angular/material';
 
-import {DOCUMENT} from '@angular/platform-browser';
+import {DOCUMENT} from '@angular/common';
 
 import {FrameworkConfig} from '../FrameworkConfig';
 
@@ -98,10 +96,9 @@ export abstract class BaseService<T> implements Service<T> {
     return response.pipe(
       map(handler), //
       retryWhen(errors => {
-        let count = 0;
         return errors.pipe(
           mergeMap((error: HttpErrorResponse, i) => {
-            if (i == 0) {
+            if (i === 0) {
               if (error.status === 403) {
                 let loginDialog = BaseService.loginDialog;
                 if (loginDialog) {

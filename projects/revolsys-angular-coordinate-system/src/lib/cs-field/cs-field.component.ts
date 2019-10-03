@@ -21,7 +21,7 @@ export class CsFieldComponent implements ControlValueAccessor {
   @Input()
   coordinateSystems: CS[] = [CSI.NAD83, CSI.utmN(7), CSI.utmN(8), CSI.utmN(9), CSI.utmN(10), CSI.utmN(11), CSI.BC_ALBERS];
 
-  @ViewChild(MatSelect)
+  @ViewChild(MatSelect, {static: false})
   select: MatSelect;
 
   @Input()

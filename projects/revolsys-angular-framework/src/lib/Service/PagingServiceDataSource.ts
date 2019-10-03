@@ -1,10 +1,7 @@
 import {
-  BehaviorSubject,
-  Observable,
   of
 } from 'rxjs';
 import {catchError, finalize} from 'rxjs/operators';
-import {DataSource} from '@angular/cdk/table';
 import {Service} from './Service';
 import {ArrayDataSource} from './ArrayDataSource';
 

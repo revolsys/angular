@@ -3,15 +3,14 @@ import {
   OnInit
 } from '@angular/core';
 import {
+  DOCUMENT,
   Location
 } from '@angular/common';
 import {
-  DOCUMENT,
   Title
 } from '@angular/platform-browser';
 import {
-  MatDialog,
-  MatDialogRef
+  MatDialog
 } from '@angular/material';
 import {
   ActivatedRoute,

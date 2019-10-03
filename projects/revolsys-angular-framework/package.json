@@ -1,17 +1,17 @@
 {
   "name": "revolsys-angular-framework",
-  "version": "7.2.0-1",
+  "version": "8.2.0-2",
   "peerDependencies": {
-    "@angular/animations": "^7.2.0",
-    "@angular/cdk": "^7.2.0",
-    "@angular/common": "^7.2.0",
-    "@angular/compiler": "^7.2.0",
-    "@angular/core": "^7.2.0",
-    "@angular/forms": "^7.2.0",
-    "@angular/material": "^7.2.0",
-    "@angular/platform-browser": "^7.2.0",
-    "@angular/platform-browser-dynamic": "^7.2.0",
-    "@angular/platform-server": "^7.2.0",
-    "@angular/router": "^7.2.0"
+    "@angular/animations": "^8.2.8",
+    "@angular/cdk": "^8.2.8",
+    "@angular/common": "^8.2.8",
+    "@angular/compiler": "^8.2.8",
+    "@angular/core": "^8.2.8",
+    "@angular/forms": "^8.2.8",
+    "@angular/material": "^8.2.8",
+    "@angular/platform-browser": "^8.2.8",
+    "@angular/platform-browser-dynamic": "^8.2.8",
+    "@angular/platform-server": "^8.2.8",
+    "@angular/router": "^8.2.8"
   }
 }
