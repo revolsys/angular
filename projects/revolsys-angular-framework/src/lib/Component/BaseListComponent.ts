@@ -46,7 +46,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
 
   filterValue: string;
 
-  likeFilter: false;
+  likeFilter = false;
 
   pageSize = 10;
 
