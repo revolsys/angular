@@ -46,6 +46,8 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
 
   filterValue: string;
 
+  likeFilter: false;
+
   pageSize = 10;
 
   @ViewChild(MatPaginator, { static: true })
@@ -108,7 +110,11 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
       }
     }
     if (this.filterFieldName && !(this.filterValue == null)) {
-      filter[this.filterFieldName] = this.filterValue;
+      if (this.likeFilter) {
+        filter[this.filterFieldName] = '%' + this.filterValue + '%';
+      } else {
+        filter[this.filterFieldName] = this.filterValue;
+      }
     }
     return filter;
   }
