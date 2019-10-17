@@ -35,7 +35,8 @@ export class DemoService extends BaseService<any> {
     offset: number,
     limit: number,
     path: string,
-    filter: {[fieldName: string]: string}
+    filter?: {[fieldName: string]: string},
+    orderBy?: {[fieldName: string]: boolean}
   ): Observable<any> {
     const recordCount = 33;
     const records = [];

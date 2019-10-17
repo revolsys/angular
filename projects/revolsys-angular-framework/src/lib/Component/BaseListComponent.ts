@@ -58,6 +58,8 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
   @ViewChild(MatSort, { static: true })
   sort: MatSort;
 
+  columnIdToFieldName: {[columnId: string]: string} = {};
+
   constructor(injector: Injector, service: Service<T>, title: string) {
     super(injector, service, title);
     this.pagingDataSource = new PagingServiceDataSource<T>(this.service);
@@ -136,9 +138,20 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
     }
   }
 
+  getSortFieldName(fieldName: string): string {
+    return this.columnIdToFieldName[fieldName] || fieldName;
+  }
+
   page() {
     const filter = this.newFilter();
-    this.pagingDataSource.loadPage(this.paginator.pageIndex, this.pageSize, this.path, filter);
+    const orderBy = {};
+    if (this.sort) {
+      if (this.sort.active) {
+        const fieldName = this.getSortFieldName(this.sort.active);
+        orderBy[fieldName] = this.sort.direction === 'asc';
+      }
+    }
+    this.pagingDataSource.loadPage(this.paginator.pageIndex, this.pageSize, this.path, filter, orderBy);
   }
 
   get recordCount(): Observable<number> {

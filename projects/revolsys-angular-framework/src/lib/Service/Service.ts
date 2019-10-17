@@ -30,7 +30,8 @@ export interface Service<T> {
     offset: number,
     limit: number,
     path?: string,
-    filter?: {[fieldName: string]: string}
+    filter?: {[fieldName: string]: string},
+    orderBy?: {[fieldName: string]: boolean}
   ): Observable<any>;
 
   getTypeTitle(): string;

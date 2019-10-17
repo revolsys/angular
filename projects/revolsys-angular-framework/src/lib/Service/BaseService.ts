@@ -32,15 +32,15 @@ import {
   MatDialogRef
 } from '@angular/material';
 
-import {DOCUMENT} from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
-import {FrameworkConfig} from '../FrameworkConfig';
+import { FrameworkConfig } from '../FrameworkConfig';
 
-import {Service} from './Service';
+import { Service } from './Service';
 
-import {LoginDialogComponent} from '../Component/LoginDialogComponent';
+import { LoginDialogComponent } from '../Component/LoginDialogComponent';
 
-import {MessageDialogComponent} from '../Component/MessageDialogComponent';
+import { MessageDialogComponent } from '../Component/MessageDialogComponent';
 
 @Injectable()
 export abstract class BaseService<T> implements Service<T> {
@@ -69,7 +69,7 @@ export abstract class BaseService<T> implements Service<T> {
 
   usePostForDelete = true;
 
-  public readonly jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  public readonly jsonHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(
     protected injector: Injector
@@ -146,7 +146,7 @@ export abstract class BaseService<T> implements Service<T> {
         return http.post(
           url,
           jsonText,
-          {headers: this.jsonHeaders}
+          { headers: this.jsonHeaders }
         );
       },
       json => {
@@ -292,14 +292,14 @@ export abstract class BaseService<T> implements Service<T> {
     );
   }
 
-  getObjects(path: string, filter: {[fieldName: string]: string}): Observable<T[]> {
+  getObjects(path: string, filter: { [fieldName: string]: string }): Observable<T[]> {
     if (!path) {
       path = this.path;
     }
     return this.getObjectsDo(path, filter);
   }
 
-  getObjectsDo(path: string, filter: {[fieldName: string]: string}): Observable<T[]> {
+  getObjectsDo(path: string, filter: { [fieldName: string]: string }): Observable<T[]> {
     let params = new HttpParams();
     params = this.addFilterParams(params, filter);
     const url = this.getUrl(path);
@@ -339,7 +339,7 @@ export abstract class BaseService<T> implements Service<T> {
     return this.path;
   }
 
-  private addFilterParams(params: HttpParams, filter: {[fieldName: string]: string}): HttpParams {
+  private addFilterParams(params: HttpParams, filter: { [fieldName: string]: string }): HttpParams {
     if (filter) {
       for (const fieldName of Object.keys(filter)) {
         const value = filter[fieldName];
@@ -353,13 +353,20 @@ export abstract class BaseService<T> implements Service<T> {
   getRowsPage(
     offset: number,
     limit: number,
-    path: string,
-    filter: {[fieldName: string]: string}
+    path?: string,
+    filter?: { [fieldName: string]: string },
+    orderBy?: { [fieldName: string]: boolean }
   ): Observable<any> {
     let params = new HttpParams()
       .set('offset', offset.toString())
       .set('limit', limit.toString());
     params = this.addFilterParams(params, filter);
+    if (orderBy) {
+      for (const sortFieldName of Object.keys(orderBy)) {
+        params.append('sortFieldNames', sortFieldName);
+        params.append('sortDirections', orderBy[sortFieldName].toString());
+      }
+    }
     if (!path) {
       path = this.path;
     }
@@ -423,7 +430,7 @@ export abstract class BaseService<T> implements Service<T> {
         return http.put(
           url,
           jsonText,
-          {headers: this.jsonHeaders}
+          { headers: this.jsonHeaders }
         );
       },
       json => {

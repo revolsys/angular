@@ -26,7 +26,7 @@ export class ArrayDataSource<T> extends DataSource<any> {
     return ++this.loadingIndex;
   }
 
-  stopLoading(loadingIndex): boolean {
+  stopLoading(loadingIndex: number): boolean {
     if (loadingIndex === this.loadingIndex) {
       this.loadingSubject.next(false);
       return true;
