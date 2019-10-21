@@ -22,13 +22,15 @@ import {LoginDialogComponent} from './Component/LoginDialogComponent';
 import {MessageDialogComponent} from './Component/MessageDialogComponent';
 import {PageNotFoundComponent} from './Component/PageNotFoundComponent';
 import {InputFileComponent} from './input-file/input-file-component';
+import { VerticalLayoutComponent } from './vertical-layout/vertical-layout.component';
 
 const COMMON_MODULES = [
   PageNotFoundComponent,
   DeleteDialogComponent,
   LoginDialogComponent,
   MessageDialogComponent,
-  InputFileComponent
+  InputFileComponent,
+  VerticalLayoutComponent,
 ];
 
 @NgModule({

@@ -22,14 +22,17 @@ import { GeographicNameSearchComponent } from './geographic-name-search.componen
 import { DemoListPageComponent } from './demo-list-page/demo-list-page.component';
 import { DemoService } from './demo.service';
 import { LongContentComponent } from './long-content/long-content.component';
+import { DemoFormComponent } from './demo-form/demo-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoMapComponent,
+    DemoFormComponent,
     GeographicNameSearchComponent,
     DemoListPageComponent,
-    LongContentComponent
+    LongContentComponent,
+    DemoFormComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,10 @@ import { LongContentComponent } from './long-content/long-content.component';
         {
           title: 'List',
           routerLink: 'list-page'
+        },
+        {
+          title: 'Form',
+          routerLink: 'form'
         },
       ],
       version: 'test'

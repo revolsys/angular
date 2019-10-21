@@ -20,7 +20,17 @@ import {
   <mat-icon>{{iconName}}</mat-icon>
   {{label}}
 </button>
-`
+`,
+  'styles': [`
+    :host {
+      display: flex;
+      align-items: baseline;
+    }
+    mat-form-field {
+      width: 100%;
+      margin-right: 1em;
+    }
+  `]
 })
 export class InputFileComponent {
   @Input() accept: string;

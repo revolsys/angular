@@ -14,6 +14,7 @@ import {
   ReductionFromEllipsoidComponent,
   ReductionToEllipsoidComponent
 } from 'revolsys-angular-coordinate-system';
+import { DemoFormComponent } from './demo-form/demo-form.component';
 
 const routes: Routes = [
   {path: '', component: DemoMapComponent, pathMatch: 'full'},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'ui/utilities/reduction-to-ellipsoid', component: ReductionToEllipsoidComponent, pathMatch: 'full'},
   {path: 'list-page', component: DemoListPageComponent, pathMatch: 'full'},
   {path: 'long-page', component: LongContentComponent, pathMatch: 'full', data: {title: 'Long Page'}},
+  {path: 'form', component: DemoFormComponent, pathMatch: 'full', data: {title: 'Form'}},
 ];
 
 @NgModule({

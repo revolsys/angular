@@ -12,6 +12,7 @@ export * from './lib/Component/LoginDialogComponent';
 export * from './lib/Component/MessageDialogComponent';
 export * from './lib/Component/PageNotFoundComponent';
 export * from './lib/input-file/input-file-component';
+export * from './lib/vertical-layout/vertical-layout.component';
 export * from './lib/Service/ArrayDataSource';
 export * from './lib/Service/BaseService';
 export * from './lib/Service/Service';

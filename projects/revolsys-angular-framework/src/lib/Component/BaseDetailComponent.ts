@@ -2,7 +2,6 @@ import {
   Injector,
   Input,
   OnInit,
-  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -12,7 +11,7 @@ import {
 import {Params} from '@angular/router';
 import {BaseComponent} from './BaseComponent';
 import {Service} from '../Service/Service';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 export class BaseDetailComponent<T> extends BaseComponent<T> implements OnInit {
   @Input()
