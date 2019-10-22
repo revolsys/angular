@@ -60,7 +60,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
   @ViewChild(MatSort, { static: true })
   sort: MatSort;
 
-  columnIdToFieldName: {[columnId: string]: string} = {};
+  columnIdToFieldName: { [columnId: string]: string } = {};
 
   constructor(injector: Injector, service: Service<T>, title: string) {
     super(injector, service, title);
@@ -148,8 +148,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
     return this.columnIdToFieldName[fieldName] || fieldName;
   }
 
-  page() {
-    const filter = this.newFilter();
+  getOrderBy(): { [fieldName: string]: boolean } {
     const orderBy = {};
     if (this.sort) {
       if (this.sort.active) {
@@ -157,6 +156,11 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
         orderBy[fieldName] = this.sort.direction === 'asc';
       }
     }
+    return orderBy;
+  }
+  page() {
+    const filter = this.newFilter();
+    const orderBy = this.getOrderBy();
     this.pagingDataSource.loadPage(this.paginator.pageIndex, this.pageSize, this.path, filter, orderBy);
   }
 
@@ -174,7 +178,11 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
     } else {
       const filter = this.newFilter();
       const loadingIndex = this.pagingDataSource.startLoading();
-      this.service.getObjects(this.path, filter).pipe(
+      const orderBy = this.getOrderBy();
+      this.service.getObjects(this.path, {
+        filter,
+        orderBy
+      }).pipe(
         catchError(() => of([])),
         finalize(() => this.pagingDataSource.stopLoading(loadingIndex))
       ).subscribe(records => {

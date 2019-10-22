@@ -18,7 +18,7 @@ export interface Service<T> {
 
   getLabel(object: T): string;
 
-  getObjects(path: string, filter: {[fieldName: string]: string}): Observable<T[]>;
+  getObjects(path?: string, options?: any): Observable<T[]>;
 
   getObjectsFromJson(json): T[];
 

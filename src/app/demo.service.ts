@@ -21,7 +21,7 @@ export class DemoService extends BaseService<any> {
   deleteObject(api: any, path?: string): Observable<boolean> {
     return null;
   }
-  getObjectsDo(path: string, filter: {[fieldName: string]: string}): Observable<any[]> {
+  getObjectsDo(path: string, options: any): Observable<any[]> {
     const recordCount = 33;
     const records = [];
     for (let i = 0; i < recordCount; i++) {
@@ -34,9 +34,9 @@ export class DemoService extends BaseService<any> {
   getRowsPage(
     offset: number,
     limit: number,
-    path: string,
-    filter?: {[fieldName: string]: string},
-    orderBy?: {[fieldName: string]: boolean}
+    _path: string,
+    _filter?: {[fieldName: string]: string},
+    _orderBy?: {[fieldName: string]: boolean}
   ): Observable<any> {
     const recordCount = 33;
     const records = [];
