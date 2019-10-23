@@ -158,6 +158,7 @@ export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, Af
     }
     return orderBy;
   }
+
   page() {
     const filter = this.newFilter();
     const orderBy = this.getOrderBy();

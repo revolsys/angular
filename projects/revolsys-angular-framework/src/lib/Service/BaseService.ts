@@ -304,7 +304,7 @@ export abstract class BaseService<T> implements Service<T> {
     const orderBy: { [fieldName: string]: boolean } = options.orderBy;
     let params = new HttpParams();
     params = this.addFilterParams(params, filter);
-    this.addOrderByParams(params, orderBy);
+    params = this.addOrderByParams(params, orderBy);
     const url = this.getUrl(path);
 
     return this.httpRequest(
@@ -353,14 +353,16 @@ export abstract class BaseService<T> implements Service<T> {
     return params;
   }
 
-  addOrderByParams(params: HttpParams, orderBy?: { [fieldName: string]: boolean }) {
+  addOrderByParams(params: HttpParams, orderBy?: { [fieldName: string]: boolean }): HttpParams {
     if (orderBy) {
       for (const sortFieldName of Object.keys(orderBy)) {
-        params.append('sortFieldNames', sortFieldName);
-        params.append('sortDirections', orderBy[sortFieldName].toString());
+        params = params.append('sortFieldNames', sortFieldName);
+        params = params.append('sortDirections', orderBy[sortFieldName].toString());
       }
     }
+    return params;
   }
+
   getRowsPage(
     offset: number,
     limit: number,
@@ -372,7 +374,7 @@ export abstract class BaseService<T> implements Service<T> {
       .set('offset', offset.toString())
       .set('limit', limit.toString());
     params = this.addFilterParams(params, filter);
-    this.addOrderByParams(params, orderBy);
+    params = this.addOrderByParams(params, orderBy);
     if (!path) {
       path = this.path;
     }

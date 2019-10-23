@@ -3,7 +3,7 @@
   "version": "8.2.0-1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4210 --host 0.0.0.0 --base-href=/rsf/ --deploy-url=/rsf/",
+    "start": "ng serve",
     "build": "ng build revolsys-angular-bcgov-page; ng build revolsys-angular-framework; ng build revolsys-angular-leaflet; ng build revolsys-angular-coordinate-system; ng build",
     "test": "ng test",
     "lint": "ng lint",

@@ -30,12 +30,10 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -51,7 +49,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "revolsys-angular:build"
+            "browserTarget": "revolsys-angular:build",
+            "port": 4210,
+            "host": "0.0.0.0",
+            "baseHref": "/rsf/",
+            "deployUrl": "/rsf/"
           },
           "configurations": {
             "production": {
