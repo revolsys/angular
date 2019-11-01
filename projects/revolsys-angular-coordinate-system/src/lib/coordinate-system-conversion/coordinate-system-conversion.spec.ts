@@ -2,9 +2,9 @@ import {
   ComponentFixture,
   TestBed
 } from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing'; import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing'; import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import {
   AbstractControl,
@@ -26,23 +26,23 @@ import {
   MatTooltipModule
 } from '@angular/material';
 
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
-import {RevolsysAngularFrameworkModule} from 'revolsys-angular-framework';
+import { RevolsysAngularFrameworkModule } from 'revolsys-angular-framework';
 
-import {Angle} from '../cs/Angle';
+import { Angle } from '../cs/Angle';
 
-import {CSI} from '../cs/CSI';
+import { CSI } from '../cs/CSI';
 
-import {GeoCS} from '../cs/GeoCS';
+import { GeoCS } from '../cs/GeoCS';
 
-import {CsFieldComponent} from '../cs-field/cs-field.component';
-import {PointFieldComponent} from '../point-field/point-field.component';
+import { CsFieldComponent } from '../cs-field/cs-field.component';
+import { PointFieldComponent } from '../point-field/point-field.component';
 
-import {CoordinateSystemConversionComponent} from './coordinate-system-conversion.component';
+import { CoordinateSystemConversionComponent } from './coordinate-system-conversion.component';
 
 import coordinateSystemConversionData from '../../test/data/coordinate-system-conversion.json';
-import {Measures} from '../../test/measures';
+import { Measures } from '../../test/measures';
 
 describe('Coordinate System Conversion', () => {
 
@@ -50,7 +50,7 @@ describe('Coordinate System Conversion', () => {
   let fixture: ComponentFixture<CoordinateSystemConversionComponent>;
   let form: FormGroup;
   let resultForm: FormGroup;
-  let resultControls: {[key: string]: AbstractControl};
+  let resultControls: { [key: string]: AbstractControl };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -155,14 +155,6 @@ describe('Coordinate System Conversion', () => {
     expect(lonMeasures.max).toBe(1e-11);
     expect(latMeasures.max).toBe(2e-11);
 
-    //    console.log(xDmsMeasures.toString());
-    //    console.log(yDmsMeasures.toString());
-    //    console.log(xMeasures.toString());
-    //    console.log(yMeasures.toString());
-    //    console.log(lonMeasures.toString());
-    //    console.log(latMeasures.toString());
-    //    console.log(lonDmsMeasures.toString());
-    //    console.log(latDmsMeasures.toString());
   });
   for (let i = 0; i < coordinateSystemConversionData.length; i += 10000) {
     const values = coordinateSystemConversionData[i];
