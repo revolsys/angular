@@ -8,6 +8,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "module": "es2020",
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,

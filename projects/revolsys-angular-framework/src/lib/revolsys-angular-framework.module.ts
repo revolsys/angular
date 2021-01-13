@@ -5,14 +5,12 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatPaginatorModule,
-  MatSortModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 
 import {FrameworkConfig} from './FrameworkConfig';
@@ -59,7 +57,7 @@ const COMMON_MODULES = [
   exports: COMMON_MODULES
 })
 export class RevolsysAngularFrameworkModule {
-  static forRoot(config: FrameworkConfig): ModuleWithProviders {
+  static forRoot(config: FrameworkConfig): ModuleWithProviders<RevolsysAngularFrameworkModule> {
     return {
       ngModule: RevolsysAngularFrameworkModule,
       providers: [

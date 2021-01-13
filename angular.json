@@ -26,23 +26,30 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "aot": true
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
             }
           }
         },
@@ -127,14 +134,15 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/revolsys-angular-bcgov-page/tsconfig.lib.json",
             "project": "projects/revolsys-angular-bcgov-page/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/revolsys-angular-bcgov-page/ng-package.prod.json"
+              "project": "projects/revolsys-angular-bcgov-page/ng-package.prod.json",
+              "tsConfig": "projects/revolsys-angular-bcgov-page/tsconfig.lib.prod.json"
             }
           }
         },
@@ -167,14 +175,15 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/revolsys-angular-framework/tsconfig.lib.json",
             "project": "projects/revolsys-angular-framework/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/revolsys-angular-framework/ng-package.prod.json"
+              "project": "projects/revolsys-angular-framework/ng-package.prod.json",
+              "tsConfig": "projects/revolsys-angular-framework/tsconfig.lib.prod.json"
             }
           }
         },
@@ -207,14 +216,15 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/revolsys-angular-leaflet/tsconfig.lib.json",
             "project": "projects/revolsys-angular-leaflet/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/revolsys-angular-leaflet/ng-package.prod.json"
+              "project": "projects/revolsys-angular-leaflet/ng-package.prod.json",
+              "tsConfig": "projects/revolsys-angular-leaflet/tsconfig.lib.prod.json"
             }
           }
         },
@@ -247,14 +257,15 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/revolsys-angular-coordinate-system/tsconfig.lib.json",
             "project": "projects/revolsys-angular-coordinate-system/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/revolsys-angular-coordinate-system/ng-package.prod.json"
+              "project": "projects/revolsys-angular-coordinate-system/ng-package.prod.json",
+              "tsConfig": "projects/revolsys-angular-coordinate-system/tsconfig.lib.prod.json"
             }
           }
         },

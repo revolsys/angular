@@ -1,7 +1,4 @@
-import {
-  Injector,
-  OnInit
-} from '@angular/core';
+import { Injector, OnInit, Directive } from '@angular/core';
 import {
   DOCUMENT,
   Location
@@ -9,9 +6,7 @@ import {
 import {
   Title
 } from '@angular/platform-browser';
-import {
-  MatDialog
-} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {
   ActivatedRoute,
   Router
@@ -23,6 +18,7 @@ import {AuthService} from '../Authentication/auth.service';
 import {Service} from '../Service/Service';
 import {MessageDialogComponent} from './MessageDialogComponent';
 
+@Directive()
 export class BaseComponent<T> implements OnInit {
 
   authService: AuthService = this.injector.get(AuthService);

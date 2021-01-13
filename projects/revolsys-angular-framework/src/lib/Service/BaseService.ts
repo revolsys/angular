@@ -27,10 +27,7 @@ import {
   HttpParams
 } from '@angular/common/http';
 
-import {
-  MatDialog,
-  MatDialogRef
-} from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DOCUMENT } from '@angular/common';
 

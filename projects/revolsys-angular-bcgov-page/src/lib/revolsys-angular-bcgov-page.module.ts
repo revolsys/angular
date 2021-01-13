@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {MenuLinkComponent} from './menu-link.component';
 import {PageComponent} from './page.component';
 import {PageConfig} from './PageConfig';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material';
   ]
 })
 export class RevolsysAngularBcgovPageModule {
-  static forRoot(config: PageConfig): ModuleWithProviders {
+  static forRoot(config: PageConfig): ModuleWithProviders<RevolsysAngularBcgovPageModule> {
     return {
       ngModule: RevolsysAngularBcgovPageModule,
       providers: [

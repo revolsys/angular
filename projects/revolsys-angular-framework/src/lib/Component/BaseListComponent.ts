@@ -4,19 +4,11 @@ import {
 } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/table';
-import {
-  AfterViewInit,
-  Injector,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {
-  MatDialog, MatSort
-} from '@angular/material';
-import {
-  MatPaginator,
-  MatTableDataSource
-} from '@angular/material';
+import { AfterViewInit, Injector, OnInit, ViewChild, Directive } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { BaseComponent } from './BaseComponent';
 import { DeleteDialogComponent } from './DeleteDialogComponent';
@@ -24,6 +16,7 @@ import { DeleteDialogComponent } from './DeleteDialogComponent';
 import { Service } from '../Service/Service';
 import { PagingServiceDataSource } from '../Service/PagingServiceDataSource';
 
+@Directive()
 export class BaseListComponent<T> extends BaseComponent<T> implements OnInit, AfterViewInit {
 
   columnNames: string[];

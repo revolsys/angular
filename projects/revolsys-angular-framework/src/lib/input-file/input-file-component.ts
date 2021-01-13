@@ -41,7 +41,7 @@ export class InputFileComponent {
 
   @Output() fileSelect: EventEmitter<File> = new EventEmitter();
 
-  @ViewChild('inputFile', {static: false}) nativeInputFile: ElementRef;
+  @ViewChild('inputFile') nativeInputFile: ElementRef;
 
   private file: File;
 

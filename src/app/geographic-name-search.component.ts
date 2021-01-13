@@ -21,7 +21,7 @@ import {
   template: `<leaflet-search-zoom label="Geographic Name" style="width: 300px; display: flex"></leaflet-search-zoom>`
 })
 export class GeographicNameSearchComponent implements AfterViewInit {
-  @ViewChild(SearchZoomComponent, {static: false})
+  @ViewChild(SearchZoomComponent)
   searchComponent: SearchZoomComponent;
 
 

@@ -1,8 +1,4 @@
-import {
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Injector, Input, OnInit, Directive } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +9,7 @@ import {BaseComponent} from './BaseComponent';
 import {Service} from '../Service/Service';
 import {Observable} from 'rxjs';
 
+@Directive()
 export class BaseDetailComponent<T> extends BaseComponent<T> implements OnInit {
   @Input()
   addPage = false;

@@ -1,14 +1,12 @@
 import {Angle} from './cs/Angle';
 import {CS} from './cs/CS';
-import {
-  Input,
-  Injector
-} from '@angular/core';
+import { Input, Injector, Directive } from '@angular/core';
 import {GeoCS} from './cs/GeoCS';
 import {CSI} from './cs/CSI';
 import {BaseComponent} from 'revolsys-angular-framework';
 import { FormGroup } from '@angular/forms';
 
+@Directive()
 export class AbstractCoordinateSystemComponent extends BaseComponent<any> {
   get cs(): CS {
     return CSI.NAD83;
